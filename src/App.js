@@ -490,16 +490,9 @@ const App = () => {
       </nav>
 
       {/* Hero Section con animazioni */}
-      <section className="relative bg-gradient-to-r from-indigo-500 via-indigo-400 to-teal-400 py-32 overflow-hidden">
-        {/* Background Pattern con animazione */}
-        <div className="absolute inset-0 opacity-10 animate-pulse">
-          <div className="absolute inset-0" style={{
-            backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
-            backgroundSize: '40px 40px'
-          }}></div>
-        </div>
-        
-        <div className="container mx-auto px-4 relative">
+      <section className="relative overflow-hidden bg-gradient-to-r from-indigo-500 via-indigo-400 to-teal-400 animate-gradient bg-[length:400%_400%]">
+        <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:16px_16px]"></div>
+        <div className="container mx-auto px-4 py-16 md:py-24 relative">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-6 leading-tight animate-fade-in">
               Ottimizza il Tuo Portafoglio<br />
@@ -645,10 +638,10 @@ const App = () => {
               {/* Colonna icona */}
               <div className="md:w-1/2 mb-8 md:mb-0">
                 <div className="relative flex items-center justify-center">
-                  <div className="absolute w-56 h-56 rounded-full bg-indigo-100/50"></div>
-                  <div className="absolute w-44 h-44 rounded-full bg-indigo-100/80"></div>
-                  <div className="relative w-36 h-36 rounded-full bg-indigo-50 flex items-center justify-center shadow-lg">
-                    <svg className="w-16 h-16 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="absolute w-32 h-32 rounded-full bg-indigo-100/50"></div>
+                  <div className="absolute w-24 h-24 rounded-full bg-indigo-100/80"></div>
+                  <div className="relative w-20 h-20 rounded-full bg-indigo-50 flex items-center justify-center shadow-lg">
+                    <svg className="w-10 h-10 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
                     </svg>
                   </div>
@@ -672,10 +665,10 @@ const App = () => {
               {/* Colonna icona */}
               <div className="md:w-1/2">
                 <div className="relative flex items-center justify-center">
-                  <div className="absolute w-56 h-56 rounded-full bg-teal-100/50"></div>
-                  <div className="absolute w-44 h-44 rounded-full bg-teal-100/80"></div>
-                  <div className="relative w-36 h-36 rounded-full bg-teal-50 flex items-center justify-center shadow-lg">
-                    <svg className="w-16 h-16 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="absolute w-32 h-32 rounded-full bg-teal-100/50"></div>
+                  <div className="absolute w-24 h-24 rounded-full bg-teal-100/80"></div>
+                  <div className="relative w-20 h-20 rounded-full bg-teal-50 flex items-center justify-center shadow-lg">
+                    <svg className="w-10 h-10 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008H16.5V15z" />
                     </svg>
                   </div>
@@ -732,10 +725,10 @@ const App = () => {
       <div className="container mx-auto px-4 mb-8">
         <h2 className="text-3xl font-bold text-center mb-12 text-white mt-4">Calcola il Ribilanciamento</h2>
 
-        <div className="bg-white/95 backdrop-blur-sm shadow-lg rounded-3xl p-8 px-4">
+        <div className="bg-white/95 backdrop-blur-sm shadow-lg rounded-3xl p-4 md:p-8">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Colonna sinistra - Form */}
-            <div className="lg:w-1/2">
+            <div className="lg:w-1/2 px-2 md:px-0">
               {/* Metodo di ribilanciamento */}
               <div className="mb-6">
                 <div className="flex items-center">
@@ -1074,6 +1067,21 @@ const App = () => {
 
       .animate-bounce-subtle {
         animation: bounceSoft 2s infinite;
+      }
+
+      @keyframes gradient {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+      .animate-gradient {
+        animation: gradient 15s ease infinite;
       }
     `}</style>
   </div>
