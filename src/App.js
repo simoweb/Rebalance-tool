@@ -11,6 +11,7 @@ const App = () => {
   const [showCopyTooltip, setShowCopyTooltip] = useState(false);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const [showDisclaimer, setShowDisclaimer] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Controlla se il disclaimer è stato chiuso in precedenza
   useEffect(() => {
@@ -410,21 +411,79 @@ const App = () => {
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <span className="text-xl font-bold tracking-widest">
+              <span className="text-base md:text-xl font-bold tracking-widest">
                 <span className="text-indigo-600">Rebalance</span>
                 <span className="text-teal-500">Tool</span>
               </span>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                    stroke-width="1.5" stroke="currentColor"
-                   class="size-6 text-indigo-600 ml-0">
+                   class="w-4 h-4 md:w-6 md:h-6 text-indigo-600 ml-0">
                 <path stroke-linecap="round" stroke-linejoin="round"
                       d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
               </svg>
             </div>
-            <div className="flex space-x-8">
-              <a href="#perche" className="text-gray-600 hover:text-indigo-600 transition-colors duration-200">Perché Ribilanciare</a>
-              <a href="#quando" className="text-gray-600 hover:text-indigo-600 transition-colors duration-200">Quando Ribilanciare</a>
-              <a href="#calcolatore" className="text-gray-600 hover:text-indigo-600 transition-colors duration-200">Calcolatore</a>
+
+            {/* Menu Desktop */}
+            <div className="hidden md:flex space-x-8">
+              <a href="#perche" className="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">Perché Ribilanciare</a>
+              <a href="#quando" className="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">Quando Ribilanciare</a>
+              <a href="#calcolatore" className="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">Calcolatore</a>
+            </div>
+
+            {/* Hamburger Menu Button */}
+            <button 
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              <svg 
+                className="w-6 h-6 text-gray-600" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                {isMenuOpen ? (
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                ) : (
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                )}
+              </svg>
+            </button>
+          </div>
+
+          {/* Mobile Menu */}
+          <div className={`md:hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'} overflow-hidden`}>
+            <div className="py-2 space-y-1">
+              <a 
+                href="#perche" 
+                className="block px-4 py-2 text-base text-gray-600 hover:bg-gray-50 hover:text-indigo-600 transition-colors duration-200"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Perché Ribilanciare
+              </a>
+              <a 
+                href="#quando" 
+                className="block px-4 py-2 text-base text-gray-600 hover:bg-gray-50 hover:text-indigo-600 transition-colors duration-200"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Quando Ribilanciare
+              </a>
+              <a 
+                href="#calcolatore" 
+                className="block px-4 py-2 text-base text-gray-600 hover:bg-gray-50 hover:text-indigo-600 transition-colors duration-200"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Calcolatore
+              </a>
             </div>
           </div>
         </div>
@@ -463,7 +522,7 @@ const App = () => {
         </div>
       </section>
       {/* Contenitore per le sezioni informative */}
-      <div className="bg-gradient-to-br from-white via-indigo-50 to-white relative py-16">
+      <div className="bg-gradient-to-br from-white via-indigo-50 to-white relative pb-16">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
         <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
        {/* Sezione caratteristiche principali */}
@@ -549,10 +608,10 @@ const App = () => {
       </div>
 
       {/* Sezione Perché Ribilanciare */}
-      <section id="perche" className="py-20">
+      <section id="perche" className="py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <div className="flex flex-col md:flex-row items-center gap-12">
+            <div className="flex flex-col-reverse md:flex-row items-center gap-12">
               {/* Colonna testo */}
               <div className="md:w-1/2">
                 <h2 className="text-3xl font-bold mb-6 text-gray-900">
@@ -584,7 +643,7 @@ const App = () => {
               </div>
               
               {/* Colonna icona */}
-              <div className="md:w-1/2">
+              <div className="md:w-1/2 mb-8 md:mb-0">
                 <div className="relative flex items-center justify-center">
                   <div className="absolute w-56 h-56 rounded-full bg-indigo-100/50"></div>
                   <div className="absolute w-44 h-44 rounded-full bg-indigo-100/80"></div>
@@ -671,46 +730,16 @@ const App = () => {
     {/* Sezione calcolatore */}
     <section id="calcolatore" className="bg-gradient-to-r from-indigo-500 via-indigo-400 to-teal-400 transform transition-all duration-500 py-20">
       <div className="container mx-auto px-4 mb-8">
-        <h2 className="text-3xl font-bold text-center mb-12 text-white mt-8">Calcola il Ribilanciamento</h2>
+        <h2 className="text-3xl font-bold text-center mb-12 text-white mt-4">Calcola il Ribilanciamento</h2>
 
-        <div className="bg-white/95 backdrop-blur-sm shadow-lg rounded-3xl p-8">
+        <div className="bg-white/95 backdrop-blur-sm shadow-lg rounded-3xl p-8 px-4">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Colonna sinistra - Form */}
             <div className="lg:w-1/2">
-              {/* Aggiungi pulsanti per gestione URL sopra il form */}
-              <div className="flex gap-4 mb-6">
-                <div className="relative">
-                  <button
-                    onClick={copyLink}
-                    className="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
-                  >
-                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-                    </svg>
-                    Copia Link
-                  </button>
-                  {showCopyTooltip && (
-                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1 bg-gray-800 text-white text-sm rounded shadow-lg whitespace-nowrap">
-                      Link copiato!
-                      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-2 h-2 bg-gray-800"></div>
-                    </div>
-                  )}
-                </div>
-                <button
-                  onClick={() => setShowClearConfirm(true)}
-                  className="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
-                >
-                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
-                  Pulisci Form
-                </button>
-              </div>
-
               {/* Metodo di ribilanciamento */}
               <div className="mb-6">
                 <div className="flex items-center">
-                  <label className="w-1/3 text-base font-medium text-gray-700">
+                  <label className="w-1/3 text-sm md:text-base font-medium text-gray-700">
                     Metodo
                   </label>
                   <select
@@ -728,7 +757,7 @@ const App = () => {
               {rebalanceMethod === 'add' && (
                 <div className="mb-6">
                   <div className="flex items-center">
-                    <label className="w-1/3 text-base font-medium text-gray-700">
+                    <label className="w-1/3 text-sm md:text-base font-medium text-gray-700">
                       Liquidità (€)
                     </label>
                     <input
@@ -767,7 +796,7 @@ const App = () => {
                   <div key={index} className="p-6 border rounded-lg bg-gray-50 shadow-sm">
                     <div className="space-y-4">
                       <div className="flex items-center">
-                        <label className="w-1/3 text-base font-medium text-gray-700">
+                        <label className="w-1/3 text-sm md:text-base font-medium text-gray-700">
                           Nome
                         </label>
                         <input
@@ -780,7 +809,7 @@ const App = () => {
                       </div>
                       
                       <div className="flex items-center">
-                        <label className="w-1/3 text-base font-medium text-gray-700">
+                        <label className="w-1/3 text-sm md:text-base font-medium text-gray-700">
                           Target (%)
                         </label>
                         <input
@@ -793,7 +822,7 @@ const App = () => {
                       </div>
                       
                       <div className="flex items-center">
-                        <label className="w-1/3 text-base font-medium text-gray-700">
+                        <label className="w-1/3 text-sm md:text-base font-medium text-gray-700">
                           Prezzo (€)
                         </label>
                         <input
@@ -806,7 +835,7 @@ const App = () => {
                       </div>
                       
                       <div className="flex items-center">
-                        <label className="w-1/3 text-base font-medium text-gray-700">
+                        <label className="w-1/3 text-sm md:text-base font-medium text-gray-700">
                           Quantità
                         </label>
                         <input
@@ -837,18 +866,18 @@ const App = () => {
               </div>
 
               {/* Pulsanti e Alert */}
-              <div className="space-y-6">
-                <div className="flex gap-4">
+              <div className="space-y-6 mt-8">
+                <div className="flex flex-col md:flex-row gap-4">
                   <button
                     onClick={addAsset}
-                    className="flex-1 bg-gray-600 text-white py-3 px-6 text-lg rounded-lg hover:bg-gray-700 transition-colors"
+                    className="w-full md:flex-1 bg-gray-600 text-white py-3 px-6 text-lg rounded-lg hover:bg-gray-700 transition-colors"
                   >
                     Aggiungi Asset
                   </button>
                   <button
                     onClick={handleCalculate}
                     disabled={!isDataComplete()}
-                    className={`flex-1 py-3 px-6 text-lg rounded-lg transition-colors ${
+                    className={`w-full md:flex-1 py-3 px-6 text-lg rounded-lg transition-colors ${
                       isDataComplete()
                         ? 'bg-indigo-600 text-white hover:bg-indigo-700'
                         : 'bg-gray-300 text-gray-500 cursor-not-allowed'
@@ -864,8 +893,8 @@ const App = () => {
             <div className="lg:w-1/2">
               {showResults && calculationResults ? (
                 <div className="sticky top-8">
-                  <div className="bg-gray-50 rounded-lg p-6">
-                    <h2 className="text-xl font-semibold mb-6">Risultati del Ribilanciamento</h2>
+                  <div className="bg-gray-50 rounded-lg pt-4 pb-4">
+                    <h2 className="text-lg md:text-xl font-semibold mb-6">Risultati del Ribilanciamento</h2>
                     
                     {/* Liquidità in eccesso o non utilizzata */}
                     {(() => {
@@ -873,7 +902,7 @@ const App = () => {
                       if (excessCash > 0) {
                         return (
                           <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                            <p className="text-yellow-800">
+                            <p className="text-sm md:text-base text-yellow-800">
                               {rebalanceMethod === 'sell' ? 
                                 'Liquidità generata dalla vendita:' : 
                                 'Liquidità non utilizzata:'
@@ -895,34 +924,34 @@ const App = () => {
                       {calculationResults.results.map((result, index) => (
                         <div key={index} className="p-4 bg-white rounded-lg shadow-sm">
                           <div className="flex justify-between items-start mb-3">
-                            <h3 className="text-lg font-medium text-gray-900">{result.name}</h3>
-                            <span className="px-2 py-1 bg-gray-100 rounded text-sm font-medium">
+                            <h3 className="text-base md:text-lg font-medium text-gray-900">{result.name}</h3>
+                            <span className="px-2 py-1 bg-gray-100 rounded text-xs md:text-sm font-medium">
                               {result.currentPercentage.toFixed(2)}% → {result.newPercentage}%
                             </span>
                           </div>
                           <div className="grid grid-cols-2 gap-4">
                             <div>
-                              <p className="text-sm text-gray-500">Allocazione target</p>
-                              <p className="font-medium">{result.adjustedTargetPercentage}%</p>
+                              <p className="text-xs md:text-sm text-gray-500">Allocazione target</p>
+                              <p className="text-sm md:text-base font-medium">{result.adjustedTargetPercentage}%</p>
                             </div>
                             <div>
-                              <p className="text-sm text-gray-500">Quantità attuale</p>
-                              <p className="font-medium">{result.quantity} unità</p>
+                              <p className="text-xs md:text-sm text-gray-500">Quantità attuale</p>
+                              <p className="text-sm md:text-base font-medium">{result.quantity} unità</p>
                             </div>
                             <div>
-                              <p className="text-sm text-gray-500">Aggiustamento</p>
-                              <p className={`font-medium ${result.adjustment >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                              <p className="text-xs md:text-sm text-gray-500">Aggiustamento</p>
+                              <p className={`text-sm md:text-base font-medium ${result.adjustment >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                                 {result.adjustment} unità
-                                <span className={`text-sm ml-1 ${result.adjustment >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                                <span className={`text-xs md:text-sm ml-1 ${result.adjustment >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                                   ({result.adjustment >= 0 ? '+' : ''}{result.adjustmentValue}€)
                                 </span>
                               </p>
                             </div>
                             <div>
-                              <p className="text-sm text-gray-500">Nuova quantità</p>
+                              <p className="text-xs md:text-sm text-gray-500">Nuova quantità</p>
                               <div className="flex justify-between items-center">
-                                <p className="font-medium">{result.newQuantity} unità</p>
-                                <p className="text-sm text-gray-600">
+                                <p className="text-sm md:text-base font-medium">{result.newQuantity} unità</p>
+                                <p className="text-xs md:text-sm text-gray-600">
                                   {(result.newQuantity * parseFloat(result.currentPrice)).toLocaleString('it-IT', {
                                     style: 'currency',
                                     currency: 'EUR'
@@ -933,6 +962,36 @@ const App = () => {
                           </div>
                         </div>
                       ))}
+                    </div>
+
+                    {/* Aggiungo i pulsanti qui */}
+                    <div className="mt-8 flex flex-col sm:flex-row gap-4">
+                      <div className="relative flex-1">
+                        <button
+                          onClick={copyLink}
+                          className="w-full flex items-center justify-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                        >
+                          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                          </svg>
+                          Copia Link
+                        </button>
+                        {showCopyTooltip && (
+                          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1 bg-gray-800 text-white text-sm rounded shadow-lg whitespace-nowrap">
+                            Link copiato!
+                            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-2 h-2 bg-gray-800"></div>
+                          </div>
+                        )}
+                      </div>
+                      <button
+                        onClick={() => setShowClearConfirm(true)}
+                        className="flex-1 flex items-center justify-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                      >
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        Pulisci Form
+                      </button>
                     </div>
                   </div>
                 </div>

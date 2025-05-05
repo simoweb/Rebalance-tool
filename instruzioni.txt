@@ -40,3 +40,15 @@ Il tool deve avere la possibilità di:
 - quando inserisco un url con i parametri validi mostra il risultato
 - inserisci un alert che mi tutela da eventuali errori del tool.
 - inserisci il disclaimer come banner. può essere chiuso con una x
+- fai una nuova sezione con del testo che spiega perchè bisogna ribilanciare un portafolio, un testo breve
+- questa ultima sezione fai testo a sinistra e immagine a destra, usa un'immagine libera
+- fai una nuova sezione con prima immagine e poi testo. La sezione spiega ogni quanto ribilanciare 
+- invece delle immagini aggiungi delle icone pertinenti  prese da @https://heroicons.com/  stile outline
+- le icone devono essere dentro ad un cerchio 
+- la sezione ogni quanto ribilanciare non deve essere grigia ma avere un divisore
+- anche nella sezione Gestione Asset, Allocazione Target e Calcolo Automatico usa le icone di heroicons
+con lo stesso stile delel altre
+- nel menu aggiungi solo le voci: Perché Ribilanciare, Quando Ribilanciare, Calcolatore
+- nelle sezioni Perché Ribilanciare il Portafoglio? e Ogni Quanto Ribilanciare? diamo un leggero gradiente
+- inserisci un divider prima di Perché Ribilanciare il Portafoglio?
+- più visibile è troppo chiaro
