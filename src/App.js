@@ -462,9 +462,12 @@ const App = () => {
           </div>
         </div>
       </section>
-
+      {/* Contenitore per le sezioni informative */}
+      <div className="bg-gradient-to-br from-white via-indigo-50 to-white relative py-16">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
        {/* Sezione caratteristiche principali */}
-       <section className="relative overflow-hidden bg-gray-100 py-20">
+       <section className="relative overflow-hidden  py-20">
         <div className="container mx-auto px-4">
         <div className="text-center mb-16 max-w-4xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-extrabold  mb-4 mt-8">
@@ -540,340 +543,340 @@ const App = () => {
         </div>
       </section>
 
-      {/* Contenitore per le sezioni informative */}
-      <div className="bg-gradient-to-br from-white via-indigo-100 to-white relative">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
-        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
-
-        {/* Sezione Perché Ribilanciare */}
-        <section id="perche" className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-6xl mx-auto">
-              <div className="flex flex-col md:flex-row items-center gap-12">
-                {/* Colonna testo */}
-                <div className="md:w-1/2">
-                  <h2 className="text-3xl font-bold mb-6 text-gray-900">
-                    Perché Ribilanciare il Portafoglio?
-                  </h2>
-                  <p className="text-lg text-gray-600 leading-relaxed">
-                    Il ribilanciamento periodico del portafoglio è fondamentale per mantenere il livello di rischio desiderato nel tempo. 
-                    Quando alcuni asset performano meglio di altri, il loro peso nel portafoglio aumenta, alterando l'allocazione originale 
-                    e potenzialmente esponendoti a rischi maggiori o minori di quelli previsti.
-                  </p>
-                  <p className="text-lg text-gray-600 leading-relaxed mt-4">
-                    Ribilanciare significa vendere gli asset che hanno superato il target e comprare quelli sottopesati, 
-                    applicando in automatico il principio "compra basso, vendi alto".
-                  </p>
-                  <div className="mt-8 flex items-center space-x-4 text-gray-600">
-                    <div className="flex items-center">
-                      <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span>Controllo del rischio</span>
-                    </div>
-                    <div className="flex items-center">
-                      <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span>Disciplina negli investimenti</span>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Colonna icona */}
-                <div className="md:w-1/2">
-                  <div className="relative aspect-square flex items-center justify-center">
-                    <div className="absolute w-56 h-56 rounded-full bg-indigo-100/50"></div>
-                    <div className="absolute w-44 h-44 rounded-full bg-indigo-100/80"></div>
-                    <div className="relative w-36 h-36 rounded-full bg-indigo-50 flex items-center justify-center shadow-lg">
-                      <svg className="w-16 h-16 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Divisore tra le sezioni */}
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
-        </div>
-
-        {/* Sezione Frequenza di Ribilanciamento */}
-        <section id="quando" className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-6xl mx-auto">
-              <div className="flex flex-col md:flex-row items-center gap-12">
-                {/* Colonna icona */}
-                <div className="md:w-1/2">
-                  <div className="relative aspect-square flex items-center justify-center">
-                    <div className="absolute w-56 h-56 rounded-full bg-teal-100/50"></div>
-                    <div className="absolute w-44 h-44 rounded-full bg-teal-100/80"></div>
-                    <div className="relative w-36 h-36 rounded-full bg-teal-50 flex items-center justify-center shadow-lg">
-                      <svg className="w-16 h-16 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008H16.5V15z" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Colonna testo */}
-                <div className="md:w-1/2">
-                  <h2 className="text-3xl font-bold mb-6 text-gray-900">
-                    Ogni Quanto Ribilanciare?
-                  </h2>
-                  <p className="text-lg text-gray-600 leading-relaxed">
-                    La frequenza ideale di ribilanciamento dipende da diversi fattori, tra cui la volatilità degli asset 
-                    e i costi di transazione. In generale, si consiglia di:
-                  </p>
-                  <div className="mt-6 space-y-4">
-                    <div className="flex items-start space-x-4">
-                      <div className="flex-shrink-0 w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center mt-1">
-                        <span className="text-teal-600 font-semibold">1</span>
-                      </div>
-                      <div>
-                        <h3 className="font-medium text-gray-900">Ribilanciamento Periodico</h3>
-                        <p className="text-gray-600 mt-1">Controllare il portafoglio ogni 3-6 mesi e ribilanciare se necessario</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start space-x-4">
-                      <div className="flex-shrink-0 w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center mt-1">
-                        <span className="text-teal-600 font-semibold">2</span>
-                      </div>
-                      <div>
-                        <h3 className="font-medium text-gray-900">Ribilanciamento a Soglia</h3>
-                        <p className="text-gray-600 mt-1">Intervenire quando un asset si discosta del 5-10% dal target</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start space-x-4">
-                      <div className="flex-shrink-0 w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center mt-1">
-                        <span className="text-teal-600 font-semibold">3</span>
-                      </div>
-                      <div>
-                        <h3 className="font-medium text-gray-900">Ribilanciamento Opportunistico</h3>
-                        <p className="text-gray-600 mt-1">Approfittare di nuovi investimenti o prelievi per ribilanciare</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+      {/* Divisore */}
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
       </div>
 
-      {/* Sezione calcolatore */}
-      <section id="calcolatore" className="bg-gradient-to-r from-indigo-500 via-indigo-400 to-teal-400 transform transition-all duration-500 py-20">
-        <div className="container mx-auto px-4 mb-8">
-          <h2 className="text-3xl font-bold text-center mb-12 text-white mt-8">Calcola il Ribilanciamento</h2>
-
-          <div className="bg-white/95 backdrop-blur-sm shadow-lg rounded-3xl p-8">
-            <div className="flex flex-col lg:flex-row gap-8">
-              {/* Colonna sinistra - Form */}
-              <div className="lg:w-1/2">
-                {/* Aggiungi pulsanti per gestione URL sopra il form */}
-                <div className="flex gap-4 mb-6">
-                  <div className="relative">
-                    <button
-                      onClick={copyLink}
-                      className="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
-                    >
-                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-                      </svg>
-                      Copia Link
-                    </button>
-                    {showCopyTooltip && (
-                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1 bg-gray-800 text-white text-sm rounded shadow-lg whitespace-nowrap">
-                        Link copiato!
-                        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-2 h-2 bg-gray-800"></div>
-                      </div>
-                    )}
+      {/* Sezione Perché Ribilanciare */}
+      <section id="perche" className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex flex-col md:flex-row items-center gap-12">
+              {/* Colonna testo */}
+              <div className="md:w-1/2">
+                <h2 className="text-3xl font-bold mb-6 text-gray-900">
+                  Perché Ribilanciare il Portafoglio?
+                </h2>
+                <p className="text-lg text-gray-600 leading-relaxed">
+                  Il ribilanciamento periodico del portafoglio è fondamentale per mantenere il livello di rischio desiderato nel tempo. 
+                  Quando alcuni asset performano meglio di altri, il loro peso nel portafoglio aumenta, alterando l'allocazione originale 
+                  e potenzialmente esponendoti a rischi maggiori o minori di quelli previsti.
+                </p>
+                <p className="text-lg text-gray-600 leading-relaxed mt-4">
+                  Ribilanciare significa vendere gli asset che hanno superato il target e comprare quelli sottopesati, 
+                  applicando in automatico il principio "compra basso, vendi alto".
+                </p>
+                <div className="mt-8 flex items-center space-x-4 text-gray-600">
+                  <div className="flex items-center">
+                    <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Controllo del rischio</span>
                   </div>
+                  <div className="flex items-center">
+                    <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Disciplina negli investimenti</span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Colonna icona */}
+              <div className="md:w-1/2">
+                <div className="relative flex items-center justify-center">
+                  <div className="absolute w-56 h-56 rounded-full bg-indigo-100/50"></div>
+                  <div className="absolute w-44 h-44 rounded-full bg-indigo-100/80"></div>
+                  <div className="relative w-36 h-36 rounded-full bg-indigo-50 flex items-center justify-center shadow-lg">
+                    <svg className="w-16 h-16 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+  {/* Divisore */}
+  <div className="max-w-4xl mx-auto px-4">
+        <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+      </div>
+
+      {/* Sezione Frequenza di Ribilanciamento */}
+      <section id="quando" className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex flex-col md:flex-row items-center gap-12">
+              {/* Colonna icona */}
+              <div className="md:w-1/2">
+                <div className="relative flex items-center justify-center">
+                  <div className="absolute w-56 h-56 rounded-full bg-teal-100/50"></div>
+                  <div className="absolute w-44 h-44 rounded-full bg-teal-100/80"></div>
+                  <div className="relative w-36 h-36 rounded-full bg-teal-50 flex items-center justify-center shadow-lg">
+                    <svg className="w-16 h-16 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008H16.5V15z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Colonna testo */}
+              <div className="md:w-1/2">
+                <h2 className="text-3xl font-bold mb-6 text-gray-900">
+                  Ogni Quanto Ribilanciare?
+                </h2>
+                <p className="text-lg text-gray-600 leading-relaxed">
+                  La frequenza ideale di ribilanciamento dipende da diversi fattori, tra cui la volatilità degli asset 
+                  e i costi di transazione. In generale, si consiglia di:
+                </p>
+                <div className="mt-6 space-y-4">
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center mt-1">
+                      <span className="text-teal-600 font-semibold">1</span>
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-gray-900">Ribilanciamento Periodico</h3>
+                      <p className="text-gray-600 mt-1">Controllare il portafoglio ogni 3-6 mesi e ribilanciare se necessario</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center mt-1">
+                      <span className="text-teal-600 font-semibold">2</span>
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-gray-900">Ribilanciamento a Soglia</h3>
+                      <p className="text-gray-600 mt-1">Intervenire quando un asset si discosta del 5-10% dal target</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center mt-1">
+                      <span className="text-teal-600 font-semibold">3</span>
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-gray-900">Ribilanciamento Opportunistico</h3>
+                      <p className="text-gray-600 mt-1">Approfittare di nuovi investimenti o prelievi per ribilanciare</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    {/* Sezione calcolatore */}
+    <section id="calcolatore" className="bg-gradient-to-r from-indigo-500 via-indigo-400 to-teal-400 transform transition-all duration-500 py-20">
+      <div className="container mx-auto px-4 mb-8">
+        <h2 className="text-3xl font-bold text-center mb-12 text-white mt-8">Calcola il Ribilanciamento</h2>
+
+        <div className="bg-white/95 backdrop-blur-sm shadow-lg rounded-3xl p-8">
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Colonna sinistra - Form */}
+            <div className="lg:w-1/2">
+              {/* Aggiungi pulsanti per gestione URL sopra il form */}
+              <div className="flex gap-4 mb-6">
+                <div className="relative">
                   <button
-                    onClick={() => setShowClearConfirm(true)}
+                    onClick={copyLink}
                     className="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
                   >
                     <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
                     </svg>
-                    Pulisci Form
+                    Copia Link
                   </button>
-                </div>
-
-                {/* Metodo di ribilanciamento */}
-                <div className="mb-6">
-                  <div className="flex items-center">
-                    <label className="w-1/3 text-base font-medium text-gray-700">
-                      Metodo
-                    </label>
-                    <select
-                      className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                      value={rebalanceMethod}
-                      onChange={handleMethodChange}
-                    >
-                      <option value="sell">Vendi asset in eccesso</option>
-                      <option value="add">Aggiungi liquidità</option>
-                    </select>
-                  </div>
-                </div>
-
-                {/* Campo liquidità disponibile */}
-                {rebalanceMethod === 'add' && (
-                  <div className="mb-6">
-                    <div className="flex items-center">
-                      <label className="w-1/3 text-base font-medium text-gray-700">
-                        Liquidità (€)
-                      </label>
-                      <input
-                        type="number"
-                        placeholder="es: 1000"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        value={availableCash}
-                        onChange={handleCashChange}
-                      />
+                  {showCopyTooltip && (
+                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1 bg-gray-800 text-white text-sm rounded shadow-lg whitespace-nowrap">
+                      Link copiato!
+                      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-2 h-2 bg-gray-800"></div>
                     </div>
-                  </div>
-                )}
-
-                {/* Totale percentuale */}
-                {assets.some(asset => asset.targetPercentage !== '') && (
-                  <div className={`mb-6 p-4 rounded-lg ${
-                    isPercentageValid() 
-                      ? 'bg-green-50 text-green-800 border border-green-200' 
-                      : 'bg-red-50 text-red-800 border border-red-200'
-                  }`}>
-                    <div className="flex justify-between items-center">
-                      <span>Totale percentuali:</span>
-                      <span className="font-semibold">{getTotalPercentage().toFixed(2)}%</span>
-                    </div>
-                    {!isPercentageValid() && (
-                      <p className="text-sm mt-2">
-                        La somma delle percentuali deve essere 100%
-                      </p>
-                    )}
-                  </div>
-                )}
-
-                {/* Lista degli asset */}
-                <div className="space-y-6">
-                  {assets.map((asset, index) => (
-                    <div key={index} className="p-6 border rounded-lg bg-gray-50 shadow-sm">
-                      <div className="space-y-4">
-                        <div className="flex items-center">
-                          <label className="w-1/3 text-base font-medium text-gray-700">
-                            Nome
-                          </label>
-                          <input
-                            type="text"
-                            placeholder="es: VWCE"
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            value={asset.name}
-                            onChange={(e) => updateAsset(index, 'name', e.target.value)}
-                          />
-                        </div>
-                        
-                        <div className="flex items-center">
-                          <label className="w-1/3 text-base font-medium text-gray-700">
-                            Target (%)
-                          </label>
-                          <input
-                            type="number"
-                            placeholder="es: 60"
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            value={asset.targetPercentage}
-                            onChange={(e) => updateAsset(index, 'targetPercentage', e.target.value)}
-                          />
-                        </div>
-                        
-                        <div className="flex items-center">
-                          <label className="w-1/3 text-base font-medium text-gray-700">
-                            Prezzo (€)
-                          </label>
-                          <input
-                            type="number"
-                            placeholder="es: 100"
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            value={asset.currentPrice}
-                            onChange={(e) => updateAsset(index, 'currentPrice', e.target.value)}
-                          />
-                        </div>
-                        
-                        <div className="flex items-center">
-                          <label className="w-1/3 text-base font-medium text-gray-700">
-                            Quantità
-                          </label>
-                          <input
-                            type="number"
-                            placeholder="es: 10"
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            value={asset.quantity}
-                            onChange={(e) => updateAsset(index, 'quantity', e.target.value)}
-                          />
-                        </div>
-
-                        {isAssetComplete(asset) && (
-                          <div className="mt-4 p-4 bg-white rounded-lg shadow-sm">
-                            <div className="flex justify-between items-center">
-                              <span className="text-base font-medium text-gray-500">Valore totale:</span>
-                              <span className="text-xl font-semibold text-gray-900">
-                                {calculateAssetValue(asset)?.toLocaleString('it-IT', {
-                                  style: 'currency',
-                                  currency: 'EUR'
-                                })}
-                              </span>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
+                  )}
                 </div>
+                <button
+                  onClick={() => setShowClearConfirm(true)}
+                  className="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                >
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                  Pulisci Form
+                </button>
+              </div>
 
-                {/* Pulsanti e Alert */}
-                <div className="space-y-6">
-                  <div className="flex gap-4">
-                    <button
-                      onClick={addAsset}
-                      className="flex-1 bg-gray-600 text-white py-3 px-6 text-lg rounded-lg hover:bg-gray-700 transition-colors"
-                    >
-                      Aggiungi Asset
-                    </button>
-                    <button
-                      onClick={handleCalculate}
-                      disabled={!isDataComplete()}
-                      className={`flex-1 py-3 px-6 text-lg rounded-lg transition-colors ${
-                        isDataComplete()
-                          ? 'bg-indigo-600 text-white hover:bg-indigo-700'
-                          : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                      }`}
-                    >
-                      Calcola
-                    </button>
-                  </div>
+              {/* Metodo di ribilanciamento */}
+              <div className="mb-6">
+                <div className="flex items-center">
+                  <label className="w-1/3 text-base font-medium text-gray-700">
+                    Metodo
+                  </label>
+                  <select
+                    className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                    value={rebalanceMethod}
+                    onChange={handleMethodChange}
+                  >
+                    <option value="sell">Vendi asset in eccesso</option>
+                    <option value="add">Aggiungi liquidità</option>
+                  </select>
                 </div>
               </div>
 
-              {/* Colonna destra - Risultati */}
-              <div className="lg:w-1/2">
-                {showResults && calculationResults ? (
-                  <div className="sticky top-8">
-                    <div className="bg-gray-50 rounded-lg p-6">
-                      <h2 className="text-xl font-semibold mb-6">Risultati del Ribilanciamento</h2>
+              {/* Campo liquidità disponibile */}
+              {rebalanceMethod === 'add' && (
+                <div className="mb-6">
+                  <div className="flex items-center">
+                    <label className="w-1/3 text-base font-medium text-gray-700">
+                      Liquidità (€)
+                    </label>
+                    <input
+                      type="number"
+                      placeholder="es: 1000"
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      value={availableCash}
+                      onChange={handleCashChange}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Totale percentuale */}
+              {assets.some(asset => asset.targetPercentage !== '') && (
+                <div className={`mb-6 p-4 rounded-lg ${
+                  isPercentageValid() 
+                    ? 'bg-green-50 text-green-800 border border-green-200' 
+                    : 'bg-red-50 text-red-800 border border-red-200'
+                }`}>
+                  <div className="flex justify-between items-center">
+                    <span>Totale percentuali:</span>
+                    <span className="font-semibold">{getTotalPercentage().toFixed(2)}%</span>
+                  </div>
+                  {!isPercentageValid() && (
+                    <p className="text-sm mt-2">
+                      La somma delle percentuali deve essere 100%
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {/* Lista degli asset */}
+              <div className="space-y-6">
+                {assets.map((asset, index) => (
+                  <div key={index} className="p-6 border rounded-lg bg-gray-50 shadow-sm">
+                    <div className="space-y-4">
+                      <div className="flex items-center">
+                        <label className="w-1/3 text-base font-medium text-gray-700">
+                          Nome
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="es: VWCE"
+                          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                          value={asset.name}
+                          onChange={(e) => updateAsset(index, 'name', e.target.value)}
+                        />
+                      </div>
                       
-                      {/* Liquidità in eccesso o non utilizzata */}
-                      {(() => {
-                        const excessCash = parseFloat(calculationResults.excessCash);
-                        if (excessCash > 0) {
-                          return (
-                            <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                              <p className="text-yellow-800">
-                                {rebalanceMethod === 'sell' ? 
-                                  'Liquidità generata dalla vendita:' : 
-                                  'Liquidità non utilizzata:'
+                      <div className="flex items-center">
+                        <label className="w-1/3 text-base font-medium text-gray-700">
+                          Target (%)
+                        </label>
+                        <input
+                          type="number"
+                          placeholder="es: 60"
+                          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                          value={asset.targetPercentage}
+                          onChange={(e) => updateAsset(index, 'targetPercentage', e.target.value)}
+                        />
+                      </div>
+                      
+                      <div className="flex items-center">
+                        <label className="w-1/3 text-base font-medium text-gray-700">
+                          Prezzo (€)
+                        </label>
+                        <input
+                          type="number"
+                          placeholder="es: 100"
+                          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                          value={asset.currentPrice}
+                          onChange={(e) => updateAsset(index, 'currentPrice', e.target.value)}
+                        />
+                      </div>
+                      
+                      <div className="flex items-center">
+                        <label className="w-1/3 text-base font-medium text-gray-700">
+                          Quantità
+                        </label>
+                        <input
+                          type="number"
+                          placeholder="es: 10"
+                          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                          value={asset.quantity}
+                          onChange={(e) => updateAsset(index, 'quantity', e.target.value)}
+                        />
+                      </div>
+
+                      {isAssetComplete(asset) && (
+                        <div className="mt-4 p-4 bg-white rounded-lg shadow-sm">
+                          <div className="flex justify-between items-center">
+                            <span className="text-base font-medium text-gray-500">Valore totale:</span>
+                            <span className="text-xl font-semibold text-gray-900">
+                              {calculateAssetValue(asset)?.toLocaleString('it-IT', {
+                                style: 'currency',
+                                currency: 'EUR'
+                              })}
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Pulsanti e Alert */}
+              <div className="space-y-6">
+                <div className="flex gap-4">
+                  <button
+                    onClick={addAsset}
+                    className="flex-1 bg-gray-600 text-white py-3 px-6 text-lg rounded-lg hover:bg-gray-700 transition-colors"
+                  >
+                    Aggiungi Asset
+                  </button>
+                  <button
+                    onClick={handleCalculate}
+                    disabled={!isDataComplete()}
+                    className={`flex-1 py-3 px-6 text-lg rounded-lg transition-colors ${
+                      isDataComplete()
+                        ? 'bg-indigo-600 text-white hover:bg-indigo-700'
+                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    }`}
+                  >
+                    Calcola
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Colonna destra - Risultati */}
+            <div className="lg:w-1/2">
+              {showResults && calculationResults ? (
+                <div className="sticky top-8">
+                  <div className="bg-gray-50 rounded-lg p-6">
+                    <h2 className="text-xl font-semibold mb-6">Risultati del Ribilanciamento</h2>
+                    
+                    {/* Liquidità in eccesso o non utilizzata */}
+                    {(() => {
+                      const excessCash = parseFloat(calculationResults.excessCash);
+                      if (excessCash > 0) {
+                        return (
+                          <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                            <p className="text-yellow-800">
+                              {rebalanceMethod === 'sell' ? 
+                                'Liquidità generata dalla vendita:' : 
+                                'Liquidità non utilizzata:'
                               }
                                 <span className="ml-2 font-semibold">
                                   {excessCash.toLocaleString('it-IT', {
@@ -884,138 +887,138 @@ const App = () => {
                               </p>
                             </div>
                           );
-                        }
-                        return null;
-                      })()}
+                      }
+                      return null;
+                    })()}
 
-                      <div className="space-y-4">
-                        {calculationResults.results.map((result, index) => (
-                          <div key={index} className="p-4 bg-white rounded-lg shadow-sm">
-                            <div className="flex justify-between items-start mb-3">
-                              <h3 className="text-lg font-medium text-gray-900">{result.name}</h3>
-                              <span className="px-2 py-1 bg-gray-100 rounded text-sm font-medium">
-                                {result.currentPercentage.toFixed(2)}% → {result.newPercentage}%
-                              </span>
+                    <div className="space-y-4">
+                      {calculationResults.results.map((result, index) => (
+                        <div key={index} className="p-4 bg-white rounded-lg shadow-sm">
+                          <div className="flex justify-between items-start mb-3">
+                            <h3 className="text-lg font-medium text-gray-900">{result.name}</h3>
+                            <span className="px-2 py-1 bg-gray-100 rounded text-sm font-medium">
+                              {result.currentPercentage.toFixed(2)}% → {result.newPercentage}%
+                            </span>
+                          </div>
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <p className="text-sm text-gray-500">Allocazione target</p>
+                              <p className="font-medium">{result.adjustedTargetPercentage}%</p>
                             </div>
-                            <div className="grid grid-cols-2 gap-4">
-                              <div>
-                                <p className="text-sm text-gray-500">Allocazione target</p>
-                                <p className="font-medium">{result.adjustedTargetPercentage}%</p>
-                              </div>
-                              <div>
-                                <p className="text-sm text-gray-500">Quantità attuale</p>
-                                <p className="font-medium">{result.quantity} unità</p>
-                              </div>
-                              <div>
-                                <p className="text-sm text-gray-500">Aggiustamento</p>
-                                <p className={`font-medium ${result.adjustment >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                  {result.adjustment} unità
-                                  <span className={`text-sm ml-1 ${result.adjustment >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                                    ({result.adjustment >= 0 ? '+' : ''}{result.adjustmentValue}€)
-                                  </span>
+                            <div>
+                              <p className="text-sm text-gray-500">Quantità attuale</p>
+                              <p className="font-medium">{result.quantity} unità</p>
+                            </div>
+                            <div>
+                              <p className="text-sm text-gray-500">Aggiustamento</p>
+                              <p className={`font-medium ${result.adjustment >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                {result.adjustment} unità
+                                <span className={`text-sm ml-1 ${result.adjustment >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                                  ({result.adjustment >= 0 ? '+' : ''}{result.adjustmentValue}€)
+                                </span>
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-sm text-gray-500">Nuova quantità</p>
+                              <div className="flex justify-between items-center">
+                                <p className="font-medium">{result.newQuantity} unità</p>
+                                <p className="text-sm text-gray-600">
+                                  {(result.newQuantity * parseFloat(result.currentPrice)).toLocaleString('it-IT', {
+                                    style: 'currency',
+                                    currency: 'EUR'
+                                  })}
                                 </p>
-                              </div>
-                              <div>
-                                <p className="text-sm text-gray-500">Nuova quantità</p>
-                                <div className="flex justify-between items-center">
-                                  <p className="font-medium">{result.newQuantity} unità</p>
-                                  <p className="text-sm text-gray-600">
-                                    {(result.newQuantity * parseFloat(result.currentPrice)).toLocaleString('it-IT', {
-                                      style: 'currency',
-                                      currency: 'EUR'
-                                    })}
-                                  </p>
-                                </div>
                               </div>
                             </div>
                           </div>
-                        ))}
-                      </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                ) : (
-                  <div className="h-full flex items-center justify-center">
-                    <p className="text-gray-500 text-center">
-                      {isDataComplete() 
-                        ? "Clicca 'Calcola' per vedere i risultati del ribilanciamento"
-                        : assets.every(isAssetComplete) && !isPercentageValid()
-                          ? "La somma delle percentuali target deve essere 100%"
-                          : "Completa l'inserimento di tutti gli asset\nper procedere con il calcolo"}
-                    </p>
-                  </div>
-                )}
-              </div>
+                </div>
+              ) : (
+                <div className="h-full flex items-center justify-center">
+                  <p className="text-gray-500 text-center">
+                    {isDataComplete() 
+                      ? "Clicca 'Calcola' per vedere i risultati del ribilanciamento"
+                      : assets.every(isAssetComplete) && !isPercentageValid()
+                        ? "La somma delle percentuali target deve essere 100%"
+                        : "Completa l'inserimento di tutti gli asset\nper procedere con il calcolo"}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      {/* Footer con keywords per SEO */}
-      <footer className="bg-white border-t border-gray-200 py-12">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center text-sm text-gray-500">
-              <p className="mb-4">
-                Strumento sviluppato per aiutare gli investitori a mantenere 
-                l'allocazione desiderata del proprio portafoglio nel tempo.
-              </p>
-            </div>
-          </div>
-        </div>
-      </footer>
-
-      {/* Modale di conferma per la pulizia del form */}
-      {showClearConfirm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-          <div className="bg-white rounded-lg p-6 max-w-sm mx-4 relative animate-fade-in">
-            <h3 className="text-lg font-semibold mb-4">Conferma pulizia form</h3>
-            <p className="text-gray-600 mb-6">
-              Sei sicuro di voler cancellare tutti i dati inseriti? Questa azione non può essere annullata.
+    {/* Footer con keywords per SEO */}
+    <footer className="bg-white border-t border-gray-200 py-12">
+      <div className="container mx-auto px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center text-sm text-gray-500">
+            <p className="mb-4">
+              Strumento sviluppato per aiutare gli investitori a mantenere 
+              l'allocazione desiderata del proprio portafoglio nel tempo.
             </p>
-            <div className="flex justify-end gap-4">
-              <button
-                onClick={() => setShowClearConfirm(false)}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
-              >
-                Annulla
-              </button>
-              <button
-                onClick={clearForm}
-                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
-              >
-                Conferma
-              </button>
-            </div>
           </div>
         </div>
-      )}
+      </div>
+    </footer>
 
-      <style jsx>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes bounceSoft {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
-        }
+    {/* Modale di conferma per la pulizia del form */}
+    {showClearConfirm && (
+      <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div className="bg-white rounded-lg p-6 max-w-sm mx-4 relative animate-fade-in">
+          <h3 className="text-lg font-semibold mb-4">Conferma pulizia form</h3>
+          <p className="text-gray-600 mb-6">
+            Sei sicuro di voler cancellare tutti i dati inseriti? Questa azione non può essere annullata.
+          </p>
+          <div className="flex justify-end gap-4">
+            <button
+              onClick={() => setShowClearConfirm(false)}
+              className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+            >
+              Annulla
+            </button>
+            <button
+              onClick={clearForm}
+              className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+            >
+              Conferma
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
 
-        .animate-fade-in {
-          animation: fadeIn 1s ease-out forwards;
-        }
+    <style jsx>{`
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      
+      @keyframes bounceSoft {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+      }
 
-        .animate-fade-in-delay {
-          animation: fadeIn 1s ease-out 0.3s forwards;
-          opacity: 0;
-        }
+      .animate-fade-in {
+        animation: fadeIn 1s ease-out forwards;
+      }
 
-        .animate-bounce-subtle {
-          animation: bounceSoft 2s infinite;
-        }
-      `}</style>
-    </div>
-  );
+      .animate-fade-in-delay {
+        animation: fadeIn 1s ease-out 0.3s forwards;
+        opacity: 0;
+      }
+
+      .animate-bounce-subtle {
+        animation: bounceSoft 2s infinite;
+      }
+    `}</style>
+  </div>
+);
 };
 
 export default App; 
