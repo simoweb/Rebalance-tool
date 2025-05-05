@@ -1,0 +1,42 @@
+Voglio fare un tool online che aiuta a ribilanciare il portafolio.
+Il progetto deve essere in webpack e usare tailwind
+Il tool deve avere la possibilità di: 
+- inserire le percentuali dei vari asset
+- inserire il prezzo degli asset (es: una quota dell'etf)
+- scegliere come ribilanciare. Per esempio se vendere quello dal peso maggiore o aggiungere della liquidità per riportare i pesi alle percentuali desiderate
+- le unità non sono divisibili per evitare frazioni di unità
+- Imposta la lingua italiana
+- negli input inserisci le label
+- se non  sono stati inseriti i valori la sezione Risultati del Ribilanciamento è nascosta
+- qaunado completo l'inserimento dell'asset mostra il valore totale accanto
+- mettiamo il form a sinistra e il risultato a destra.
+- facciamo un container più grande
+- se c'è una cifra in eccesso verrà lasciata fuori dagli asset
+- se viene selezionata l'opzione aggiungi liquidità, inserire un campo per indicare quanta liquidità è disponibile
+- il valore totale della somma dell'asset la metterei sotto a quantità
+- mettiamo un pulsante per lanciare il calcolo
+- modifichiamo il risultato: quantità da aggiungere verde, qunatità da vendere rosso
+- è obbligatorio che la somma delle percentuali sia del 100%
+- proviamo a mettere le label a fianco degli input
+- nel risultato accanto a Nuova quantità inserisci il totale
+- aggiungi del testo descrittivo che aiuti ad indicizzare la pagina
+- dividi la sezione descrittiva da quella del form
+- aggiungi un menu che rimanda alle sezioni della pagina
+- facciamo una hero con un titolo accattivante 
+- lo scroll deve essere più fluido e animato
+- sotto alla sezione Calcola il Ribilanciamento fai uno sfondo sfumato, il form deve rimanere su sfondo chiaro
+- aumenta il padding sopra ai titoli Calcola il Ribilanciamento e Ribilanciamento Portafoglio
+- nella sezione calcolatore metti uno sfondo bg-linear-to-r/decreasing from-indigo-500 to-teal-400
+- nelle sezioni Gestione Asset, Allocazione Target e Calcolo Automatico metti delle icone pertinenti
+- fai gli input più grandi
+- gli input devono avere questa classe: shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline
+- la select queste classi: block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline
+- nella hero prova a cambiare il gradient come come nella sezione calcola
+- il nome Rebalance Tool in due colori metterei accanto al nome l'icon di un grafico
+- aggiungi le l'url tutte le variabili quando viene compilato il form. Qunado l'url viene inserito il form si compila automaticamente con i parametri dell'url
+- aggiungi opzione clear per pulire il form e l'url
+- aggiungi un pulsante per copiare il link
+- quando viene inserito un url con i parametri corretti mostra anche il risultato
+- quando inserisco un url con i parametri validi mostra il risultato
+- inserisci un alert che mi tutela da eventuali errori del tool.
+- inserisci il disclaimer come banner. può essere chiuso con una x
