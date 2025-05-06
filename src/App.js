@@ -3,6 +3,7 @@ import PortfolioCharts from './components/PortfolioCharts';
 import { Analytics } from "@vercel/analytics/react";
 import Hero from './components/Hero';
 import FAQ from './components/FAQ';
+import AssetForm from './components/AssetForm';
 
 const App = () => {
   const [assets, setAssets] = useState([
@@ -393,6 +394,17 @@ const App = () => {
       // Chiudi il menu mobile se aperto
       setIsMenuOpen(false);
     }
+  };
+
+  const removeAsset = (index) => {
+    setAssets(prevAssets => {
+      const newAssets = [...prevAssets];
+      newAssets.splice(index, 1);
+      return newAssets;
+    });
+    // Reset results when removing an asset
+    setShowResults(false);
+    setCalculationResults(null);
   };
 
   return (
@@ -786,29 +798,23 @@ const App = () => {
                 </div>
               )}
 
-              {/* Totale percentuale */}
-              {assets.some(asset => asset.targetPercentage !== '') && (
-                <div className={`mb-6 p-4 rounded-lg ${
-                  isPercentageValid() 
-                    ? 'bg-green-50 text-green-800 border border-green-200' 
-                    : 'bg-red-50 text-red-800 border border-red-200'
-                }`}>
-                  <div className="flex justify-between items-center">
-                    <span>Totale percentuali:</span>
-                    <span className="font-semibold">{getTotalPercentage().toFixed(2)}%</span>
-                  </div>
-                  {!isPercentageValid() && (
-                    <p className="text-sm mt-2">
-                      La somma delle percentuali deve essere 100%
-                    </p>
-                  )}
-                </div>
-              )}
-
               {/* Lista degli asset */}
               <div className="space-y-6">
                 {assets.map((asset, index) => (
-                  <div key={index} className="p-6 border rounded-lg bg-gray-50 shadow-sm">
+                  <div key={index} className="p-6 border rounded-lg bg-gray-50 shadow-sm relative">
+                    {/* Pulsante di rimozione solo per gli asset dopo il primo */}
+                    {index > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => removeAsset(index)}
+                        className="absolute -left-4 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-white hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-full shadow-md border border-gray-200 hover:border-red-200 transition-all duration-200 group"
+                        title="Rimuovi asset"
+                      >
+                        <svg className="w-5 h-5 transform group-hover:rotate-90 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    )}
                     <div className="space-y-4">
                       <div className="flex items-center">
                         <label className="w-1/3 text-sm md:text-base font-medium text-gray-700">
@@ -901,6 +907,25 @@ const App = () => {
                     Calcola
                   </button>
                 </div>
+
+                {/* Alert somma percentuali prima del pulsante Calcola */}
+                {assets.some(asset => asset.targetPercentage !== '') && (
+                  <div className={`p-4 rounded-lg ${
+                    getTotalPercentage() === 100
+                      ? 'bg-green-50 text-green-800 border border-green-200'
+                      : 'bg-red-50 text-red-800 border border-red-200'
+                  }`}>
+                    <div className="flex justify-between items-center">
+                      <span>Totale percentuali:</span>
+                      <span className="font-semibold">{getTotalPercentage().toFixed(2)}%</span>
+                    </div>
+                    {getTotalPercentage() !== 100 && (
+                      <p className="text-sm mt-2">
+                        La somma delle percentuali deve essere 100%
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
 
