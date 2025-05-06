@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PortfolioCharts from './components/PortfolioCharts';
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react";
 
 const App = () => {
   const [assets, setAssets] = useState([
@@ -1104,6 +1104,7 @@ const App = () => {
         animation: gradient 15s ease infinite;
       }
     `}</style>
+  
   </div>
 );
 };
