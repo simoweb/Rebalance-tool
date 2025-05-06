@@ -17,6 +17,7 @@ const App = () => {
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const [showDisclaimer, setShowDisclaimer] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('grafici');
 
   // Controlla se il disclaimer è stato chiuso in precedenza
   useEffect(() => {
@@ -960,57 +961,112 @@ const App = () => {
                       return null;
                     })()}
 
-                    <div className="space-y-4">
-                      {calculationResults.results.map((result, index) => (
-                        <div key={index} className="p-4 bg-white rounded-lg shadow-sm">
-                          <div className="flex justify-between items-start mb-3">
-                            <h3 className="text-base md:text-lg font-medium text-gray-900">{result.name}</h3>
-                            <span className="px-2 py-1 bg-gray-100 rounded text-xs md:text-sm font-medium">
-                              {result.currentPercentage.toFixed(2)}% → {result.newPercentage}%
-                            </span>
-                          </div>
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <p className="text-xs md:text-sm text-gray-500">Allocazione target</p>
-                              <p className="text-sm md:text-base font-medium">{result.adjustedTargetPercentage}%</p>
-                            </div>
-                            <div>
-                              <p className="text-xs md:text-sm text-gray-500">Quantità attuale</p>
-                              <p className="text-sm md:text-base font-medium">{result.quantity} unità</p>
-                            </div>
-                            <div>
-                              <p className="text-xs md:text-sm text-gray-500">Aggiustamento</p>
-                              <p className={`text-sm md:text-base font-medium ${result.adjustment >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                {result.adjustment} unità
-                                <span className={`text-xs md:text-sm ml-1 ${result.adjustment >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                                  ({result.adjustment >= 0 ? '+' : ''}{result.adjustmentValue}€)
-                                </span>
-                              </p>
-                            </div>
-                            <div>
-                              <p className="text-xs md:text-sm text-gray-500">Nuova quantità</p>
-                              <div className="flex justify-between items-center">
-                                <p className="text-sm md:text-base font-medium">{result.newQuantity} unità</p>
-                                <p className="text-xs md:text-sm text-gray-600">
-                                  {(result.newQuantity * parseFloat(result.currentPrice)).toLocaleString('it-IT', {
-                                    style: 'currency',
-                                    currency: 'EUR'
-                                  })}
+                    {/* Tab Navigation */}
+                    <div className="border-b border-gray-200 mb-6">
+                      <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+                        <button
+                          onClick={() => setActiveTab('grafici')}
+                          className={`${
+                            activeTab === 'grafici'
+                              ? 'border-indigo-500 text-indigo-600'
+                              : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                          } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
+                        >
+                          Grafici
+                        </button>
+                        <button
+                          onClick={() => setActiveTab('tabella')}
+                          className={`${
+                            activeTab === 'tabella'
+                              ? 'border-indigo-500 text-indigo-600'
+                              : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                          } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
+                        >
+                          Tabella
+                        </button>
+                      </nav>
+                    </div>
+
+                    {/* Tab Content */}
+                    {activeTab === 'grafici' ? (
+                      <div>
+                        {/* Riepilogo operazioni */}
+                        <div className="mb-8 space-y-3">
+                          <h3 className="text-lg font-medium text-gray-900 mb-4">Riepilogo Operazioni</h3>
+                          {calculationResults.results.map((result, index) => (
+                            <div key={index} className="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
+                              <div className="flex items-center space-x-3">
+                                <div className={`w-2 h-8 rounded-full ${result.adjustment > 0 ? 'bg-green-500' : result.adjustment < 0 ? 'bg-red-500' : 'bg-gray-300'}`}></div>
+                                <div>
+                                  <p className="font-medium text-gray-900">{result.name}</p>
+                                  <p className="text-sm text-gray-500">{result.currentPercentage.toFixed(2)}% → {result.newPercentage}%</p>
+                                </div>
+                              </div>
+                              <div className="text-right">
+                                <p className={`font-medium ${result.adjustment > 0 ? 'text-green-600' : result.adjustment < 0 ? 'text-red-600' : 'text-gray-600'}`}>
+                                  {result.adjustment > 0 ? '+' : ''}{result.adjustment} unità
+                                </p>
+                                <p className="text-sm text-gray-500">
+                                  {result.adjustmentValue}€
                                 </p>
                               </div>
                             </div>
-                          </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
 
-                    {/* Grafici del portafoglio */}
-                    <PortfolioCharts 
-                      assets={assets} 
-                      currentAllocation={calculateCurrentAllocation()} 
-                    />
+                        {/* Grafici del portafoglio */}
+                        <PortfolioCharts 
+                          assets={assets} 
+                          currentAllocation={calculateCurrentAllocation()} 
+                        />
+                      </div>
+                    ) : (
+                      <div className="space-y-4">
+                        {calculationResults.results.map((result, index) => (
+                          <div key={index} className="p-4 bg-white rounded-lg shadow-sm">
+                            <div className="flex justify-between items-start mb-3">
+                              <h3 className="text-base md:text-lg font-medium text-gray-900">{result.name}</h3>
+                              <span className="px-2 py-1 bg-gray-100 rounded text-xs md:text-sm font-medium">
+                                {result.currentPercentage.toFixed(2)}% → {result.newPercentage}%
+                              </span>
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <p className="text-xs md:text-sm text-gray-500">Allocazione target</p>
+                                <p className="text-sm md:text-base font-medium">{result.adjustedTargetPercentage}%</p>
+                              </div>
+                              <div>
+                                <p className="text-xs md:text-sm text-gray-500">Quantità attuale</p>
+                                <p className="text-sm md:text-base font-medium">{result.quantity} unità</p>
+                              </div>
+                              <div>
+                                <p className="text-xs md:text-sm text-gray-500">Aggiustamento</p>
+                                <p className={`text-sm md:text-base font-medium ${result.adjustment >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                  {result.adjustment} unità
+                                  <span className={`text-xs md:text-sm ml-1 ${result.adjustment >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                                    ({result.adjustment >= 0 ? '+' : ''}{result.adjustmentValue}€)
+                                  </span>
+                                </p>
+                              </div>
+                              <div>
+                                <p className="text-xs md:text-sm text-gray-500">Nuova quantità</p>
+                                <div className="flex justify-between items-center">
+                                  <p className="text-sm md:text-base font-medium">{result.newQuantity} unità</p>
+                                  <p className="text-xs md:text-sm text-gray-600">
+                                    {(result.newQuantity * parseFloat(result.currentPrice)).toLocaleString('it-IT', {
+                                      style: 'currency',
+                                      currency: 'EUR'
+                                    })}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
 
-                    {/* Aggiungo i pulsanti qui */}
+                    {/* Pulsanti di azione */}
                     <div className="mt-8 flex flex-col sm:flex-row gap-4">
                       <div className="relative flex-1">
                         <button
