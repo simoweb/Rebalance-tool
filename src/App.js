@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PortfolioCharts from './components/PortfolioCharts';
 import { Analytics } from "@vercel/analytics/react";
 import Hero from './components/Hero';
+import FAQ from './components/FAQ';
 
 const App = () => {
   const [assets, setAssets] = useState([
@@ -884,6 +885,67 @@ const App = () => {
                   <div className="bg-gray-50 rounded-lg pt-4 pb-4">
                     <h2 className="text-lg md:text-xl font-semibold mb-6">Risultati del Ribilanciamento</h2>
                     
+                    {/* Valori totali del portafoglio */}
+                    <div className="mb-6 p-4 bg-indigo-50 border border-indigo-200 rounded-lg space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm md:text-base text-indigo-800">Valore iniziale del portafoglio:</span>
+                        <span className="text-lg md:text-xl font-semibold text-indigo-900">
+                          {(() => {
+                            const initialValue = calculationResults.results.reduce((total, asset) => 
+                              total + (parseInt(asset.quantity) * parseFloat(asset.currentPrice)), 0
+                            );
+                            return initialValue.toLocaleString('it-IT', {
+                              style: 'currency',
+                              currency: 'EUR'
+                            });
+                          })()}
+                        </span>
+                      </div>
+                      <div className="h-px bg-indigo-200"></div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm md:text-base text-indigo-800">Valore finale del portafoglio:</span>
+                        <span className="text-lg md:text-xl font-semibold text-indigo-900">
+                          {(() => {
+                            const finalValue = calculationResults.results.reduce((total, asset) => 
+                              total + (asset.newQuantity * parseFloat(asset.currentPrice)), 0
+                            );
+                            return finalValue.toLocaleString('it-IT', {
+                              style: 'currency',
+                              currency: 'EUR'
+                            });
+                          })()}
+                        </span>
+                      </div>
+                      <div className="h-px bg-indigo-200"></div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm md:text-base text-indigo-800">Variazione:</span>
+                        {(() => {
+                          const initialValue = calculationResults.results.reduce((total, asset) => 
+                            total + (parseInt(asset.quantity) * parseFloat(asset.currentPrice)), 0
+                          );
+                          const finalValue = calculationResults.results.reduce((total, asset) => 
+                            total + (asset.newQuantity * parseFloat(asset.currentPrice)), 0
+                          );
+                          const difference = finalValue - initialValue;
+                          const percentageChange = ((finalValue - initialValue) / initialValue) * 100;
+                          
+                          return (
+                            <div className="flex items-center gap-2">
+                              <span className={`text-lg md:text-xl font-semibold ${difference >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                {difference.toLocaleString('it-IT', {
+                                  style: 'currency',
+                                  currency: 'EUR'
+                                })}
+                              </span>
+                              <span className={`text-sm font-medium ${difference >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                ({difference >= 0 ? '+' : ''}{percentageChange.toFixed(2)}%)
+                              </span>
+                            </div>
+                          );
+                        })()}
+                      </div>
+                    </div>
+
                     {/* Liquidità in eccesso o non utilizzata */}
                     {(() => {
                       const excessCash = parseFloat(calculationResults.excessCash);
@@ -1005,6 +1067,9 @@ const App = () => {
         </div>
       </div>
     </section>
+
+    {/* Sezione FAQ */}
+    <FAQ />
 
     {/* Footer con keywords per SEO */}
     <footer className="bg-white border-t border-gray-200 py-12">
