@@ -57,3 +57,7 @@ con lo stesso stile delel altre
 - in mobile aggiungere un hamburger menu
 - cambia l'animazione del background della hero con il gradiente che si muove
 - le icone "Perché Ribilanciare" e "Quando Ribilanciare" dovrebbero essere più grandi in desktop e in mobile uguali alle altre
+
+
+
+?method=sell&asset0_name=SWDA&asset0_target=60&asset0_price=94.5&asset0_quantity=50&asset1_name=Obbligazionario&asset1_target=40&asset1_price=200&asset1_quantity=20#calcolatore
