@@ -52,3 +52,8 @@ con lo stesso stile delel altre
 - nelle sezioni Perché Ribilanciare il Portafoglio? e Ogni Quanto Ribilanciare? diamo un leggero gradiente
 - inserisci un divider prima di Perché Ribilanciare il Portafoglio?
 - più visibile è troppo chiaro
+- in mobile la prima icona, quella relativa a prchè ribilanciare deve andare sopra
+- in mobile fare più piccoli i testi del menu e il logo del 30%
+- in mobile aggiungere un hamburger menu
+- cambia l'animazione del background della hero con il gradiente che si muove
+- le icone "Perché Ribilanciare" e "Quando Ribilanciare" dovrebbero essere più grandi in desktop e in mobile uguali alle altre

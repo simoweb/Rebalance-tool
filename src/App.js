@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import PortfolioCharts from './components/PortfolioCharts';
+import { Analytics } from "@vercel/analytics/react"
 
 const App = () => {
   const [assets, setAssets] = useState([
@@ -324,7 +326,7 @@ const App = () => {
   // Funzione per copiare il link negli appunti
   const copyLink = async () => {
     try {
-      await navigator.clipboard.writeText(window.location.href);
+      await navigator.clipboard.writeText(window.location.href + '#calcolatore');
       setShowCopyTooltip(true);
       setTimeout(() => {
         setShowCopyTooltip(false);
@@ -967,6 +969,12 @@ const App = () => {
                         </div>
                       ))}
                     </div>
+
+                    {/* Grafici del portafoglio */}
+                    <PortfolioCharts 
+                      assets={assets} 
+                      currentAllocation={calculateCurrentAllocation()} 
+                    />
 
                     {/* Aggiungo i pulsanti qui */}
                     <div className="mt-8 flex flex-col sm:flex-row gap-4">
