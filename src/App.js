@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PortfolioCharts from './components/PortfolioCharts';
 import { Analytics } from "@vercel/analytics/react";
+import Hero from './components/Hero';
 
 const App = () => {
   const [assets, setAssets] = useState([
@@ -326,15 +327,18 @@ const App = () => {
   // Funzione per copiare il link negli appunti
   const copyLink = async () => {
     try {
-      await navigator.clipboard.writeText(window.location.href + '#calcolatore');
+      const baseUrl = window.location.href.replace(/#.*$/, ''); // rimuove qualsiasi hash
+      const urlWithHash = `${baseUrl}#calcolatore`;
+      await navigator.clipboard.writeText(urlWithHash);
       setShowCopyTooltip(true);
       setTimeout(() => {
         setShowCopyTooltip(false);
-      }, 2000); // Nascondi il tooltip dopo 2 secondi
+      }, 2000);
     } catch (err) {
       console.error('Failed to copy link:', err);
     }
   };
+  
 
   // Aggiungo la gestione dello scroll fluido
   useEffect(() => {
@@ -502,31 +506,9 @@ const App = () => {
         </div>
       </nav>
 
-      {/* Hero Section con animazioni */}
-      <section className="relative overflow-hidden bg-gradient-to-r from-indigo-500 via-indigo-400 to-teal-400 animate-gradient bg-[length:400%_400%]">
-        <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:16px_16px]"></div>
-        <div className="container mx-auto px-4 py-16 md:py-24 relative">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-6 leading-tight animate-fade-in">
-              Ottimizza il Tuo Portafoglio<br />
-              <span className="text-teal-50">in Pochi Click</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-white/90 mb-8 animate-fade-in-delay">
-              Calcola facilmente come ribilanciare i tuoi investimenti e mantieni<br />
-              la tua strategia di asset allocation sempre allineata agli obiettivi
-            </p>
-            <a 
-              href="#calcolatore" 
-              className="inline-flex items-center px-8 py-4 bg-white text-indigo-600 rounded-full font-semibold text-lg hover:bg-indigo-50 transition-all duration-200 transform hover:scale-105 animate-bounce-subtle"
-            >
-              Inizia Ora
-              <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* Hero Section */}
+      <Hero />
+
       {/* Contenitore per le sezioni informative */}
       <div className="bg-gradient-to-br from-white via-indigo-50 to-white relative pb-16">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
@@ -1066,23 +1048,9 @@ const App = () => {
 
     {/* Stili globali */}
     <style>{`
-      @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-      
       @keyframes bounceSoft {
         0%, 100% { transform: translateY(0); }
         50% { transform: translateY(-10px); }
-      }
-
-      .animate-fade-in {
-        animation: fadeIn 1s ease-out forwards;
-      }
-
-      .animate-fade-in-delay {
-        animation: fadeIn 1s ease-out 0.3s forwards;
-        opacity: 0;
       }
 
       .animate-bounce-subtle {
