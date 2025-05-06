@@ -424,10 +424,19 @@ const App = () => {
             </div>
 
             {/* Menu Desktop */}
-            <div className="hidden md:flex space-x-8">
-              <a href="#perche" className="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">Perché Ribilanciare</a>
-              <a href="#quando" className="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">Quando Ribilanciare</a>
-              <a href="#calcolatore" className="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">Calcolatore</a>
+            <div className="hidden md:flex space-x-8 items-center">
+              <a href="#perche" className="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+                Perché Ribilanciare
+              </a>
+              <a href="#quando" className="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+                Quando Ribilanciare
+              </a>
+              <a 
+                href="#calcolatore" 
+                className="text-base px-6 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors duration-200"
+              >
+                Calcolatore
+              </a>
             </div>
 
             {/* Hamburger Menu Button */}
@@ -477,13 +486,15 @@ const App = () => {
               >
                 Quando Ribilanciare
               </a>
-              <a 
-                href="#calcolatore" 
-                className="block px-4 py-2 text-base text-gray-600 hover:bg-gray-50 hover:text-indigo-600 transition-colors duration-200"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Calcolatore
-              </a>
+              <div className="px-4 py-1">
+                <a 
+                  href="#calcolatore" 
+                  className="block w-full py-2 text-base text-center bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors duration-200"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Calcolatore
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -547,7 +558,7 @@ const App = () => {
                     </div>
                   </div>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Gestione Asset</h3>
+                <h3 className="text-xl font-semibold mb-2 pt-6">Gestione Asset</h3>
                 <p className="text-gray-600">
                   Inserisci e gestisci facilmente i tuoi asset finanziari con nome, quantità e prezzo corrente.
                 </p>
@@ -566,7 +577,7 @@ const App = () => {
                     </div>
                   </div>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Allocazione Target</h3>
+                <h3 className="text-xl font-semibold mb-2 pt-6">Allocazione Target</h3>
                 <p className="text-gray-600">
                   Definisci le percentuali target per ogni asset nel tuo portafoglio ideale.
                 </p>
@@ -585,7 +596,7 @@ const App = () => {
                     </div>
                   </div>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Calcolo Automatico</h3>
+                <h3 className="text-xl font-semibold mb-2 pt-6">Calcolo Automatico</h3>
                 <p className="text-gray-600">
                   Ottieni istantaneamente i calcoli per ribilanciare il tuo portafoglio in modo ottimale.
                 </p>
@@ -638,10 +649,10 @@ const App = () => {
               {/* Colonna icona */}
               <div className="md:w-1/2 mb-8 md:mb-0">
                 <div className="relative flex items-center justify-center">
-                  <div className="absolute w-32 h-32 rounded-full bg-indigo-100/50"></div>
-                  <div className="absolute w-24 h-24 rounded-full bg-indigo-100/80"></div>
-                  <div className="relative w-20 h-20 rounded-full bg-indigo-50 flex items-center justify-center shadow-lg">
-                    <svg className="w-10 h-10 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="absolute w-32 md:w-56 h-32 md:h-56 rounded-full bg-indigo-100/50"></div>
+                  <div className="absolute w-24 md:w-44 h-24 md:h-44 rounded-full bg-indigo-100/80"></div>
+                  <div className="relative w-20 md:w-36 h-20 md:h-36 rounded-full bg-indigo-50 flex items-center justify-center shadow-lg">
+                    <svg className="w-10 md:w-16 h-10 md:h-16 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
                     </svg>
                   </div>
@@ -665,10 +676,10 @@ const App = () => {
               {/* Colonna icona */}
               <div className="md:w-1/2">
                 <div className="relative flex items-center justify-center">
-                  <div className="absolute w-32 h-32 rounded-full bg-teal-100/50"></div>
-                  <div className="absolute w-24 h-24 rounded-full bg-teal-100/80"></div>
-                  <div className="relative w-20 h-20 rounded-full bg-teal-50 flex items-center justify-center shadow-lg">
-                    <svg className="w-10 h-10 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="absolute w-32 md:w-56 h-32 md:h-56 rounded-full bg-teal-100/50"></div>
+                  <div className="absolute w-24 md:w-44 h-24 md:h-44 rounded-full bg-teal-100/80"></div>
+                  <div className="relative w-20 md:w-36 h-20 md:h-36 rounded-full bg-teal-50 flex items-center justify-center shadow-lg">
+                    <svg className="w-10 md:w-16 h-10 md:h-16 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008H16.5V15z" />
                     </svg>
                   </div>
