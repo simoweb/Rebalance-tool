@@ -375,6 +375,26 @@ const App = () => {
     };
   }, []);
 
+  const handleScroll = (e) => {
+    e.preventDefault();
+    const href = e.currentTarget.getAttribute('href');
+    const targetId = href.replace('#', '');
+    const target = document.getElementById(targetId);
+    
+    if (target) {
+      const offset = 80; // Per tenere conto della navbar fixed
+      const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      });
+
+      // Chiudi il menu mobile se aperto
+      setIsMenuOpen(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Banner Disclaimer */}
@@ -438,6 +458,9 @@ const App = () => {
               <a href="#quando" className="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">
                 Quando Ribilanciare
               </a>
+              <a href="#faq" className="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+                FAQ
+              </a>
               <a 
                 href="#calcolatore" 
                 className="text-base px-6 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors duration-200"
@@ -492,6 +515,9 @@ const App = () => {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Quando Ribilanciare
+              </a>
+              <a href="#faq" onClick={() => setIsMenuOpen(false)} className="block px-4 py-2 text-base text-gray-600 hover:bg-gray-50 hover:text-indigo-600 transition-colors duration-200">
+                FAQ
               </a>
               <div className="px-4 py-1">
                 <a 
