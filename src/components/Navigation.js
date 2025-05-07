@@ -1,0 +1,133 @@
+import React, { useState } from 'react';
+
+const Navigation = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleScroll = (e) => {
+    e.preventDefault();
+    const href = e.currentTarget.getAttribute('href');
+    const targetId = href.replace('#', '');
+    const target = document.getElementById(targetId);
+    
+    if (target) {
+      const offset = 80; // Per tenere conto della navbar fixed
+      const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      });
+
+      // Chiudi il menu mobile se aperto
+      setIsMenuOpen(false);
+    }
+  };
+
+  return (
+    <nav className="bg-white shadow-sm sticky top-0 z-50 transition-transform duration-300">
+      <div className="container mx-auto px-4">
+        <div className="flex justify-between items-center h-16">
+          <div className="flex items-center">
+            <span className="text-base md:text-xl font-bold tracking-widest">
+              <span className="text-indigo-600">Rebalance</span>
+              <span className="text-teal-500">Tool</span>
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                 strokeWidth="1.5" stroke="currentColor"
+                 className="w-4 h-4 md:w-6 md:h-6 text-indigo-600 ml-0">
+              <path strokeLinecap="round" strokeLinejoin="round"
+                    d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
+            </svg>
+          </div>
+
+          {/* Menu Desktop */}
+          <div className="hidden md:flex space-x-8 items-center">
+            <a href="#perche" onClick={handleScroll} className="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+              Perché Ribilanciare
+            </a>
+            <a href="#quando" onClick={handleScroll} className="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+              Quando Ribilanciare
+            </a>
+            <a href="#faq" onClick={handleScroll} className="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+              FAQ
+            </a>
+            <a 
+              href="#calcolatore" 
+              onClick={handleScroll}
+              className="text-base px-6 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors duration-200"
+            >
+              Calcolatore
+            </a>
+          </div>
+
+          {/* Hamburger Menu Button */}
+          <button 
+            className="md:hidden p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <svg 
+              className="w-6 h-6 text-gray-600" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              {isMenuOpen ? (
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        <div className={`md:hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'} overflow-hidden`}>
+          <div className="py-2 space-y-1">
+            <a 
+              href="#perche" 
+              onClick={handleScroll}
+              className="block px-4 py-2 text-base text-gray-600 hover:bg-gray-50 hover:text-indigo-600 transition-colors duration-200"
+            >
+              Perché Ribilanciare
+            </a>
+            <a 
+              href="#quando" 
+              onClick={handleScroll}
+              className="block px-4 py-2 text-base text-gray-600 hover:bg-gray-50 hover:text-indigo-600 transition-colors duration-200"
+            >
+              Quando Ribilanciare
+            </a>
+            <a 
+              href="#faq" 
+              onClick={handleScroll}
+              className="block px-4 py-2 text-base text-gray-600 hover:bg-gray-50 hover:text-indigo-600 transition-colors duration-200"
+            >
+              FAQ
+            </a>
+            <div className="px-4 py-1">
+              <a 
+                href="#calcolatore" 
+                onClick={handleScroll}
+                className="block w-full py-2 text-base text-center bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors duration-200"
+              >
+                Calcolatore
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Navigation; 
