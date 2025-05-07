@@ -68,78 +68,46 @@ const App = () => {
   // Funzione per leggere i parametri dall'URL
   const loadFromURL = () => {
     const params = new URLSearchParams(window.location.search);
-    let newMethod = 'sell';
-    let newCash = '';
-    let newAssets = [];
-    
-    // Leggi il metodo di ribilanciamento
-    const methodFromURL = params.get('method');
-    if (methodFromURL) {
-      newMethod = methodFromURL;
-      setRebalanceMethod(methodFromURL);
-    }
-    
-    // Leggi la liquidità disponibile
-    const cashFromURL = params.get('cash');
-    if (cashFromURL) {
-      newCash = parseFloat(cashFromURL);
-      setAvailableCash(newCash);
-    }
-    
-    // Leggi gli asset
-    let index = 0;
-    
-    while (params.has(`asset${index}_name`)) {
+    const method = params.get('method');
+    const cash = params.get('cash');
+    const newAssets = [];
+    let i = 0;
+
+    while (true) {
+      const name = params.get(`asset${i}_name`);
+      const target = params.get(`asset${i}_target`);
+      const price = params.get(`asset${i}_price`);
+      const quantity = params.get(`asset${i}_quantity`);
+
+      if (!name && !target && !price && !quantity) break;
+
       newAssets.push({
-        name: params.get(`asset${index}_name`) || '',
-        targetPercentage: params.get(`asset${index}_target`) ? parseFloat(params.get(`asset${index}_target`)).toString() : '',
-        currentPrice: params.get(`asset${index}_price`) ? parseFloat(params.get(`asset${index}_price`)).toString() : '',
-        quantity: params.get(`asset${index}_quantity`) ? parseInt(params.get(`asset${index}_quantity`)).toString() : ''
+        name: name || '',
+        targetPercentage: target || '',
+        currentPrice: price || '',
+        quantity: quantity || ''
       });
-      index++;
+
+      i++;
     }
-    
+
     if (newAssets.length > 0) {
       setAssets(newAssets);
-      
-      // Verifica se i dati sono completi
-      const isComplete = newAssets.every(asset => 
-        asset.name.trim() !== '' && 
-        !isNaN(parseFloat(asset.targetPercentage)) && 
-        !isNaN(parseFloat(asset.currentPrice)) && 
-        !isNaN(parseInt(asset.quantity))
-      );
-
-      const totalPercentage = newAssets.reduce((sum, asset) => 
-        sum + (parseFloat(asset.targetPercentage) || 0), 0
-      );
-
-      const isValid = Math.abs(totalPercentage - 100) < 0.01;
-
-      // Se i dati sono validi, calcola immediatamente i risultati
-      if (isComplete && isValid && (newMethod === 'sell' || (newMethod === 'add' && !isNaN(newCash)))) {
-        // Calcola i risultati usando i nuovi dati direttamente
-        const currentAllocations = newAssets.map(asset => {
-          const value = (parseFloat(asset.currentPrice) || 0) * (parseInt(asset.quantity) || 0);
-          const totalValue = newAssets.reduce((sum, a) => 
-            sum + (parseFloat(a.currentPrice) || 0) * (parseInt(a.quantity) || 0), 0
-          );
-          const currentPercentage = totalValue ? (value / totalValue) * 100 : 0;
-          return {
-            ...asset,
-            currentValue: value,
-            currentPercentage
-          };
-        });
-
-        const results = calculateRebalancing();
-        if (results && !isNaN(results.excessCash)) {
-          setCalculationResults(results);
-          setShowResults(true);
-        }
-      }
+      if (method) setRebalanceMethod(method);
+      if (cash) setAvailableCash(cash);
     }
   };
+
+  // Aggiungiamo un nuovo useEffect per gestire il calcolo dopo l'aggiornamento degli stati
+  useEffect(() => {
+    if (window.location.search && isDataComplete()) {
+      const results = calculateRebalancing();
+      if (results) {
+        setCalculationResults(results);
+        setShowResults(true);
+      }
+    }
+  }, [assets, rebalanceMethod, availableCash]);
 
   // Carica i dati dall'URL al mount del componente e quando l'URL cambia
   useEffect(() => {
@@ -811,7 +779,26 @@ const App = () => {
               {showResults && calculationResults ? (
                 <div className="sticky top-8">
                   <div className="bg-gray-50 rounded-lg pt-4 pb-4">
-                    <h2 className="text-lg md:text-xl font-semibold mb-6">Risultati del Ribilanciamento</h2>
+                    <div className="flex justify-between items-center mb-6 px-6">
+                      <h2 className="text-lg md:text-xl font-semibold">Risultati del Ribilanciamento</h2>
+                      <div className="relative">
+                        <button
+                          onClick={copyLink}
+                          className="flex items-center justify-center px-3 py-1.5 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors"
+                        >
+                          <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                          </svg>
+                          Condividi Link
+                        </button>
+                        {showCopyTooltip && (
+                          <div className="absolute bottom-full right-0 transform mb-2 px-3 py-1 bg-gray-800 text-white text-sm rounded shadow-lg whitespace-nowrap">
+                            Link copiato!
+                            <div className="absolute bottom-0 right-4 transform translate-y-1/2 rotate-45 w-2 h-2 bg-gray-800"></div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
 
                     {/* Liquidità in eccesso o non utilizzata */}
                     {(() => {
