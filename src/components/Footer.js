@@ -10,6 +10,7 @@ const Footer = () => {
               Strumento sviluppato per aiutare gli investitori a mantenere 
               l'allocazione desiderata del proprio portafoglio nel tempo.
             </p>
+            <p className='font-bold text-black-900'>Questo strumento è fornito a solo scopo informativo.<br></br> Si consiglia di verificare sempre i risultati e consultare un professionista prima di prendere decisioni di investimento.</p>
           </div>
         </div>
       </div>
