@@ -60,4 +60,4 @@ con lo stesso stile delel altre
 
 
 //url di test form
-?method=sell&asset0_name=SWDA&asset0_target=60&asset0_price=94.5&asset0_quantity=50&asset1_name=Obbligazionario&asset1_target=40&asset1_price=200&asset1_quantity=20#calcolatore#calcolatore
+https://rebalance-tool.vercel.app/?method=sell&asset0_name=SWDA&asset0_target=25&asset0_price=95.3&asset0_quantity=58&asset1_name=PJS1&asset1_target=25&asset1_price=98.16&asset1_quantity=63&asset2_name=PHAU&asset2_target=25&asset2_price=278.95&asset2_quantity=26&asset3_name=XG7S&asset3_target=25&asset3_price=221.46&asset3_quantity=28#calcolatore
