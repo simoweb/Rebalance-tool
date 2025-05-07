@@ -3,7 +3,6 @@ import PortfolioCharts from './components/PortfolioCharts';
 import { Analytics } from "@vercel/analytics/react";
 import Hero from './components/Hero';
 import FAQ from './components/FAQ';
-import AssetForm from './components/AssetForm';
 import Footer from './components/Footer';
 import Navigation from './components/Navigation';
 import Disclaimer from './components/Disclaimer';
