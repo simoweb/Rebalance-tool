@@ -6,7 +6,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: 'bundle.js',
-    clean: false // Non pulire la cartella public per mantenere favicon e altri assets
+    clean: true // Non pulire la cartella public per mantenere favicon e altri assets
   },
   module: {
     rules: [
@@ -28,9 +28,10 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './public/index.html',
+      template: './src/index.html',
       filename: 'index.html',
-      inject: 'body'
+      inject: 'body',
+      favicon: './public-assets/favicon.svg',
     })
   ],
   devServer: {
