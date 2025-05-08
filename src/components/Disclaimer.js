@@ -1,6 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-const Disclaimer = ({ showDisclaimer, closeDisclaimer }) => {
+const Disclaimer = () => {
+   const [showDisclaimer, setShowDisclaimer] = useState(true);
+   // Controlla se il disclaimer è stato chiuso in precedenza
+  useEffect(() => {
+    const disclaimerClosed = localStorage.getItem('disclaimerClosed');
+    if (disclaimerClosed === 'true') {
+      setShowDisclaimer(false);
+    } else {
+      setShowDisclaimer(true);
+      localStorage.setItem('disclaimerClosed', 'false');
+    }
+  }, []);
+
+  // Funzione per chiudere il disclaimer
+  const closeDisclaimer = () => {
+    setShowDisclaimer(false);
+    localStorage.setItem('disclaimerClosed', 'true');
+  };
   if (!showDisclaimer) return null;
 
   return (
