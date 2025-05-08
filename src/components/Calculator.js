@@ -377,7 +377,7 @@ const Calculator = () => {
                    Metodo
                  </label>
                  <select
-                   className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                   className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-400 dark:border-transparent"
                    value={rebalanceMethod}
                    onChange={handleMethodChange}
                  >
@@ -397,7 +397,7 @@ const Calculator = () => {
                    <input
                      type="number"
                      placeholder="es: 1000"
-                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-400 dark:border-transparent"
                      value={availableCash}
                      onChange={handleCashChange}
                    />
@@ -408,7 +408,7 @@ const Calculator = () => {
              {/* Lista degli asset */}
              <div className="space-y-6">
                {assets.map((asset, index) => (
-                 <div key={index} className="p-6 border rounded-lg bg-gray-50 shadow-sm relative">
+                 <div key={index} className="p-6 border rounded-lg bg-gray-50 shadow-sm relative dark:bg-gray-800/50 dark:text-gray-400 dark:border-transparent">
                    {/* Pulsante di rimozione solo per gli asset dopo il primo */}
                    {index > 0 && (
                      <button
@@ -430,7 +430,7 @@ const Calculator = () => {
                        <input
                          type="text"
                          placeholder="es: VWCE"
-                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-400 dark:border-transparent"
                          value={asset.name}
                          onChange={(e) => updateAsset(index, 'name', e.target.value)}
                        />
@@ -443,7 +443,7 @@ const Calculator = () => {
                        <input
                          type="number"
                          placeholder="es: 60"
-                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-400 dark:border-transparent"
                          value={asset.targetPercentage}
                          onChange={(e) => updateAsset(index, 'targetPercentage', e.target.value)}
                        />
@@ -456,7 +456,7 @@ const Calculator = () => {
                        <input
                          type="number"
                          placeholder="es: 100"
-                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-400 dark:border-transparent"
                          value={asset.currentPrice}
                          onChange={(e) => updateAsset(index, 'currentPrice', e.target.value)}
                        />
@@ -469,17 +469,17 @@ const Calculator = () => {
                        <input
                          type="number"
                          placeholder="es: 10"
-                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-400 dark:border-transparent"
                          value={asset.quantity}
                          onChange={(e) => updateAsset(index, 'quantity', e.target.value)}
                        />
                      </div>
 
                      {isAssetComplete(asset) && (
-                       <div className="mt-4 p-4 bg-white rounded-lg shadow-sm">
+                       <div className="mt-4 p-4 bg-white rounded-lg shadow-sm dark:bg-gray-700">
                          <div className="flex justify-between items-center">
-                           <span className="text-base font-medium text-gray-500">Valore totale:</span>
-                           <span className="text-xl font-semibold text-gray-900">
+                           <span className="text-base font-medium text-gray-500 dark:text-gray-400 dark:text-gray-400">Valore totale:</span>
+                           <span className="text-xl font-semibold text-gray-900 dark:text-gray-400 dark:text-gray-400">
                              {calculateAssetValue(asset)?.toLocaleString('it-IT', {
                                style: 'currency',
                                currency: 'EUR'
@@ -522,7 +522,7 @@ const Calculator = () => {
                      ? 'bg-green-50 text-green-800 border border-green-200'
                      : 'bg-red-50 text-red-800 border border-red-200'
                  }`}>
-                   <div className="flex justify-between items-center">
+                   <div className="flex justify-between items-center ">
                      <span>Totale percentuali:</span>
                      <span className="font-semibold">{getTotalPercentage().toFixed(2)}%</span>
                    </div>
@@ -542,7 +542,7 @@ const Calculator = () => {
                <div className="sticky top-8">
                  <div className="bg-gray-50 rounded-lg pt-4 pb-4">
                    <div className="flex justify-between items-center mb-6 px-6">
-                     <h2 className="text-lg md:text-xl font-semibold">Risultati del Ribilanciamento</h2>
+                     <h2 className="text-lg md:text-xl font-semibold dark:text-gray-400">Risultati del Ribilanciamento</h2>
                      <div className="relative">
                        <button
                          onClick={copyLink}
