@@ -540,7 +540,7 @@ const Calculator = () => {
            <div className="lg:w-1/2">
              {showResults && calculationResults ? (
                <div className="sticky top-8">
-                 <div className="bg-gray-50 rounded-lg pt-4 pb-4">
+                 <div className="bg-gray-50 rounded-lg pt-4 pb-4 dark:bg-gray-800">
                    <div className="flex justify-between items-center mb-6 px-6">
                      <h2 className="text-lg md:text-xl font-semibold dark:text-gray-400">Risultati del Ribilanciamento</h2>
                      <div className="relative">
@@ -617,15 +617,15 @@ const Calculator = () => {
                      <div>
                        {/* Riepilogo operazioni */}
                        <div className="mb-8 space-y-3">
-                         <h3 className="text-lg font-medium text-gray-900 mb-4">Riepilogo Operazioni</h3>
+                         <h3 className="text-lg font-medium text-gray-900 mb-4 dark:text-gray-400">Riepilogo Operazioni</h3>
                          {calculationResults.results.map((result, index) => (
-                           <div key={index} className="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
+                           <div key={index} className="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm dark:bg-gray-700">
                              <div className="flex items-center space-x-3">
                                <div className={`w-2 h-8 rounded-full ${result.adjustment > 0 ? 'bg-green-500' : result.adjustment < 0 ? 'bg-red-500' : 'bg-gray-300'}`}></div>
                                <div>
-                                 <p className="font-medium text-gray-900">{result.name}</p>
-                                 <p className="text-sm text-gray-500">{result.currentPercentage.toFixed(2)}% → {result.newPercentage}%</p>
-                                 <p className="text-sm text-gray-500">
+                                 <p className="font-medium text-gray-900 dark:text-gray-200">{result.name}</p>
+                                 <p className="text-sm text-gray-500 dark:text-gray-400">{result.currentPercentage.toFixed(2)}% → {result.newPercentage}%</p>
+                                 <p className="text-sm text-gray-500 dark:text-gray-400">
                                    {(parseInt(result.quantity) * parseFloat(result.currentPrice)).toLocaleString('it-IT', {
                                      style: 'currency',
                                      currency: 'EUR'
@@ -642,7 +642,7 @@ const Calculator = () => {
                                <p className={`font-medium ${result.adjustment > 0 ? 'text-green-600' : result.adjustment < 0 ? 'text-red-600' : 'text-gray-600'}`}>
                                  {result.adjustment > 0 ? '+' : ''}{result.adjustment} unità
                                </p>
-                               <p className="text-sm text-gray-500">
+                               <p className="text-sm text-gray-500 dark:text-gray-400">
                                  {result.adjustmentValue}€
                                </p>
                              </div>
@@ -659,36 +659,36 @@ const Calculator = () => {
                    ) : (
                      <div className="space-y-4">
                        {calculationResults.results.map((result, index) => (
-                         <div key={index} className="p-4 bg-white rounded-lg shadow-sm">
+                         <div key={index} className="p-4 bg-white rounded-lg shadow-sm dark:bg-gray-700">
                            <div className="flex justify-between items-start mb-3">
-                             <h3 className="text-base md:text-lg font-medium text-gray-900">{result.name}</h3>
-                             <span className="px-2 py-1 bg-gray-100 rounded text-xs md:text-sm font-medium">
+                             <h3 className="text-base md:text-lg font-medium text-gray-900 dark:text-gray-200">{result.name}</h3>
+                             <span className="px-2 py-1 bg-gray-100 rounded text-xs md:text-sm font-medium dark:bg-gray-600 dark:text-gray-300">
                                {result.currentPercentage.toFixed(2)}% → {result.newPercentage}%
                              </span>
                            </div>
                            <div className="grid grid-cols-2 gap-4">
                              <div>
-                               <p className="text-xs md:text-sm text-gray-500">Allocazione target</p>
-                               <p className="text-sm md:text-base font-medium">{result.adjustedTargetPercentage}%</p>
+                               <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400">Allocazione target</p>
+                               <p className="text-sm md:text-base font-medium dark:text-gray-300">{result.adjustedTargetPercentage}%</p>
                              </div>
                              <div>
-                               <p className="text-xs md:text-sm text-gray-500">Quantità attuale</p>
-                               <p className="text-sm md:text-base font-medium">{result.quantity} unità</p>
+                               <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400">Quantità attuale</p>
+                               <p className="text-sm md:text-base font-medium dark:text-gray-300">{result.quantity} unità</p>
                              </div>
                              <div>
-                               <p className="text-xs md:text-sm text-gray-500">Aggiustamento</p>
-                               <p className={`text-sm md:text-base font-medium ${result.adjustment >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                               <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400">Aggiustamento</p>
+                               <p className={`text-sm md:text-base font-medium ${result.adjustment >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
                                  {result.adjustment} unità
-                                 <span className={`text-xs md:text-sm ml-1 ${result.adjustment >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                                 <span className={`text-xs md:text-sm ml-1 ${result.adjustment >= 0 ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>
                                    ({result.adjustment >= 0 ? '+' : ''}{result.adjustmentValue}€)
                                  </span>
                                </p>
                              </div>
                              <div>
-                               <p className="text-xs md:text-sm text-gray-500">Nuova quantità</p>
+                               <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400">Nuova quantità</p>
                                <div className="flex justify-between items-center">
-                                 <p className="text-sm md:text-base font-medium">{result.newQuantity} unità</p>
-                                 <p className="text-xs md:text-sm text-gray-600">
+                                 <p className="text-sm md:text-base font-medium dark:text-gray-300">{result.newQuantity} unità</p>
+                                 <p className="text-xs md:text-sm text-gray-600 dark:text-gray-400">
                                    {(result.newQuantity * parseFloat(result.currentPrice)).toLocaleString('it-IT', {
                                      style: 'currency',
                                      currency: 'EUR'
