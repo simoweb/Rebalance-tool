@@ -27,7 +27,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-r from-indigo-500 via-indigo-400 to-teal-400 animate-gradient bg-[length:400%_400%]">
+    <section className="relative overflow-hidden bg-gradient-to-r from-indigo-500 via-indigo-400 to-teal-400 animate-gradient bg-[length:400%_400%] dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:16px_16px]"></div>
       <div className="container mx-auto px-4 py-16 md:py-24 relative">
         <div className="max-w-4xl mx-auto text-center">

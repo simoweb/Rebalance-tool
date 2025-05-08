@@ -33,8 +33,8 @@ const Navigation = () => {
 
  
 
-  return (
-    <nav className="bg-white shadow-sm sticky top-0 z-50 transition-transform duration-300">
+  return ( 
+    <nav className="bg-white shadow-sm sticky top-0 z-50 transition-transform duration-300 dark:bg-gray-800">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
@@ -52,13 +52,13 @@ const Navigation = () => {
 
           {/* Menu Desktop */}
           <div className="hidden md:flex space-x-8 items-center">
-            <a href="#perche" onClick={handleScroll} className="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+            <a href="#perche" onClick={handleScroll} className="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200 dark:text-white">
               Perché Ribilanciare
             </a>
-            <a href="#quando" onClick={handleScroll} className="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+            <a href="#quando" onClick={handleScroll} className="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200 dark:text-white">
               Quando Ribilanciare
             </a>
-            <a href="#faq" onClick={handleScroll} className="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+            <a href="#faq" onClick={handleScroll} className="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200 dark:text-white">
               FAQ
             </a>
             <a 

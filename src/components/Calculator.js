@@ -363,17 +363,17 @@ const Calculator = () => {
 
   return (
     <div>
-     <section id="calcolatore" className="bg-gradient-to-r from-indigo-500 via-indigo-400 to-teal-400 transform transition-all duration-500 py-20">
+     <section id="calcolatore" className="bg-gradient-to-r from-indigo-500 via-indigo-400 to-teal-400 transform transition-all duration-500 py-20 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
      <div className="container mx-auto px-4 mb-8">
        <h2 className="text-3xl font-bold text-center mb-12 text-white mt-4">Calcola il Ribilanciamento</h2>
-       <div className="bg-white/95 backdrop-blur-sm shadow-lg rounded-3xl p-4 md:p-8">
+       <div className="bg-white/95 backdrop-blur-sm shadow-lg rounded-3xl p-4 md:p-8 dark:bg-gray-800/50">
          <div className="flex flex-col lg:flex-row gap-8">
            {/* Colonna sinistra - Form */}
            <div className="lg:w-1/2 px-2 md:px-0">
              {/* Metodo di ribilanciamento */}
              <div className="mb-6">
                <div className="flex items-center">
-                 <label className="w-1/3 text-sm md:text-base font-medium text-gray-700">
+                 <label className="w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">
                    Metodo
                  </label>
                  <select
@@ -391,7 +391,7 @@ const Calculator = () => {
              {rebalanceMethod === 'add' && (
                <div className="mb-6">
                  <div className="flex items-center">
-                   <label className="w-1/3 text-sm md:text-base font-medium text-gray-700">
+                   <label className="w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">
                      Liquidità (€)
                    </label>
                    <input
@@ -424,7 +424,7 @@ const Calculator = () => {
                    )}
                    <div className="space-y-4">
                      <div className="flex items-center">
-                       <label className="w-1/3 text-sm md:text-base font-medium text-gray-700">
+                       <label className="w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">
                          Nome
                        </label>
                        <input
@@ -437,7 +437,7 @@ const Calculator = () => {
                      </div>
                      
                      <div className="flex items-center">
-                       <label className="w-1/3 text-sm md:text-base font-medium text-gray-700">
+                       <label className="w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">
                          Target (%)
                        </label>
                        <input
@@ -450,7 +450,7 @@ const Calculator = () => {
                      </div>
                      
                      <div className="flex items-center">
-                       <label className="w-1/3 text-sm md:text-base font-medium text-gray-700">
+                       <label className="w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">
                          Prezzo (€)
                        </label>
                        <input
@@ -463,7 +463,7 @@ const Calculator = () => {
                      </div>
                      
                      <div className="flex items-center">
-                       <label className="w-1/3 text-sm md:text-base font-medium text-gray-700">
+                       <label className="w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">
                          Quantità
                        </label>
                        <input
