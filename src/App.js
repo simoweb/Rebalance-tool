@@ -20,26 +20,11 @@ const App = () => {
   const [calculationResults, setCalculationResults] = useState(null);
   const [showCopyTooltip, setShowCopyTooltip] = useState(false);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
-  const [showDisclaimer, setShowDisclaimer] = useState(true);
+  //const [showDisclaimer, setShowDisclaimer] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('grafici');
 
-  // Controlla se il disclaimer è stato chiuso in precedenza
-  useEffect(() => {
-    const disclaimerClosed = localStorage.getItem('disclaimerClosed');
-    if (disclaimerClosed === 'true') {
-      setShowDisclaimer(false);
-    } else {
-      setShowDisclaimer(true);
-      localStorage.setItem('disclaimerClosed', 'false');
-    }
-  }, []);
-
-  // Funzione per chiudere il disclaimer
-  const closeDisclaimer = () => {
-    setShowDisclaimer(false);
-    localStorage.setItem('disclaimerClosed', 'true');
-  };
+  
 
   // Funzione per codificare i dati del form nell'URL
   const updateURL = (newAssets, newMethod, newCash) => {
@@ -387,7 +372,7 @@ const App = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Banner Disclaimer */}
-      <Disclaimer showDisclaimer={showDisclaimer} closeDisclaimer={closeDisclaimer} />
+      <Disclaimer  />
 
       {/* Menu di navigazione */}
       <Navigation />
