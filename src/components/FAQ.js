@@ -35,24 +35,24 @@ const FAQ = () => {
   };
 
   return (
-    <section id="faq" className="py-16 bg-gradient-to-br from-gray-50 to-white">
+    <section id="faq" className="py-16 bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">Domande Frequenti</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 dark:text-gray-200">Domande Frequenti</h2>
           
           <div className="space-y-4">
             {faqs.map((faq, index) => (
               <div 
                 key={index}
-                className="border border-gray-200 rounded-lg overflow-hidden bg-white transition-all duration-200 hover:shadow-md"
+                className="border border-gray-200 rounded-lg overflow-hidden bg-white transition-all duration-200 hover:shadow-md dark:bg-gray-700 dark:border-gray-600"
               >
                 <button
                   className="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none"
                   onClick={() => toggleQuestion(index)}
                 >
-                  <span className="text-lg font-medium text-gray-900">{faq.question}</span>
+                  <span className="text-lg font-medium text-gray-900 dark:text-gray-200">{faq.question}</span>
                   <svg
-                    className={`w-5 h-5 text-gray-500 transform transition-transform duration-200 ${
+                    className={`w-5 h-5 text-gray-500 transform transition-transform duration-200 dark:text-gray-400 ${
                       openQuestion === index ? 'rotate-180' : ''
                     }`}
                     fill="none"
@@ -73,7 +73,7 @@ const FAQ = () => {
                     openQuestion === index ? 'max-h-96 pb-4' : 'max-h-0'
                   }`}
                 >
-                  <p className="text-gray-600 whitespace-pre-line">{faq.answer}</p>
+                  <p className="text-gray-600 whitespace-pre-line dark:text-gray-300">{faq.answer}</p>
                 </div>
               </div>
             ))}
