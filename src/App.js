@@ -13,7 +13,7 @@ import Disclaimer from './components/Disclaimer';
 const App = () => {
   
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 dark:bg-black">
       {/* Banner Disclaimer */}
       <Disclaimer  />
 
@@ -24,29 +24,30 @@ const App = () => {
       <Hero />
 
       {/* Contenitore per le sezioni informative */}
-      <div className="bg-gradient-to-br from-white via-indigo-50 to-white relative pb-16">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
-        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
-       {/* Sezione caratteristiche principali */}
-       
-      <IconsDetail />
-      {/* Divisore */}
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-      </div>
-
-      {/* Sezione Perché Ribilanciare */}
-      <WhyDetail />
+      <div className="bg-gradient-to-br from-white via-indigo-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative pb-16">
+  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent dark:via-gray-600"></div>
+  <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent dark:via-gray-600"></div>
+  
+  {/* Sezione caratteristiche principali */}
+  <IconsDetail />
 
   {/* Divisore */}
   <div className="max-w-4xl mx-auto px-4">
-        <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-      </div>
-      
-      {/* Sezione Frequenza di Ribilanciamento */}
-      <WhenDetail />
-     
-    </div>
+    <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent dark:via-gray-500"></div>
+  </div>
+
+  {/* Sezione Perché Ribilanciare */}
+  <WhyDetail />
+
+  {/* Divisore */}
+  <div className="max-w-4xl mx-auto px-4">
+    <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent dark:via-gray-500"></div>
+  </div>
+
+  {/* Sezione Frequenza di Ribilanciamento */}
+  <WhenDetail />
+</div>
+
 
     {/* Sezione calcolatore */}
     <Calculator />

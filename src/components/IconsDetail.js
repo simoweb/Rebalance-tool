@@ -2,13 +2,13 @@ import React from 'react';
 
 const IconsDetail = () => {
   return (
-    <section className="relative overflow-hidden  py-20">
+    <section className="relative overflow-hidden  py-20 ">
             <div className="container mx-auto px-4">
             <div className="text-center mb-16 max-w-4xl mx-auto">
-                <h1 className="text-4xl md:text-5xl font-extrabold  mb-4 mt-8">
+                <h1 className="text-4xl md:text-5xl font-extrabold  mb-5 mt-8 dark:text-white">
                   Ribilanciamento Portafoglio
                 </h1>
-                <p className="text-xl text-gray-600 text-center mb-12">
+                <p className="text-xl text-gray-600 text-center mb-12 dark:text-gray-400">
                   Strumento gratuito per il ribilanciamento del portafoglio di investimenti. <br></br>
                   Calcola facilmente come riportare i tuoi asset alle percentuali target desiderate, 
                   sia attraverso la vendita degli asset in eccesso che tramite l'aggiunta di nuova liquidità.
@@ -30,8 +30,8 @@ const IconsDetail = () => {
                         </div>
                       </div>
                     </div>
-                    <h3 className="text-xl font-semibold mb-2 pt-6">Gestione Asset</h3>
-                    <p className="text-gray-600">
+                    <h3 className="text-xl font-semibold mb-2 pt-6 dark:text-white">Gestione Asset</h3>
+                    <p className="text-gray-600 dark:text-gray-400">
                       Inserisci e gestisci facilmente i tuoi asset finanziari con nome, quantità e prezzo corrente.
                     </p>
                   </div>
@@ -49,8 +49,8 @@ const IconsDetail = () => {
                         </div>
                       </div>
                     </div>
-                    <h3 className="text-xl font-semibold mb-2 pt-6">Allocazione Target</h3>
-                    <p className="text-gray-600">
+                    <h3 className="text-xl font-semibold mb-2 pt-6 dark:text-white">Allocazione Target</h3>
+                    <p className="text-gray-600 dark:text-gray-400">
                       Definisci le percentuali target per ogni asset nel tuo portafoglio ideale.
                     </p>
                   </div>
@@ -68,8 +68,8 @@ const IconsDetail = () => {
                         </div>
                       </div>
                     </div>
-                    <h3 className="text-xl font-semibold mb-2 pt-6">Calcolo Automatico</h3>
-                    <p className="text-gray-600">
+                    <h3 className="text-xl font-semibold mb-2 pt-6 dark:text-white">Calcolo Automatico</h3>
+                    <p className="text-gray-600 dark:text-gray-400">
                       Ottieni istantaneamente i calcoli per ribilanciare il tuo portafoglio in modo ottimale.
                     </p>
                   </div>

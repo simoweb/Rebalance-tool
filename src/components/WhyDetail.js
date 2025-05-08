@@ -8,19 +8,19 @@ const WhyDetail = () => {
             <div className="flex flex-col-reverse md:flex-row items-center gap-12">
               {/* Colonna testo */}
               <div className="md:w-1/2">
-                <h2 className="text-3xl font-bold mb-6 text-gray-900">
+                <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">
                   Perché Ribilanciare il Portafoglio?
                 </h2>
-                <p className="text-lg text-gray-600 leading-relaxed">
+                <p className="text-lg text-gray-600 leading-relaxed dark:text-gray-400">
                   Il ribilanciamento periodico del portafoglio è fondamentale per mantenere il livello di rischio desiderato nel tempo. 
                   Quando alcuni asset performano meglio di altri, il loro peso nel portafoglio aumenta, alterando l'allocazione originale 
                   e potenzialmente esponendoti a rischi maggiori o minori di quelli previsti.
                 </p>
-                <p className="text-lg text-gray-600 leading-relaxed mt-4">
+                <p className="text-lg text-gray-600 leading-relaxed mt-4 dark:text-gray-400">
                   Ribilanciare significa vendere gli asset che hanno superato il target e comprare quelli sottopesati, 
                   applicando in automatico il principio "compra basso, vendi alto".
                 </p>
-                <div className="mt-8 flex items-center space-x-4 text-gray-600">
+                <div className="mt-8 flex items-center space-x-4 text-gray-600 dark:text-gray-400">
                   <div className="flex items-center">
                     <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />

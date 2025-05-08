@@ -21,10 +21,10 @@ const WhenDetail = () => {
           
           {/* Colonna testo */}
           <div className="md:w-1/2">
-            <h2 className="text-3xl font-bold mb-6 text-gray-900">
+            <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">
               Ogni Quanto Ribilanciare?
             </h2>
-            <p className="text-lg text-gray-600 leading-relaxed">
+            <p className="text-lg text-gray-600 leading-relaxed dark:text-gray-400">
               La frequenza ideale di ribilanciamento dipende da diversi fattori, tra cui la volatilità degli asset 
               e i costi di transazione. In generale, si consiglia di:
             </p>
@@ -34,8 +34,8 @@ const WhenDetail = () => {
                   <span className="text-teal-600 font-semibold">1</span>
                 </div>
                 <div>
-                  <h3 className="font-medium text-gray-900">Ribilanciamento Periodico</h3>
-                  <p className="text-gray-600 mt-1">Controllare il portafoglio ogni 3-6 mesi e ribilanciare se necessario</p>
+                  <h3 className="font-medium text-gray-900 dark:text-white">Ribilanciamento Periodico</h3>
+                  <p className="text-gray-600 mt-1 dark:text-gray-400">Controllare il portafoglio ogni 3-6 mesi e ribilanciare se necessario</p>
                 </div>
               </div>
               <div className="flex items-start space-x-4">
@@ -43,8 +43,8 @@ const WhenDetail = () => {
                   <span className="text-teal-600 font-semibold">2</span>
                 </div>
                 <div>
-                  <h3 className="font-medium text-gray-900">Ribilanciamento a Soglia</h3>
-                  <p className="text-gray-600 mt-1">Intervenire quando un asset si discosta del 5-10% dal target</p>
+                  <h3 className="font-medium text-gray-900 dark:text-white">Ribilanciamento a Soglia</h3>
+                  <p className="text-gray-600 mt-1 dark:text-gray-400">Intervenire quando un asset si discosta del 5-10% dal target</p>
                 </div>
               </div>
               <div className="flex items-start space-x-4">
@@ -52,8 +52,8 @@ const WhenDetail = () => {
                   <span className="text-teal-600 font-semibold">3</span>
                 </div>
                 <div>
-                  <h3 className="font-medium text-gray-900">Ribilanciamento Opportunistico</h3>
-                  <p className="text-gray-600 mt-1">Approfittare di nuovi investimenti o prelievi per ribilanciare</p>
+                  <h3 className="font-medium text-gray-900 dark:text-white">Ribilanciamento Opportunistico</h3>
+                  <p className="text-gray-600 mt-1 dark:text-gray-400">Approfittare di nuovi investimenti o prelievi per ribilanciare</p>
                 </div>
               </div>
             </div>
