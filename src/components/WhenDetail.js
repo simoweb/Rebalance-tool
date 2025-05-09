@@ -35,7 +35,7 @@ const WhenDetail = () => {
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-900 dark:text-white">Ribilanciamento Periodico</h3>
-                  <p className="text-gray-600 mt-1 dark:text-gray-400">Controllare il portafoglio ogni 3-6 mesi e ribilanciare se necessario</p>
+                  <p className="text-gray-600 mt-1 dark:text-gray-400">Controllare il portafoglio ogni 6-12 mesi e ribilanciare se necessario</p>
                 </div>
               </div>
               <div className="flex items-start space-x-4">

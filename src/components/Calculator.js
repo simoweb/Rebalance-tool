@@ -11,6 +11,8 @@ const Calculator = () => {
       const [calculationResults, setCalculationResults] = useState(null);
       const [showCopyTooltip, setShowCopyTooltip] = useState(false);
       const [showClearConfirm, setShowClearConfirm] = useState(false);
+      const [scrollForm, setScrollForm] = useState(false);
+
       //const [showDisclaimer, setShowDisclaimer] = useState(true);
       const [isMenuOpen, setIsMenuOpen] = useState(false);
       const [activeTab, setActiveTab] = useState('grafici');
@@ -75,7 +77,23 @@ const Calculator = () => {
           if (cash) setAvailableCash(cash);
         }
       };
-    
+  
+    //scroll to form
+    useEffect(() => {
+      if (scrollForm) {
+        const target = document.querySelector('#calcolatore');
+        const offset = 80; // Esempio di offset
+        const targetPosition = target.offsetTop - offset;
+  
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+  
+        // Resetta scrollForm a false dopo lo scroll (se vuoi che lo scroll avvenga solo una volta)
+        setScrollForm(false);
+      }
+    }); 
       // Aggiungiamo un nuovo useEffect per gestire il calcolo dopo l'aggiornamento degli stati
       useEffect(() => {
         if (window.location.search && isDataComplete()) {
@@ -99,6 +117,7 @@ const Calculator = () => {
             loadFromURL();
           } else {
             clearForm();
+            
           }
         };
     
@@ -274,8 +293,12 @@ const Calculator = () => {
         setAvailableCash('');
         setShowResults(false);
         setCalculationResults(null);
+      
+       
         // Pulisci l'URL
         window.history.replaceState({}, '', window.location.pathname);
+       
+        setScrollForm(true);
         setShowClearConfirm(false);
       };
     
