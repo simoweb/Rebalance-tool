@@ -7,7 +7,7 @@ import WhyDetail from './components/WhyDetail';
 import WhenDetail from './components/WhenDetail';
 import Calculator from './components/Calculator';
 import Footer from './components/Footer';
-import Navigation from './components/Navigation';
+import Navigation from './components/navbar/Navigation';
 import Disclaimer from './components/Disclaimer';
 
 const App = () => {
