@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PortfolioCharts from './PortfolioCharts';
+import PortfolioCharts from '../PortfolioCharts';
 
 const Calculator = () => {
     const [assets, setAssets] = useState([

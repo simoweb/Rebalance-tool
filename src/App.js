@@ -5,7 +5,7 @@ import FAQ from './components/FAQ';
 import IconsDetail from './components/IconsDetail';
 import WhyDetail from './components/WhyDetail';
 import WhenDetail from './components/WhenDetail';
-import Calculator from './components/Calculator';
+import Calculator from './components/calculator/Calculator';
 import Footer from './components/Footer';
 import Navigation from './components/navbar/Navigation';
 import Disclaimer from './components/Disclaimer';
@@ -25,27 +25,27 @@ const App = () => {
 
       {/* Contenitore per le sezioni informative */}
       <div className="bg-gradient-to-br from-white via-indigo-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative pb-16">
-  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent dark:via-gray-600"></div>
-  <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent dark:via-gray-600"></div>
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent dark:via-gray-600"></div>
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent dark:via-gray-600"></div>
   
-  {/* Sezione caratteristiche principali */}
-  <IconsDetail />
+        {/* Sezione caratteristiche principali */}
+        <IconsDetail />
 
-  {/* Divisore */}
-  <div className="max-w-4xl mx-auto px-4">
-    <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent dark:via-gray-500"></div>
-  </div>
+        {/* Divisore */}
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent dark:via-gray-500"></div>
+        </div>
 
-  {/* Sezione Perché Ribilanciare */}
-  <WhyDetail />
+        {/* Sezione Perché Ribilanciare */}
+        <WhyDetail />
 
-  {/* Divisore */}
-  <div className="max-w-4xl mx-auto px-4">
-    <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent dark:via-gray-500"></div>
-  </div>
+        {/* Divisore */}
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent dark:via-gray-500"></div>
+        </div>
 
-  {/* Sezione Frequenza di Ribilanciamento */}
-  <WhenDetail />
+        {/* Sezione Frequenza di Ribilanciamento */}
+        <WhenDetail />
 </div>
 
 
