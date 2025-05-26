@@ -988,7 +988,12 @@ const Calculator = () => {
         });
       };
     
-     // ... (resto del componente Calculator come prima)
+    // ... (resto del componente Calculator come prima, inclusa parseLocaleFloat e isQuantityInputFractional)
+
+      const isQuantityInputFractional = (quantityString) => {
+  const num = parseLocaleFloat(quantityString); // parseLocaleFloat gestisce la virgola
+  return num % 1 !== 0;
+};
 
       const calculateRebalancing = () => {
         let allocations = calculateCurrentAllocation(); 
@@ -1000,25 +1005,33 @@ const Calculator = () => {
         let finalResults = [];
         let excessCashVal = 0;
 
+        // Helper per decidere l'arrotondamento delle unità
+        const getUnitsCalculated = (valueDifference, price, originalQuantityString) => {
+            if (price <= 0) return 0;
+            const calculatedRawUnits = valueDifference / price;
+            const isFractional = isQuantityInputFractional(originalQuantityString);
+            return isFractional ? calculatedRawUnits : Math.round(calculatedRawUnits);
+        };
+
         if (rebalanceMethod === 'sell') {
             const calculated = allocations.map(asset => {
                 const assetCurrentPrice = parseLocaleFloat(asset.currentPrice);
-                const assetQuantity = parseLocaleFloat(asset.quantity);
+                const assetQuantityNum = parseLocaleFloat(asset.quantity); // Quantità numerica iniziale
                 const finalAssetTargetPercentage = parseLocaleFloat(asset.targetPercentage) * scaleFactor;
                 const targetValue = initialTotalValue * (finalAssetTargetPercentage / 100);
                 const difference = targetValue - asset.currentValue;
-                // Rimosso Math.round() per unità frazionate
-                const unitsToAdjust = (assetCurrentPrice > 0) ? (difference / assetCurrentPrice) : 0; 
-                const newQuantity = assetQuantity + unitsToAdjust;
+                
+                const unitsToAdjust = getUnitsCalculated(difference, assetCurrentPrice, asset.quantity); // Usa helper
+                
+                const newQuantity = assetQuantityNum + unitsToAdjust;
                 return {
                     ...asset,
                     adjustment: unitsToAdjust,
-                    adjustmentValueNum: unitsToAdjust * assetCurrentPrice,
+                    adjustmentValueNum: unitsToAdjust * assetCurrentPrice, // L'aggiustamento monetario sarà preciso
                     newQuantity: newQuantity,
                     adjustedTargetPercentageNum: finalAssetTargetPercentage,
                 };
             });
-            // ... (resto della logica 'sell' come prima)
             const newPortfolioTotalValue = calculated.reduce((sum, r) => sum + (r.newQuantity * parseLocaleFloat(r.currentPrice)), 0);
             finalResults = calculated.map(r => ({
                 ...r, 
@@ -1035,13 +1048,14 @@ const Calculator = () => {
 
             const calculated = allocations.map(asset => {
                 const assetCurrentPrice = parseLocaleFloat(asset.currentPrice);
-                const assetQuantity = parseLocaleFloat(asset.quantity);
+                const assetQuantityNum = parseLocaleFloat(asset.quantity);
                 const finalAssetTargetPercentage = parseLocaleFloat(asset.targetPercentage) * scaleFactor;
                 const targetAssetValue = newTotalPortfolioValue * (finalAssetTargetPercentage / 100);
                 const valueDifference = targetAssetValue - asset.currentValue;
-                // Rimosso Math.round() per unità frazionate
-                const unitsToAdjust = (assetCurrentPrice > 0) ? (valueDifference / assetCurrentPrice) : 0; 
-                const newQuantity = assetQuantity + unitsToAdjust;
+
+                const unitsToAdjust = getUnitsCalculated(valueDifference, assetCurrentPrice, asset.quantity); // Usa helper
+
+                const newQuantity = assetQuantityNum + unitsToAdjust;
                 return {
                     ...asset,
                     adjustment: unitsToAdjust,
@@ -1050,7 +1064,6 @@ const Calculator = () => {
                     adjustedTargetPercentageNum: finalAssetTargetPercentage,
                 };
             });
-            // ... (resto della logica 'add_and_rebalance' come prima)
             const finalPortfolioValueAfterRebalance = calculated.reduce((sum, r) => sum + (r.newQuantity * parseLocaleFloat(r.currentPrice)), 0);
             finalResults = calculated.map(r => ({
                 ...r,
@@ -1072,12 +1085,15 @@ const Calculator = () => {
                 const finalAssetTargetPercentage = parseLocaleFloat(asset.targetPercentage) * scaleFactor;
                 const targetValueWithCash = (tempTotalValue + currentCashPool) * (finalAssetTargetPercentage / 100);
                 const diff = targetValueWithCash - asset.currentValue;
-                // Rimosso Math.round()
-                const unitsToBuyInitially = (diff > 0 && assetCurrentPrice > 0) ? (diff / assetCurrentPrice) : 0; 
+                
+                const unitsToBuyInitially = getUnitsCalculated(diff, assetCurrentPrice, asset.quantity); // Usa helper
+                // Assicurati che unitsToBuyInitially sia positivo per un acquisto
+                const positiveUnitsToBuy = Math.max(0, unitsToBuyInitially);
+
                 return {
                     ...asset, 
-                    unitsToBuyInitially,
-                    costToBuyInitially: unitsToBuyInitially * assetCurrentPrice,
+                    unitsToBuyInitially: positiveUnitsToBuy, // Solo unità positive o zero
+                    costToBuyInitially: positiveUnitsToBuy * assetCurrentPrice,
                     finalAssetTargetPercentage,
                     unitsSoldPreviously: 0,
                 };
@@ -1092,13 +1108,20 @@ const Calculator = () => {
                     const finalAssetTargetPercentage = parseLocaleFloat(assetForSaleDecision.targetPercentage) * scaleFactor;
                     const targetValueForSaleDecision = initialTotalValue * (finalAssetTargetPercentage / 100);
                     const diffForSale = assetForSaleDecision.currentValue - targetValueForSaleDecision;
-                    // Rimosso Math.round()
-                    const unitsToSell = (diffForSale > 0 && assetCurrentPrice > 0) ? (diffForSale / assetCurrentPrice) : 0; 
-                    if (unitsToSell > 0) {
+                    
+                    // Per le vendite, diffForSale positivo significa eccesso.
+                    // getUnitsCalculated aspetta una 'valueDifference' dove positivo è target > current.
+                    // Quindi per la vendita, la 'differenza' per raggiungere il target è negativa.
+                    // targetValueForSaleDecision - assetForSaleDecision.currentValue darà una diff negativa se c'è da vendere.
+                    const saleDiff = targetValueForSaleDecision - assetForSaleDecision.currentValue;
+                    const unitsToSellCalculated = getUnitsCalculated(saleDiff, assetCurrentPrice, assetForSaleDecision.quantity);
+                    const unitsToSell = Math.min(0, unitsToSellCalculated); // Prendi solo valori negativi (vendite) o zero
+
+                    if (unitsToSell < 0) { // Se unitsToSell è negativo, significa che vendiamo Math.abs(unitsToSell)
                         salesToFundPurchases_records.push({
                             name: assetForSaleDecision.name,
-                            unitsToSell,
-                            cashGenerated: unitsToSell * assetCurrentPrice,
+                            unitsToSell: Math.abs(unitsToSell), // Memorizza come positivo
+                            cashGenerated: Math.abs(unitsToSell) * assetCurrentPrice,
                         });
                     }
                 });
@@ -1121,31 +1144,50 @@ const Calculator = () => {
                     const finalAssetTargetPercentage = parseLocaleFloat(assetAfterSale.targetPercentage) * scaleFactor;
                     const targetValueWithCash = (tempTotalValue + currentCashPool) * (finalAssetTargetPercentage / 100);
                     const diff = targetValueWithCash - assetAfterSale.currentValue;
-                    // Rimosso Math.round()
-                    const unitsToBuyRecalculated = (diff > 0 && assetCurrentPrice > 0) ? (diff / assetCurrentPrice) : 0; 
+                    
+                    const unitsToBuyRecalculated = getUnitsCalculated(diff, assetCurrentPrice, assetAfterSale.quantity);
+                    const positiveUnitsToBuyRecalculated = Math.max(0, unitsToBuyRecalculated);
+
                     const saleInfo = salesToFundPurchases_records.find(s => s.name === assetAfterSale.name);
-                    return { ...assetAfterSale, unitsToBuyInitially: unitsToBuyRecalculated, costToBuyInitially: unitsToBuyRecalculated * assetCurrentPrice, finalAssetTargetPercentage, unitsSoldPreviously: saleInfo ? saleInfo.unitsToSell : 0 };
+                    return { 
+                        ...assetAfterSale, 
+                        unitsToBuyInitially: positiveUnitsToBuyRecalculated, 
+                        costToBuyInitially: positiveUnitsToBuyRecalculated * assetCurrentPrice, 
+                        finalAssetTargetPercentage, 
+                        unitsSoldPreviously: saleInfo ? saleInfo.unitsToSell : 0, // unitsToSell qui è positivo
+                    };
                 });
             }
 
             let cashSpentInBuys = 0;
             const calculatedAdd = preCalcForAdd.map(r_intermediate_calc => {
                 let unitsToBuyFinal = 0;
-                const costForThisAssetToReachTarget = r_intermediate_calc.costToBuyInitially;
+                const costForThisAssetToReachTarget = r_intermediate_calc.costToBuyInitially; // Basato su unitsToBuyInitially (già arrotondato/frazionato e positivo)
+                const assetIsActuallyFractional = isQuantityInputFractional(r_intermediate_calc.quantity); // Usa la quantity (potenzialmente aggiornata ma il tipo non cambia)
+
                 if (costForThisAssetToReachTarget > 0 && (cashSpentInBuys + costForThisAssetToReachTarget <= currentCashPool)) {
-                    unitsToBuyFinal = r_intermediate_calc.unitsToBuyInitially;
-                    cashSpentInBuys += costForThisAssetToReachTarget;
+                    unitsToBuyFinal = r_intermediate_calc.unitsToBuyInitially; // Questo è già stato calcolato come intero o frazionato
+                    // cashSpentInBuys += costForThisAssetToReachTarget; // Non aggiungere qui, ma dopo aver confermato unitsToBuyFinal
                 } else if (costForThisAssetToReachTarget > 0 && cashSpentInBuys < currentCashPool) {
                     const remainingCashInPoolForBuys = currentCashPool - cashSpentInBuys;
                     const assetPrice = parseLocaleFloat(r_intermediate_calc.currentPrice);
-                    // Modificato Math.floor() a divisione diretta per acquisto frazionato con cassa rimanente
-                    unitsToBuyFinal = assetPrice > 0 ? (remainingCashInPoolForBuys / assetPrice) : 0; 
-                    cashSpentInBuys += unitsToBuyFinal * assetPrice; // Il costo effettivo potrebbe essere leggermente diverso se assetPrice ha molti decimali
-                                                                    // Per precisione, cashSpentInBuys dovrebbe accumulare unitsToBuyFinal * assetPrice
+                    if (assetPrice > 0) {
+                        const unitsAffordableRaw = remainingCashInPoolForBuys / assetPrice;
+                        unitsToBuyFinal = assetIsActuallyFractional ? unitsAffordableRaw : Math.floor(unitsAffordableRaw);
+                    }
                 }
+                // Assicura che unitsToBuyFinal sia positivo o zero
+                unitsToBuyFinal = Math.max(0, unitsToBuyFinal);
+                cashSpentInBuys += unitsToBuyFinal * parseLocaleFloat(r_intermediate_calc.currentPrice);
+
                 const netUnitsAdjustment = unitsToBuyFinal - (r_intermediate_calc.unitsSoldPreviously || 0);
                 const quantityAfterSalesBeforeThisBuy = parseLocaleFloat(r_intermediate_calc.quantity);
-                return { ...r_intermediate_calc, adjustment: netUnitsAdjustment, adjustmentValueNum: netUnitsAdjustment * parseLocaleFloat(r_intermediate_calc.currentPrice), newQuantity: quantityAfterSalesBeforeThisBuy + unitsToBuyFinal };
+                return { 
+                    ...r_intermediate_calc, 
+                    adjustment: netUnitsAdjustment, 
+                    adjustmentValueNum: netUnitsAdjustment * parseLocaleFloat(r_intermediate_calc.currentPrice), 
+                    newQuantity: quantityAfterSalesBeforeThisBuy + unitsToBuyFinal,
+                };
             });
             
             const finalPortfolioValueAdd = calculatedAdd.reduce((sum, r) => sum + (r.newQuantity * parseLocaleFloat(r.currentPrice)), 0);
@@ -1166,6 +1208,10 @@ const Calculator = () => {
         return { results: finalResults, excessCash: excessCashVal.toFixed(2) };
       };
 
+// ... resto del componente Calculator, assicurati che isQuantityInputFractional sia definito prima di Calculator o al suo interno.
+// Se la definisci dentro Calculator, non serve passarla come prop, ma assicurati sia accessibile da calculateRebalancing.
+// Per semplicità, l'ho definita fuori (o potrebbe essere all'inizio del file .js).
+// Se è dentro il componente Calculator, va bene così.
 
     
       const handleCalculate = () => {
