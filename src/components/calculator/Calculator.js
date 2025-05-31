@@ -242,39 +242,84 @@ const Calculator = () => {
             const totalNetCashFromSales = finalResults.reduce((sum, r) => sum - r.adjustmentValueNum, 0); 
             excessCashVal = totalNetCashFromSales;
 
-        } else if (rebalanceMethod === 'add_and_rebalance') {
-            const addedCash = parseLocaleFloat(availableCash);
-            const newTotalPortfolioValue = initialTotalValue + addedCash;
+        } else if (rebalanceMethod === 'add') {
+             const addedCash = parseLocaleFloat(availableCash);
+            const newTotalValue = initialTotalValue + addedCash;
 
-            const calculated = allocations.map(asset => {
-                const assetCurrentPrice = parseLocaleFloat(asset.currentPrice);
-                const assetQuantityNum = parseLocaleFloat(asset.quantity);
-                const finalAssetTargetPercentage = parseLocaleFloat(asset.targetPercentage) * scaleFactor;
-                const targetAssetValue = newTotalPortfolioValue * (finalAssetTargetPercentage / 100);
-                const valueDifference = targetAssetValue - asset.currentValue;
+          let cashPool = addedCash;
+          const adjustedAssets = [];
 
-                const unitsToAdjust = getUnitsCalculated(valueDifference, assetCurrentPrice, asset.quantity); // Usa helper
+          const sortedAssets = allocations
+              .map(asset => {
+                  const currentPrice = parseLocaleFloat(asset.currentPrice);
+                  const currentQuantity = parseLocaleFloat(asset.quantity);
+                  const finalTargetPct = parseLocaleFloat(asset.targetPercentage) * scaleFactor;
+                  const targetValue = newTotalValue * (finalTargetPct / 100);
+                  const valueNeeded = Math.max(0, targetValue - asset.currentValue);
 
-                const newQuantity = assetQuantityNum + unitsToAdjust;
-                return {
-                    ...asset,
-                    adjustment: unitsToAdjust,
-                    adjustmentValueNum: unitsToAdjust * assetCurrentPrice,
-                    newQuantity: newQuantity,
-                    adjustedTargetPercentageNum: finalAssetTargetPercentage,
-                };
-            });
-            const finalPortfolioValueAfterRebalance = calculated.reduce((sum, r) => sum + (r.newQuantity * parseLocaleFloat(r.currentPrice)), 0);
-            finalResults = calculated.map(r => ({
-                ...r,
-                adjustmentValue: r.adjustmentValueNum.toFixed(2),
-                newPercentage: (finalPortfolioValueAfterRebalance > 0 ? ((r.newQuantity * parseLocaleFloat(r.currentPrice)) / finalPortfolioValueAfterRebalance * 100) : 0).toFixed(2),
-                adjustedTargetPercentage: r.adjustedTargetPercentageNum.toFixed(2),
-            }));
-            const totalCashUsedForTransactions = finalResults.reduce((sum, r) => sum + parseLocaleFloat(r.adjustmentValue), 0);
-            excessCashVal = addedCash - totalCashUsedForTransactions;
+                  return {
+                      ...asset,
+                      currentPrice,
+                      currentQuantity,
+                      finalTargetPct,
+                      valueNeeded
+                  };
+              })
+              .sort((a, b) => b.valueNeeded - a.valueNeeded); // priorità a chi è più sottopesato
 
-        } else if (rebalanceMethod === 'add') { 
+              for (const asset of sortedAssets) {
+                  if (cashPool <= 0 || asset.valueNeeded <= 0 || asset.currentPrice <= 0) {
+                      adjustedAssets.push({
+                          ...asset,
+                          adjustment: 0,
+                          adjustmentValueNum: 0,
+                          newQuantity: asset.currentQuantity
+                      });
+                      continue;
+                  }
+
+                  const maxAffordableValue = Math.min(cashPool, asset.valueNeeded);
+                  const isFractional = isQuantityInputFractional(asset.quantity);
+                  const rawUnits = maxAffordableValue / asset.currentPrice;
+                  const unitsToBuy = isFractional ? rawUnits : Math.floor(rawUnits);
+                  const valueSpent = unitsToBuy * asset.currentPrice;
+
+                  cashPool -= valueSpent;
+
+                  adjustedAssets.push({
+                      ...asset,
+                      adjustment: unitsToBuy,
+                      adjustmentValueNum: valueSpent,
+                      newQuantity: asset.currentQuantity + unitsToBuy
+                  });
+              }
+
+              const finalPortfolioValue = adjustedAssets.reduce(
+                  (sum, r) => sum + (r.newQuantity * r.currentPrice),
+                  0
+              );
+
+              finalResults = adjustedAssets.map(r => ({
+                  name: r.name,
+                  quantity: r.quantity,
+                  currentPrice: r.currentPrice,
+                  targetPercentage: r.targetPercentage,
+                  currentValue: r.currentValue,
+                  currentPercentage: r.currentPercentage,
+                  adjustment: r.adjustment,
+                  adjustmentValue: r.adjustmentValueNum.toFixed(2),
+                  newQuantity: r.newQuantity,
+                  newPercentage: (finalPortfolioValue > 0
+                      ? ((r.newQuantity * r.currentPrice) / finalPortfolioValue * 100)
+                      : 0
+                  ).toFixed(2),
+                  adjustedTargetPercentage: r.finalTargetPct.toFixed(2)
+              }));
+
+              // Fix sicuro: forziamo che non scenda mai sotto zero
+              excessCashVal = Math.max(0, cashPool);
+
+        } else if (rebalanceMethod === 'add_and_rebalance') { 
             const availableCashValue = parseLocaleFloat(availableCash);
             let tempTotalValue = initialTotalValue;
             let currentCashPool = availableCashValue;
@@ -518,8 +563,8 @@ const Calculator = () => {
                    onChange={handleMethodChange}
                  >
                    <option value="sell">Ribilancia</option>
-                   <option value="add">Aggiungi liquidità e ribilancia</option>
-                   {/* <option value="add_and_rebalance">Aggiungi liquidità e ribilancia</option> */}
+                  <option value="add_and_rebalance">Aggiungi liquidità e ribilancia</option> 
+                   <option value="add">Aggiungi liquidità</option>
                  </select>
                </div>
              </div>
@@ -632,6 +677,8 @@ const Calculator = () => {
                     {/* Liquidità in eccesso */}
                    {(() => {
                      const excessCashNum = parseLocaleFloat(calculationResults.excessCash);
+
+                     console.log(calculationResults)
                      let message = '';
                      if (rebalanceMethod === 'sell') {
                        message = excessCashNum >= 0 ? 'Liquidità netta generata:' : 'Valore netto investito:';
@@ -716,7 +763,85 @@ const Calculator = () => {
                    </div>
                  </div>
                </div>
-             ) : ( <div className="h-full flex items-center justify-center p-8 text-center"><p className="text-gray-500 dark:text-gray-400">{isCurrentDataComplete() ? "Clicca 'Calcola' per vedere i risultati." : (assets.length > 0 && assets.some(a => String(a.targetPercentage).trim() !== '') && Math.abs(getTotalPercentage() - 100) >= 0.01) ? "La somma delle percentuali target deve essere 100%." : "Completa tutti i campi degli asset. Assicurati che la somma delle percentuali target sia 100% e, se necessario, inserisci la liquidità."}</p></div>)}
+             ) : 
+             ( 
+             
+             <div className="h-full flex items-center justify-center p-8 text-center flex-col">
+              <div>
+              <p className="text-gray-500 dark:text-gray-400">{isCurrentDataComplete() ? "Clicca 'Calcola' per vedere i risultati." : (assets.length > 0 && assets.some(a => String(a.targetPercentage).trim() !== '') && Math.abs(getTotalPercentage() - 100) >= 0.01) ? 
+             "La somma delle percentuali target deve essere 100%." : 
+             "Completa tutti i campi degli asset. Assicurati che la somma delle percentuali target sia 100% e, se necessario, inserisci la liquidità."
+             }</p>
+             </div>
+
+             {isCurrentDataComplete() ? "" : (assets.length > 0 && assets.some(a => String(a.targetPercentage).trim() !== '') && Math.abs(getTotalPercentage() - 100) >= 0.01) ? 
+             "" : 
+             <div className='items-center justify-center'>
+              <h5 className='text-lg mt-5'>Carica esempi</h5>
+              <div className='items-center justify-center'>
+            <button
+            onClick={() => {
+              window.location.href = `?method=sell&asset0_name=PHAU&asset0_target=25&asset0_price=269,84&asset0_quantity=26&asset1_name=PJS1&asset1_target=25&asset1_price=98,12&asset1_quantity=63&asset2_name=SWDA&asset2_target=25&asset2_price=99,27&asset2_quantity=58&asset3_name=XG7S&asset3_target=25&asset3_price=220,91&asset3_quantity=28#calcolatore`;
+            }}
+            className="mx-2 px-3 py-2 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-lg text-sm hover:from-green-600 hover:to-green-800 transition-colors mt-5"
+          >
+            Permanent Portfolio
+          </button>
+
+            <button
+            onClick={() => {
+              window.location.href = `?method=sell&asset0_name=SWDA&asset0_target=20&asset0_price=100,00&asset0_quantity=10&asset1_name=IUSN&asset1_target=20&asset1_price=90,00&asset1_quantity=12&asset2_name=PHAU&asset2_target=20&asset2_price=270,00&asset2_quantity=4&asset3_name=IBGL&asset3_target=20&asset3_price=120,00&asset3_quantity=8&asset4_name=EUNA&asset4_target=20&asset4_price=100,00&asset4_quantity=9#calcolatore`;
+            }}
+            className="mx-2 px-3 py-2 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white rounded-lg text-sm hover:from-yellow-500 hover:to-yellow-700 transition-colors mt-5"
+          >
+            Golden Butterfly
+          </button>
+
+            <button
+              onClick={() => {
+                window.location.href = `?method=sell&asset0_name=SWDA&asset0_target=30&asset0_price=100,00&asset0_quantity=12&asset1_name=IBGL&asset1_target=40&asset1_price=120,00&asset1_quantity=10&asset2_name=EUNA&asset2_target=15&asset2_price=100,00&asset2_quantity=6&asset3_name=PHAU&asset3_target=7.5&asset3_price=270,00&asset3_quantity=2&asset4_name=CRUD&asset4_target=7.5&asset4_price=25,00&asset4_quantity=8#calcolatore`;
+              }}
+              className="mx-2 px-3 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg text-sm hover:from-blue-600 hover:to-blue-800 transition-colors mt-5"
+            >
+              All Weather Portfolio
+            </button>
+
+            <button
+            onClick={() => {
+              window.location.href = `?method=sell&asset0_name=SWDA&asset0_target=60&asset0_price=100,00&asset0_quantity=15&asset1_name=AGGH&asset1_target=40&asset1_price=85,00&asset1_quantity=10#calcolatore`;
+            }}
+            className="mx-2 px-3 py-2 bg-gradient-to-r from-gray-500 to-gray-700 text-white rounded-lg text-sm hover:from-gray-600 hover:to-gray-800 transition-colors mt-5"
+          >
+            Portafoglio 60/40
+          </button>
+          <button
+  onClick={() => {
+    window.location.href = `?method=sell&asset0_name=SWDA&asset0_target=50&asset0_price=100,00&asset0_quantity=10&asset1_name=BTC&asset1_target=25&asset1_price=35000,00&asset1_quantity=0,05&asset2_name=ETH&asset2_target=25&asset2_price=1900,00&asset2_quantity=0,7#calcolatore`;
+  }}
+  className="mx-2 px-3 py-2 bg-gradient-to-r from-pink-500 to-purple-700 text-white rounded-lg text-sm hover:from-pink-600 hover:to-purple-800 transition-colors mt-5"
+>
+  Crypto + Azioni (50/50)
+</button>
+
+<button
+  onClick={() => {
+    window.location.href = `?method=sell&asset0_name=BTC&asset0_target=40&asset0_price=35000,00&asset0_quantity=0,06&asset1_name=ETH&asset1_target=30&asset1_price=1900,00&asset1_quantity=0,8&asset2_name=SOL&asset2_target=15&asset2_price=150,00&asset2_quantity=5&asset3_name=USDC&asset3_target=15&asset3_price=1,00&asset3_quantity=100#calcolatore`;
+  }}
+  className="mx-2 px-3 py-2 bg-gradient-to-r from-orange-500 to-yellow-500 text-white rounded-lg text-sm hover:from-orange-600 hover:to-yellow-600 transition-colors mt-5"
+>
+  Crypto Diversificato
+</button>
+
+
+
+          </div>
+          </div>
+             }
+             
+             </div>
+            
+            )}
+            
            </div>
          </div>
        </div>
