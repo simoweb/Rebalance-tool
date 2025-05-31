@@ -1,12 +1,16 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: 'bundle.js',
-    clean: true // Non pulire la cartella public per mantenere favicon e altri assets
+    clean: true
   },
   module: {
     rules: [
@@ -22,7 +26,11 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader', 'postcss-loader']
+        use: [
+          isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+          'css-loader',
+          'postcss-loader'
+        ]
       }
     ]
   },
@@ -32,7 +40,16 @@ module.exports = {
       filename: 'index.html',
       inject: 'body',
       favicon: './public-assets/favicon.svg',
-    })
+       minify: isProduction && {
+        collapseWhitespace: true,
+        removeComments: true,
+        removeRedundantAttributes: true,
+        removeEmptyAttributes: true,
+        minifyCSS: true,
+        useShortDoctype: true,
+      }
+    }),
+    ...(isProduction ? [new MiniCssExtractPlugin({ filename: 'styles.css' })] : [])
   ],
   devServer: {
     static: {
@@ -40,5 +57,13 @@ module.exports = {
     },
     hot: true,
     open: true
-  }
-}; 
+  },
+  optimization: {
+  minimize: isProduction,
+  minimizer: [
+    '...', // preserva TerserPlugin per JS
+    new CssMinimizerPlugin(),
+  ],
+},
+  mode: isProduction ? 'production' : 'development'
+};
