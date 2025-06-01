@@ -1,96 +1,78 @@
-// rebalanceAdd.js
-import { parseLocaleFloat, getUnitsCalculated, isQuantityInputFractional } from './utils'; // Importa le funzioni di utilità
+// rebalanceAdd.js (Versione con Logica Prioritaria)
+import { parseLocaleFloat, getUnitsCalculated } from './utils';
 
-/**
- * Esegue il ribilanciamento in modalità "aggiungi denaro".
- * Utilizza il denaro disponibile per acquistare gli asset più sottopesati, senza vendere nulla.
- * @param {Array<Object>} allocations - L'array di asset con i valori e le percentuali correnti.
- * @param {number} initialTotalValue - Il valore totale iniziale del portafoglio.
- * @param {number} availableCash - Il denaro disponibile da aggiungere.
- * @param {Array<Object>} assets - L'array originale di asset (necessario per targetPercentage e originalQuantityString).
- * @param {number} scaleFactor - Fattore di scala per normalizzare le percentuali target.
- * @returns {{results: Array<Object>, excessCash: number}} I risultati del ribilanciamento e il cash residuo.
- */
 export const rebalanceAdd = (allocations, initialTotalValue, availableCash, assets, scaleFactor) => {
-    const addedCash = parseLocaleFloat(availableCash);
-    const newTotalValue = initialTotalValue + addedCash;
-
-    let cashPool = addedCash;
-    const adjustedAssets = [];
-
-    const sortedAssets = allocations
-        .map(asset => {
-            const currentPrice = parseLocaleFloat(asset.currentPrice);
-            const currentQuantity = parseLocaleFloat(asset.quantity);
-            const finalTargetPct = parseLocaleFloat(asset.targetPercentage) * scaleFactor;
-            const targetValue = newTotalValue * (finalTargetPct / 100);
-            const valueNeeded = Math.max(0, targetValue - asset.currentValue);
-
-            // Troviamo l'asset originale per passare la sua quantità originale a isQuantityInputFractional
-            const originalAsset = assets.find(a => a.name === asset.name);
-
-            return {
-                ...asset,
-                currentPrice,
-                currentQuantity,
-                finalTargetPct,
-                valueNeeded,
-                originalQuantityString: originalAsset.quantity // Passa la quantità originale
-            };
-        })
-        .sort((a, b) => b.valueNeeded - a.valueNeeded); // priorità a chi è più sottopesato
-
-    for (const asset of sortedAssets) {
-        if (cashPool <= 0 || asset.valueNeeded <= 0 || asset.currentPrice <= 0) {
-            adjustedAssets.push({
-                ...asset,
-                adjustment: 0,
-                adjustmentValueNum: 0,
-                newQuantity: asset.currentQuantity
-            });
-            continue;
-        }
-
-        const maxAffordableValue = Math.min(cashPool, asset.valueNeeded);
-        const isFractional = isQuantityInputFractional(asset.originalQuantityString);
-        const rawUnits = maxAffordableValue / asset.currentPrice;
-        const unitsToBuy = isFractional ? rawUnits : Math.floor(rawUnits); // Arrotonda per difetto se intero
-
-        const valueSpent = unitsToBuy * asset.currentPrice;
-
-        cashPool -= valueSpent;
-
-        adjustedAssets.push({
-            ...asset,
-            adjustment: unitsToBuy,
-            adjustmentValueNum: valueSpent,
-            newQuantity: asset.currentQuantity + unitsToBuy
-        });
+    const cashToAdd = parseLocaleFloat(availableCash) || 0;
+    if (cashToAdd <= 0) {
+        // ... (gestione del caso senza liquidità, come prima)
+        const emptyResults = allocations.map(asset => ({
+            ...asset, adjustment: 0, adjustmentValue: '0.00', adjustmentValueNum: 0,
+            newQuantity: parseLocaleFloat(asset.quantity),
+            newPercentage: asset.currentPercentage.toFixed(2),
+            adjustedTargetPercentage: (parseLocaleFloat(asset.targetPercentage) * scaleFactor).toFixed(2),
+            prezzoQuota: parseLocaleFloat(asset.currentPrice).toFixed(2)
+        }));
+        return { results: emptyResults, excessCash: cashToAdd };
     }
 
-    const finalPortfolioValue = adjustedAssets.reduce(
-        (sum, r) => sum + (r.newQuantity * r.currentPrice),
-        0
-    );
+    const newTotalValue = initialTotalValue + cashToAdd;
+    let assetsToProcess = allocations.map(asset => {
+        const finalAssetTargetPercentage = parseLocaleFloat(asset.targetPercentage) * scaleFactor;
+        const targetValue = newTotalValue * (finalAssetTargetPercentage / 100);
+        const difference = targetValue - asset.currentValue;
+        return {
+            ...asset,
+            difference,
+            finalAssetTargetPercentage,
+            adjustment: 0,
+            adjustmentValueNum: 0,
+            newQuantity: parseLocaleFloat(asset.quantity),
+        };
+    });
 
-    const finalResults = adjustedAssets.map(r => ({
-        name: r.name,
-        quantity: r.quantity, // L'originale o quella passata in adjustedAssets map.
-        currentPrice: r.currentPrice.toFixed(2), // Assicurati che sia formattato
-        targetPercentage: r.targetPercentage,
-        currentValue: r.currentValue.toFixed(2),
-        currentPercentage: r.currentPercentage.toFixed(2),
-        adjustment: r.adjustment,
+    // 1. Identifica gli asset da acquistare e ordinali dal più sottopesato al meno
+    const underweightAssets = assetsToProcess
+        .filter(a => a.difference > 0)
+        .sort((a, b) => b.difference - a.difference); // Ordina in modo decrescente per 'difference'
+
+    let cashRemaining = cashToAdd;
+
+    // 2. Itera sugli asset sottopesati e compra in ordine di priorità
+    for (const asset of underweightAssets) {
+        if (cashRemaining <= 0) break; // Se finisce la liquidità, esci
+
+        const assetCurrentPrice = parseLocaleFloat(asset.currentPrice);
+        if (assetCurrentPrice <= 0) continue; // Salta se il prezzo non è valido
+
+        // Determina quanti soldi servirebbero per questo asset e quanti ne puoi usare
+        const moneyNeededForThisAsset = asset.difference;
+        const moneyToSpendOnThisAsset = Math.min(cashRemaining, moneyNeededForThisAsset);
+
+        // Calcola quante unità puoi comprare con i soldi disponibili per questo asset
+        const unitsToBuy = getUnitsCalculated(moneyToSpendOnThisAsset, assetCurrentPrice, asset.quantity);
+
+        if (unitsToBuy > 0) {
+            const costOfPurchase = unitsToBuy * assetCurrentPrice;
+            
+            asset.adjustment = unitsToBuy;
+            asset.adjustmentValueNum = costOfPurchase;
+            asset.newQuantity += unitsToBuy;
+            
+            cashRemaining -= costOfPurchase; // Sottrai il costo reale dalla liquidità
+        }
+    }
+
+    // 3. Calcola i risultati finali
+    let excessCashVal = Math.max(0, cashRemaining);
+
+    const newPortfolioTotalValue = assetsToProcess.reduce((sum, r) => sum + (r.newQuantity * parseLocaleFloat(r.currentPrice)), 0);
+    const finalResults = assetsToProcess.map(r => ({
+        ...r,
+        prezzoQuota: parseLocaleFloat(r.currentPrice).toFixed(2),
         adjustmentValue: r.adjustmentValueNum.toFixed(2),
-        newQuantity: r.newQuantity,
-        newPercentage: (finalPortfolioValue > 0
-            ? ((r.newQuantity * r.currentPrice) / finalPortfolioValue * 100)
-            : 0
-        ).toFixed(2),
-        adjustedTargetPercentage: r.finalTargetPct.toFixed(2)
+        newPercentage: (newPortfolioTotalValue > 0 ? ((r.newQuantity * parseLocaleFloat(r.currentPrice)) / newPortfolioTotalValue * 100) : 0).toFixed(2),
+        adjustedTargetPercentage: r.finalAssetTargetPercentage.toFixed(2),
     }));
-
-    const excessCashVal = Math.max(0, cashPool); // Fix sicuro: forziamo che non scenda mai sotto zero
 
     return { results: finalResults, excessCash: excessCashVal };
 };
