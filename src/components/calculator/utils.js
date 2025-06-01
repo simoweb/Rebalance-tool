@@ -50,12 +50,16 @@ export const isQuantityInputFractional = (originalQuantityString) => {
  */
 export const getUnitsCalculated = (valueDifference, price, originalQuantityString) => {
     if (price <= 0) return 0;
+
     const calculatedRawUnits = valueDifference / price;
     const isFractional = isQuantityInputFractional(originalQuantityString);
-    // Se isFractional è vero, restituisci il valore grezzo (frazionario).
-    // Altrimenti, arrotonda al numero intero più vicino.
-    return isFractional ? calculatedRawUnits : Math.round(calculatedRawUnits);
+
+    // Se è frazionabile, restituisci il valore grezzo.
+    // Altrimenti, tronca i decimali per ottenere il numero massimo di quote intere acquistabili/vendibili.
+    return isFractional ? calculatedRawUnits : Math.trunc(calculatedRawUnits);
 };
+
+
 
 /**
  * Calcola il valore corrente e la percentuale di allocazione per ogni asset.

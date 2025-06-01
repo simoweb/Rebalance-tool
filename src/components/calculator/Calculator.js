@@ -419,10 +419,12 @@ const Calculator = () => {
                                                     <div className="mb-8 space-y-3">
                                                         <h3 className="text-lg font-medium text-gray-900 dark:text-gray-200 mb-4">Riepilogo Operazioni</h3>
                                                         {calculationResults.results.map((result, index) => (
+                                                          
                                                             <div key={index} className="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm dark:bg-gray-700">
                                                                 <div className="flex items-center space-x-3">
                                                                     <div className={`w-2 h-8 rounded-full ${result.adjustment > 0 ? 'bg-green-500' : result.adjustment < 0 ? 'bg-red-500' : 'bg-gray-300'}`}></div>
                                                                     <div>
+                                                                      
                                                                         <p className="font-medium text-gray-900 dark:text-gray-100">{result.name}</p>
                                                                         <p className="text-sm text-gray-500 dark:text-gray-400">{parseLocaleFloat(result.currentPercentage).toFixed(2)}% → {parseLocaleFloat(result.newPercentage).toFixed(2)}%</p>
                                                                         <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -430,6 +432,13 @@ const Calculator = () => {
                                                                             {' → '}
                                                                             {(result.newQuantity * parseLocaleFloat(result.currentPrice)).toLocaleString('it-IT', { style: 'currency', currency: 'EUR' })}
                                                                         </p>
+                                                                       
+                                                                        {/* Nuova Quantità e Valore */}
+                                                                        <p className="text-sm text-gray-500 dark:text-gray-400">        
+                                                                                      Prezzo: {parseFloat(result.prezzoQuota).toLocaleString('it-IT', { style: 'currency', currency: 'EUR' })}
+                                                                          </p>
+
+                                                                       
                                                                     </div>
                                                                 </div>
                                                                 <div className="text-right">

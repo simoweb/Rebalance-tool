@@ -1,162 +1,101 @@
-// rebalanceAddAndRebalance.js
-import { parseLocaleFloat, getUnitsCalculated, isQuantityInputFractional } from './utils'; // Importa le funzioni di utilità
+// rebalanceAddAndRebalance.js (Versione con Logica Prioritaria)
+import { parseLocaleFloat, getUnitsCalculated } from './utils';
 
-/**
- * Esegue il ribilanciamento in modalità "aggiungi e ribilancia".
- * Utilizza il denaro disponibile e vende asset in eccesso per acquistare asset sottopesati.
- * @param {Array<Object>} allocations - L'array di asset con i valori e le percentuali correnti.
- * @param {number} initialTotalValue - Il valore totale iniziale del portafoglio.
- * @param {number} availableCash - Il denaro disponibile da aggiungere.
- * @param {Array<Object>} assets - L'array originale di asset (necessario per targetPercentage e originalQuantityString).
- * @param {number} scaleFactor - Fattore di scala per normalizzare le percentuali target.
- * @returns {{results: Array<Object>, excessCash: number}} I risultati del ribilanciamento e il cash residuo.
- */
 export const rebalanceAddAndRebalance = (allocations, initialTotalValue, availableCash, assets, scaleFactor) => {
-    const availableCashValue = parseLocaleFloat(availableCash);
-    let tempTotalValue = initialTotalValue;
-    let currentCashPool = availableCashValue;
-    // Creiamo una copia profonda per non modificare l'array originale passato
-    let allocationsForThisMethod = JSON.parse(JSON.stringify(allocations));
+    const cashToAdd = parseLocaleFloat(availableCash) || 0;
+    const newTotalValue = initialTotalValue + cashToAdd;
 
-    let preCalcForAdd = allocationsForThisMethod.map(asset => {
-        const assetCurrentPrice = parseLocaleFloat(asset.currentPrice);
+    // 1. Calcola il piano di ribilanciamento ideale
+    let assetsToProcess = allocations.map(asset => {
         const finalAssetTargetPercentage = parseLocaleFloat(asset.targetPercentage) * scaleFactor;
-        const targetValueWithCash = (tempTotalValue + currentCashPool) * (finalAssetTargetPercentage / 100);
-        const diff = targetValueWithCash - asset.currentValue;
-
-        // Troviamo l'asset originale per passare la sua quantità originale a getUnitsCalculated
-        const originalAsset = assets.find(a => a.name === asset.name);
-        const unitsToBuyInitially = getUnitsCalculated(diff, assetCurrentPrice, originalAsset.quantity);
-        // Assicurati che unitsToBuyInitially sia positivo per un acquisto
-        const positiveUnitsToBuy = Math.max(0, unitsToBuyInitially);
-
+        const targetValue = newTotalValue * (finalAssetTargetPercentage / 100);
+        const difference = targetValue - asset.currentValue;
         return {
             ...asset,
-            unitsToBuyInitially: positiveUnitsToBuy, // Solo unità positive o zero
-            costToBuyInitially: positiveUnitsToBuy * assetCurrentPrice,
+            difference,
             finalAssetTargetPercentage,
-            unitsSoldPreviously: 0,
-            originalQuantityString: originalAsset.quantity // Passa la quantità originale
+            adjustment: 0,
+            adjustmentValueNum: 0,
+            newQuantity: parseLocaleFloat(asset.quantity),
         };
     });
 
-    let totalInitialBuyCost = preCalcForAdd.reduce((sum, r) => sum + r.costToBuyInitially, 0);
-    const salesToFundPurchases_records = [];
+    // 2. Identifica e ordina per priorità gli asset da comprare e vendere
+    const underweightAssets = assetsToProcess
+        .filter(a => a.difference > 0)
+        .sort((a, b) => b.difference - a.difference); // Dal più sottopesato
 
-    if (totalInitialBuyCost > currentCashPool) {
-        allocationsForThisMethod.forEach(assetForSaleDecision => {
-            const assetCurrentPrice = parseLocaleFloat(assetForSaleDecision.currentPrice);
-            const finalAssetTargetPercentage = parseLocaleFloat(assetForSaleDecision.targetPercentage) * scaleFactor;
-            const targetValueForSaleDecision = initialTotalValue * (finalAssetTargetPercentage / 100);
-            const diffForSale = assetForSaleDecision.currentValue - targetValueForSaleDecision; // Positivo se in eccesso
+    const overweightAssets = assetsToProcess
+        .filter(a => a.difference < 0)
+        .sort((a, b) => a.difference - b.difference); // Dal più sovrappeso (il più negativo)
 
-            // Per le vendite, diffForSale positivo significa eccesso.
-            // getUnitsCalculated aspetta una 'valueDifference' dove positivo è target > current,
-            // quindi per la vendita, la 'differenza' per raggiungere il target è negativa.
-            const saleDiff = targetValueForSaleDecision - assetForSaleDecision.currentValue;
-            const originalAsset = assets.find(a => a.name === assetForSaleDecision.name);
-            const unitsToSellCalculated = getUnitsCalculated(saleDiff, assetCurrentPrice, originalAsset.quantity);
-            const unitsToSell = Math.min(0, unitsToSellCalculated); // Prendi solo valori negativi (vendite) o zero
+    const totalPurchaseNeed = underweightAssets.reduce((sum, a) => sum + a.difference, 0);
 
-            if (unitsToSell < 0) { // Se unitsToSell è negativo, significa che vendiamo Math.abs(unitsToSell)
-                salesToFundPurchases_records.push({
-                    name: assetForSaleDecision.name,
-                    unitsToSell: Math.abs(unitsToSell), // Memorizza come positivo
-                    cashGenerated: Math.abs(unitsToSell) * assetCurrentPrice,
-                });
+    // 3. Esegui le vendite necessarie, in ordine di priorità
+    const salesRequired = Math.max(0, totalPurchaseNeed - cashToAdd);
+    let cashGeneratedFromSales = 0;
+
+    if (salesRequired > 0) {
+        for (const asset of overweightAssets) {
+            const assetPrice = parseLocaleFloat(asset.currentPrice);
+            if (assetPrice <= 0) continue;
+
+            // Vendi al massimo quanto serve da questo asset per colmare il gap
+            const maxCashFromThisAsset = -asset.difference; // Il valore massimo vendibile da questo asset
+            const cashToGenerateFromThisAsset = Math.min(maxCashFromThisAsset, salesRequired - cashGeneratedFromSales);
+            
+            // Usiamo -cashToGenerate... perché getUnitsCalculated si aspetta un valore negativo per le vendite
+            const unitsToSell = getUnitsCalculated(-cashToGenerateFromThisAsset, assetPrice, asset.quantity);
+            
+            if (unitsToSell < 0) {
+                const valueOfSale = unitsToSell * assetPrice;
+                asset.adjustment = unitsToSell;
+                asset.adjustmentValueNum = valueOfSale;
+                asset.newQuantity += unitsToSell;
+                cashGeneratedFromSales -= valueOfSale; // valueOfSale è negativo
             }
-        });
 
-        const totalCashGeneratedFromSales = salesToFundPurchases_records.reduce((sum, s) => sum + s.cashGenerated, 0);
-        currentCashPool += totalCashGeneratedFromSales;
-        tempTotalValue -= totalCashGeneratedFromSales; // Il valore totale del portafoglio diminuisce delle vendite
-
-        // Aggiorna le quantità degli asset in `allocationsForThisMethod` dopo le vendite
-        allocationsForThisMethod = allocationsForThisMethod.map(currentAllocAsset => {
-            const saleRecord = salesToFundPurchases_records.find(s => s.name === currentAllocAsset.name);
-            if (saleRecord) {
-                const newQuantityNum = parseLocaleFloat(currentAllocAsset.quantity) - saleRecord.unitsToSell;
-                return {
-                    ...currentAllocAsset,
-                    quantity: newQuantityNum.toString(), // Mantieni la quantità come stringa se preferisci
-                    currentValue: newQuantityNum * parseLocaleFloat(currentAllocAsset.currentPrice)
-                };
-            }
-            return currentAllocAsset;
-        });
-
-        // Ricalcola preCalcForAdd con le nuove quantità e il nuovo cashPool
-        preCalcForAdd = allocationsForThisMethod.map(assetAfterSale => {
-            const assetCurrentPrice = parseLocaleFloat(assetAfterSale.currentPrice);
-            const finalAssetTargetPercentage = parseLocaleFloat(assetAfterSale.targetPercentage) * scaleFactor;
-            const targetValueWithCash = (tempTotalValue + currentCashPool) * (finalAssetTargetPercentage / 100);
-            const diff = targetValueWithCash - assetAfterSale.currentValue;
-
-            const originalAsset = assets.find(a => a.name === assetAfterSale.name);
-            const unitsToBuyRecalculated = getUnitsCalculated(diff, assetCurrentPrice, originalAsset.quantity);
-            const positiveUnitsToBuyRecalculated = Math.max(0, unitsToBuyRecalculated);
-
-            const saleInfo = salesToFundPurchases_records.find(s => s.name === assetAfterSale.name);
-            return {
-                ...assetAfterSale,
-                unitsToBuyInitially: positiveUnitsToBuyRecalculated,
-                costToBuyInitially: positiveUnitsToBuyRecalculated * assetCurrentPrice,
-                finalAssetTargetPercentage,
-                unitsSoldPreviously: saleInfo ? saleInfo.unitsToSell : 0, // unitsToSell qui è positivo
-                originalQuantityString: originalAsset.quantity // Passa la quantità originale
-            };
-        });
+            if (cashGeneratedFromSales >= salesRequired) break; // Fermati se hai raccolto abbastanza
+        }
     }
 
-    let cashSpentInBuys = 0;
-    const calculatedAdd = preCalcForAdd.map(r_intermediate_calc => {
-        let unitsToBuyFinal = 0;
-        const costForThisAssetToReachTarget = r_intermediate_calc.costToBuyInitially;
-        const assetIsActuallyFractional = isQuantityInputFractional(r_intermediate_calc.originalQuantityString);
+    // 4. Esegui gli acquisti necessari, in ordine di priorità
+    let cashAvailableForPurchases = cashToAdd + cashGeneratedFromSales;
 
-        if (costForThisAssetToReachTarget > 0 && (cashSpentInBuys + costForThisAssetToReachTarget <= currentCashPool)) {
-            unitsToBuyFinal = r_intermediate_calc.unitsToBuyInitially;
-        } else if (costForThisAssetToReachTarget > 0 && cashSpentInBuys < currentCashPool) {
-            const remainingCashInPoolForBuys = currentCashPool - cashSpentInBuys;
-            const assetPrice = parseLocaleFloat(r_intermediate_calc.currentPrice);
-            if (assetPrice > 0) {
-                const unitsAffordableRaw = remainingCashInPoolForBuys / assetPrice;
-                unitsToBuyFinal = assetIsActuallyFractional ? unitsAffordableRaw : Math.floor(unitsAffordableRaw);
-            }
+    for (const asset of underweightAssets) {
+        if (cashAvailableForPurchases <= 0) break;
+
+        const assetPrice = parseLocaleFloat(asset.currentPrice);
+        if (assetPrice <= 0) continue;
+        
+        // Usa la liquidità disponibile per colmare il gap di questo asset
+        const moneyNeededForThisAsset = asset.difference;
+        const moneyToSpendOnThisAsset = Math.min(cashAvailableForPurchases, moneyNeededForThisAsset);
+        const unitsToBuy = getUnitsCalculated(moneyToSpendOnThisAsset, assetPrice, asset.quantity);
+
+        if (unitsToBuy > 0) {
+            const costOfPurchase = unitsToBuy * assetPrice;
+            
+            // Un asset non può essere sia venduto che comprato, quindi possiamo assegnare direttamente
+            asset.adjustment = unitsToBuy;
+            asset.adjustmentValueNum = costOfPurchase;
+            asset.newQuantity = parseLocaleFloat(asset.quantity) + unitsToBuy;
+
+            cashAvailableForPurchases -= costOfPurchase;
         }
-        unitsToBuyFinal = Math.max(0, unitsToBuyFinal);
-        cashSpentInBuys += unitsToBuyFinal * parseLocaleFloat(r_intermediate_calc.currentPrice);
+    }
+    
+    // 5. Calcola i risultati finali
+    const excessCashVal = Math.max(0, cashAvailableForPurchases);
 
-        const netUnitsAdjustment = unitsToBuyFinal - (r_intermediate_calc.unitsSoldPreviously || 0);
-        // Utilizza la quantità aggiornata dopo le vendite per il calcolo della nuova quantità
-        const quantityAfterSalesBeforeThisBuy = parseLocaleFloat(r_intermediate_calc.quantity);
-        return {
-            ...r_intermediate_calc,
-            adjustment: netUnitsAdjustment,
-            adjustmentValueNum: netUnitsAdjustment * parseLocaleFloat(r_intermediate_calc.currentPrice),
-            newQuantity: quantityAfterSalesBeforeThisBuy + unitsToBuyFinal,
-        };
-    });
-
-    const finalPortfolioValueAdd = calculatedAdd.reduce((sum, r) => sum + (r.newQuantity * parseLocaleFloat(r.currentPrice)), 0);
-    const finalResults = calculatedAdd.map(r_final_calc => {
-        const originalAssetData = assets.find(a => a.name === r_final_calc.name);
-        const initialAllocationData = allocations.find(a => a.name === r_final_calc.name); // Usa l'allocazione originale per current value/percentage
-        return {
-            name: originalAssetData.name,
-            quantity: originalAssetData.quantity,
-            currentPrice: originalAssetData.currentPrice,
-            targetPercentage: originalAssetData.targetPercentage,
-            currentValue: initialAllocationData.currentValue,
-            currentPercentage: initialAllocationData.currentPercentage,
-            adjustment: r_final_calc.adjustment,
-            adjustmentValue: r_final_calc.adjustmentValueNum.toFixed(2),
-            newQuantity: r_final_calc.newQuantity,
-            newPercentage: (finalPortfolioValueAdd > 0 ? ((r_final_calc.newQuantity * parseLocaleFloat(originalAssetData.currentPrice)) / finalPortfolioValueAdd * 100) : 0).toFixed(2),
-            adjustedTargetPercentage: r_final_calc.finalAssetTargetPercentage.toFixed(2),
-        };
-    });
-    const excessCashVal = currentCashPool - cashSpentInBuys;
+    const newPortfolioTotalValue = assetsToProcess.reduce((sum, r) => sum + (r.newQuantity * parseLocaleFloat(r.currentPrice)), 0);
+    const finalResults = assetsToProcess.map(r => ({
+        ...r,
+        prezzoQuota: parseLocaleFloat(r.currentPrice).toFixed(2),
+        adjustmentValue: r.adjustmentValueNum.toFixed(2),
+        newPercentage: (newPortfolioTotalValue > 0 ? ((r.newQuantity * parseLocaleFloat(r.currentPrice)) / newPortfolioTotalValue * 100) : 0).toFixed(2),
+        adjustedTargetPercentage: r.finalAssetTargetPercentage.toFixed(2),
+    }));
 
     return { results: finalResults, excessCash: excessCashVal };
 };
