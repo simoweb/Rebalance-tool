@@ -262,7 +262,7 @@ const Calculator = () => {
             <section id="calcolatore" className="bg-gradient-to-r from-indigo-500 via-indigo-400 to-teal-400 transform transition-all duration-500 py-20 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
                 <div className="container mx-auto px-4 mb-8">
                     <h2 className="text-3xl font-bold text-center mb-12 text-white mt-4">Calcola il Ribilanciamento</h2>
-                    <div className="bg-white/95 backdrop-blur-sm shadow-lg rounded-3xl p-4 md:p-8 dark:bg-gray-800/50">
+                    <div className="bg-white/95 backdrop-blur-sm shadow-lg rounded-3xl px-3 pt-5 pb-5 md:p-8 dark:bg-gray-800/50">
                         <div className="flex flex-col lg:flex-row gap-8">
                             {/* Colonna sinistra - Form */}
                             <div className="lg:w-1/2 px-2 md:px-0">
@@ -303,7 +303,7 @@ const Calculator = () => {
 
                                 <div className="space-y-6">
                                     {assets.map((asset, index) => (
-                                        <div key={index} className="p-6 border rounded-lg bg-gray-50 shadow-sm relative dark:bg-gray-800/50 dark:text-gray-400 dark:border-transparent">
+                                        <div key={index} className="p-5 md:p-6 border rounded-lg bg-gray-50 shadow-sm relative dark:bg-gray-800/50 dark:text-gray-400 dark:border-transparent">
                                             {assets.length > 1 && (
                                                 <button
                                                     type="button"
@@ -378,7 +378,7 @@ const Calculator = () => {
                                     <div className="sticky top-8">
                                         <div className="bg-gray-50 rounded-lg pt-4 pb-4 dark:bg-gray-800/70 backdrop-blur-sm">
                                             {/* Intestazione Risultati e Condividi Link */}
-                                            <div className="flex justify-between items-center mb-6 px-6">
+                                            <div className="flex justify-between flex-col md:flex-row items-center mb-6 px-2 md:px-6">
                                                 <h2 className="text-lg md:text-xl font-semibold dark:text-gray-300">Risultati del Ribilanciamento</h2>
                                                 <div className="relative">
                                                     <button onClick={copyLink} className="flex items-center justify-center px-3 py-1.5 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors">
@@ -408,14 +408,14 @@ const Calculator = () => {
                                                 } return null;
                                             })()}
                                             {/* Tab Navigation e Content (Grafici/Tabella) come prima */}
-                                            <div className="border-b border-gray-200 dark:border-gray-700 mb-6 px-6">
+                                            <div className="border-b border-gray-200 dark:border-gray-700 mb-6 px-2 md:px-6">
                                                 <nav className="-mb-px flex space-x-8" aria-label="Tabs">
                                                     <button onClick={() => setActiveTab('grafici')} className={`${activeTab === 'grafici' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400 dark:border-indigo-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-500'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}>Grafici</button>
                                                     <button onClick={() => setActiveTab('tabella')} className={`${activeTab === 'tabella' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400 dark:border-indigo-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-500'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}>Tabella</button>
                                                 </nav>
                                             </div>
                                             {activeTab === 'grafici' ? (
-                                                <div className="px-6">
+                                                <div className="px-2 md:px-6">
                                                     <div className="mb-8 space-y-3">
                                                         <h3 className="text-lg font-medium text-gray-900 dark:text-gray-200 mb-4">Riepilogo Operazioni</h3>
                                                         {calculationResults.results.map((result, index) => (
@@ -451,7 +451,7 @@ const Calculator = () => {
                                                     <PortfolioCharts assets={assets} currentAllocation={calculateCurrentAllocation(assets)} />
                                                 </div>
                                             ) : ( /* Tabella */
-                                                <div className="space-y-4 px-6">
+                                                <div className="space-y-4 px-2 md:px-6">
                                                     {calculationResults.results.map((result, index) => (
                                                         <div key={index} className="p-4 bg-white rounded-lg shadow-sm dark:bg-gray-700">
                                                             <div className="flex justify-between items-start mb-3">

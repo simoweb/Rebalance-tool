@@ -44,6 +44,7 @@ const PortfolioCharts = ({ assets, currentAllocation }) => {
         }
       }
     },
+    responsive: true,
     maintainAspectRatio: false,
   };
 
@@ -120,9 +121,9 @@ const PortfolioCharts = ({ assets, currentAllocation }) => {
 
   return (
     <div className="grid md:grid-cols-2 gap-8 mt-8">
-      <div className="bg-white rounded-lg shadow-lg p-4">
+      <div className="bg-white rounded-lg shadow-lg p-4 max-w-full w-full">
         <h3 className="text-lg font-semibold mb-4 text-center">Allocazione Target</h3>
-        <div className="h-64">
+        <div className="relative h-64 w-full">
           <Pie data={targetData} options={pieOptions} />
         </div>
         {/* Lista percentuali target */}
