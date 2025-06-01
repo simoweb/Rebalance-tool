@@ -215,23 +215,27 @@ const Calculator = () => {
 
         if (rebalanceMethod === 'sell') {
             const calculated = allocations.map(asset => {
-                const assetCurrentPrice = parseLocaleFloat(asset.currentPrice);
-                const assetQuantityNum = parseLocaleFloat(asset.quantity); // Quantità numerica iniziale
-                const finalAssetTargetPercentage = parseLocaleFloat(asset.targetPercentage) * scaleFactor;
-                const targetValue = initialTotalValue * (finalAssetTargetPercentage / 100);
-                const difference = targetValue - asset.currentValue;
-                
-                const unitsToAdjust = getUnitsCalculated(difference, assetCurrentPrice, asset.quantity); // Usa helper
-                
-                const newQuantity = assetQuantityNum + unitsToAdjust;
-                return {
-                    ...asset,
-                    adjustment: unitsToAdjust,
-                    adjustmentValueNum: unitsToAdjust * assetCurrentPrice, // L'aggiustamento monetario sarà preciso
-                    newQuantity: newQuantity,
-                    adjustedTargetPercentageNum: finalAssetTargetPercentage,
-                };
-            });
+    const assetCurrentPrice = parseLocaleFloat(asset.currentPrice);
+    const assetQuantityNum = parseLocaleFloat(asset.quantity);
+    const finalAssetTargetPercentage = parseLocaleFloat(asset.targetPercentage) * scaleFactor;
+    const targetValue = initialTotalValue * (finalAssetTargetPercentage / 100);
+    const difference = targetValue - asset.currentValue;
+
+    // Solo vendite: non investiamo denaro aggiuntivo
+    const adjustedDifference = Math.min(difference, 0); // Impedisce acquisti
+
+    const unitsToAdjust = getUnitsCalculated(adjustedDifference, assetCurrentPrice, asset.quantity);
+
+    const newQuantity = assetQuantityNum + unitsToAdjust;
+    return {
+        ...asset,
+        adjustment: unitsToAdjust,
+        adjustmentValueNum: unitsToAdjust * assetCurrentPrice,
+        newQuantity: newQuantity,
+        adjustedTargetPercentageNum: finalAssetTargetPercentage,
+    };
+});
+
             const newPortfolioTotalValue = calculated.reduce((sum, r) => sum + (r.newQuantity * parseLocaleFloat(r.currentPrice)), 0);
             finalResults = calculated.map(r => ({
                 ...r, 
