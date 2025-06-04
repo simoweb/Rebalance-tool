@@ -275,8 +275,8 @@ const Calculator = () => {
                             {/* Colonna sinistra - Form */}
                             <div className="lg:w-1/2 px-2 md:px-0">
                                 <div className="mb-6">
-                                    <div className="flex items-center">
-                                        <label className="w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">
+                                    <div className="flex flex-col md:flex-row md:px-6">
+                                        <label className="w-full md:w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">
                                             Metodo
                                         </label>
                                         <select
@@ -293,7 +293,7 @@ const Calculator = () => {
 
                                 {(rebalanceMethod === 'add' || rebalanceMethod === 'add_and_rebalance') && (
                                     <div className="mb-6">
-                                        <div className="c">
+                                        <div className="flex flex-col md:flex-row md:px-6">
                                             <label className="w-full md:w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">
                                                 Liquidità (€)
                                             </label>
