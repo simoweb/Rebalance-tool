@@ -32,9 +32,6 @@ const PortfolioCharts = ({ assets, currentAllocation }) => {
   // Configurazione comune per i grafici a torta
   const pieOptions = {
     plugins: {
-      legend: {
-        position: 'right',
-      },
       tooltip: {
         callbacks: {
           label: function(context) {
