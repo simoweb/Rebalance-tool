@@ -9,6 +9,8 @@
     "generate-favicon": "node scripts/generate-favicon.js"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
     "@vercel/analytics": "^1.5.0",
     "chart.js": "^4.4.9",
     "react": "^18.2.0",

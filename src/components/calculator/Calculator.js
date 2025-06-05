@@ -275,7 +275,7 @@ const Calculator = () => {
                             {/* Colonna sinistra - Form */}
                             <div className="lg:w-1/2 px-2 md:px-0">
                                 <div className="mb-6">
-                                    <div className="flex items-center">
+                                    <div className="flex flex-col md:flex-row">
                                         <label className="w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">
                                             Metodo
                                         </label>
@@ -293,7 +293,7 @@ const Calculator = () => {
 
                                 {(rebalanceMethod === 'add' || rebalanceMethod === 'add_and_rebalance') && (
                                     <div className="mb-6">
-                                        <div className="c">
+                                        <div className="flex flex-col md:flex-row">
                                             <label className="w-full md:w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">
                                                 Liquidità (€)
                                             </label>
@@ -545,7 +545,7 @@ const Calculator = () => {
                                                    <div className='items-center justify-center'>
     <button
         onClick={() => {
-            window.location.href = `?method=sell&asset0_name=PHAU&asset0_target=25&asset0_price=275%2C17&asset0_quantity=26&asset0_pmc=240&asset0_taxRate=26&asset1_name=PJS1&asset1_target=25&asset1_price=98%2C18&asset1_quantity=63&asset1_pmc=95&asset1_taxRate=12%2C5&asset2_name=SWDA&asset2_target=25&asset2_price=100%2C05&asset2_quantity=58&asset2_pmc=85&asset2_taxRate=26&asset3_name=XG7S&asset3_target=25&asset3_price=220%2C52&asset3_quantity=28&asset3_pmc=210&asset3_taxRate=12%2C5#calcolatore`;
+            window.location.href = `?method=sell&asset0_name=SWDA&asset0_target=25&asset0_price=100%2C05&asset0_quantity=58&asset0_pmc=85&asset0_taxRate=26&asset1_name=PJS1&asset1_target=25&asset1_price=98%2C18&asset1_quantity=63&asset1_pmc=95&asset1_taxRate=12%2C5&asset2_name=XG7S&asset2_target=25&asset2_price=220%2C52&asset2_quantity=28&asset2_pmc=210&asset2_taxRate=12%2C5&asset3_name=PHAU&asset3_target=25&asset3_price=275%2C17&asset3_quantity=26&asset3_pmc=240&asset3_taxRate=26#calcolatore`;
         }}
         className="mx-2 px-3 py-2 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-lg text-sm hover:from-green-600 hover:to-green-800 transition-colors mt-5"
     >
@@ -554,7 +554,7 @@ const Calculator = () => {
 
     <button
         onClick={() => {
-            window.location.href = `?method=sell&asset0_name=SWDA&asset0_target=20&asset0_price=100,00&asset0_quantity=10&asset0_pmc=85&asset0_taxRate=26&asset1_name=IUSN&asset1_target=20&asset1_price=90,00&asset1_quantity=12&asset1_pmc=80&asset1_taxRate=26&asset2_name=PHAU&asset2_target=20&asset2_price=270,00&asset2_quantity=4&asset2_pmc=240&asset2_taxRate=26&asset3_name=IBGL&asset3_target=20&asset3_price=120,00&asset3_quantity=8&asset3_pmc=130&asset3_taxRate=12,5&asset4_name=EUNA&asset4_target=20&asset4_price=100,00&asset4_quantity=9&asset4_pmc=95&asset4_taxRate=26#calcolatore`;
+            window.location.href = `?method=sell&asset0_name=SWDA&asset0_target=20&asset0_price=100,00&asset0_quantity=10&asset0_pmc=85&asset0_taxRate=26&asset1_name=IUSN&asset1_target=20&asset1_price=90,00&asset1_quantity=12&asset1_pmc=80&asset1_taxRate=26&asset2_name=EUNA&asset2_target=20&asset2_price=100,00&asset2_quantity=9&asset2_pmc=95&asset2_taxRate=26&asset3_name=IBGL&asset3_target=20&asset3_price=120,00&asset3_quantity=8&asset3_pmc=130&asset3_taxRate=12,5&asset4_name=PHAU&asset4_target=20&asset4_price=270,00&asset4_quantity=4&asset4_pmc=240&asset4_taxRate=26#calcolatore`;
         }}
         className="mx-2 px-3 py-2 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white rounded-lg text-sm hover:from-yellow-500 hover:to-yellow-700 transition-colors mt-5"
     >
@@ -563,7 +563,7 @@ const Calculator = () => {
 
     <button
         onClick={() => {
-            window.location.href = `?method=sell&asset0_name=SWDA&asset0_target=30&asset0_price=100,00&asset0_quantity=12&asset0_pmc=85&asset0_taxRate=26&asset1_name=IBGL&asset1_target=40&asset1_price=120,00&asset1_quantity=10&asset1_pmc=130&asset1_taxRate=12,5&asset2_name=EUNA&asset2_target=15&asset2_price=100,00&asset2_quantity=6&asset2_pmc=90&asset2_taxRate=26&asset3_name=PHAU&asset3_target=7.5&asset3_price=270,00&asset3_quantity=2&asset3_pmc=240&asset3_taxRate=26&asset4_name=CRUD&asset4_target=7.5&asset4_price=25,00&asset4_quantity=8&asset4_pmc=30&asset4_taxRate=26#calcolatore`;
+            window.location.href = `?method=sell&asset0_name=SWDA&asset0_target=30&asset0_price=100,00&asset0_quantity=12&asset0_pmc=85&asset0_taxRate=26&asset1_name=EUNA&asset1_target=15&asset1_price=100,00&asset1_quantity=6&asset1_pmc=90&asset1_taxRate=26&asset2_name=IBGL&asset2_target=40&asset2_price=120,00&asset2_quantity=10&asset2_pmc=130&asset2_taxRate=12,5&asset3_name=PHAU&asset3_target=7.5&asset3_price=270,00&asset3_quantity=2&asset3_pmc=240&asset3_taxRate=26&asset4_name=CRUD&asset4_target=7.5&asset4_price=25,00&asset4_quantity=8&asset4_pmc=30&asset4_taxRate=26#calcolatore`;
         }}
         className="mx-2 px-3 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg text-sm hover:from-blue-600 hover:to-blue-800 transition-colors mt-5"
     >
@@ -597,6 +597,7 @@ const Calculator = () => {
         Crypto Diversificato
     </button>
 </div>
+
 
                                                 </div>
                                             }
