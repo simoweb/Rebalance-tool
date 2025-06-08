@@ -11,7 +11,7 @@ import { calculateRebalancing } from './rebalancingCalculator';
 const Calculator = () => {
     // --- State Hooks ---
     const [assets, setAssets] = useState([
-        { name: '', targetPercentage: '', currentPrice: '', quantity: '' }
+        { name: '', targetPercentage: '', currentPrice: '', quantity: '', pmc: '', taxRate: '' }
     ]);
     const [rebalanceMethod, setRebalanceMethod] = useState('sell'); // Default
     const [availableCash, setAvailableCash] = useState('');
