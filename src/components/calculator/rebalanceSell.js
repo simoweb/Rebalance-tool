@@ -1,8 +1,7 @@
-// rebalancePortfolio.js (Versione Finale con Algoritmo Ibrido - Corretta)
+// rebalancePortfolio.js (Versione Finale con Logica Prioritaria Semplificata)
 import { parseLocaleFloat, getUnitsCalculated } from './utils';
 
-const DEFAULT_TAX_RATE = 0.26; // Tassazione di default al 26%
-const MIN_MEANINGFUL_REMAINDER = 0.01; // Soglia minima per il resto (es. 1 centesimo)
+const DEFAULT_TAX_RATE = 0.26; 
 
 export const rebalancePortfolio = (allocations, initialTotalValue, assets, scaleFactor) => {
     // 1. Calcola il piano di ribilanciamento ideale
@@ -12,111 +11,72 @@ export const rebalancePortfolio = (allocations, initialTotalValue, assets, scale
         const difference = targetValue - asset.currentValue;
         return {
             ...asset, difference, finalAssetTargetPercentage, 
-            adjustment: 0, 
-            adjustmentValueNum: 0,
-             taxAmountNum: 0, 
+            adjustment: 0, adjustmentValueNum: 0, taxAmountNum: 0,
             newQuantity: parseLocaleFloat(asset.quantity),
         };
     });
 
-    // 2. Esegui tutte le vendite necessarie per generare il cash pool
+    // 2. Esegui tutte le vendite necessarie per generare il cash pool (CON TASSE)
     let cashPool = 0;
     const overweightAssets = assetsToProcess.filter(a => a.difference < 0);
-
-    // rebalancePortfolio.js (Finale con Tasse nei Risultati)
-// ...
     overweightAssets.forEach(asset => {
         const assetPrice = parseLocaleFloat(asset.currentPrice);
         const pmc = parseLocaleFloat(asset.pmc);
         if (assetPrice <= 0) return;
+
         const unitsToSell = getUnitsCalculated(asset.difference, assetPrice, asset.quantity);
-        
-         if (unitsToSell < 0) {
+        if (unitsToSell < 0) {
             const grossValueOfSale = Math.abs(unitsToSell * assetPrice);
             let netCashGenerated = grossValueOfSale;
-            let taxOnGain = 0; 
-
-            // IL BLOCCO INCRIMINATO INIZIA QUI
-            if (pmc > 0) { // Se pmc non è > 0, questo blocco viene saltato
+            let taxOnGain = 0;
+            if (pmc > 0) {
                 const assetTaxRate = asset.taxRate ? parseLocaleFloat(asset.taxRate) / 100 : DEFAULT_TAX_RATE;
-                const costBasisOfSoldShares = Math.abs(unitsToSell * pmc); // Dichiarata QUI DENTRO
-                const capitalGain = grossValueOfSale - costBasisOfSoldShares; // Usata QUI DENTRO
-
+                const costBasisOfSoldShares = Math.abs(unitsToSell * pmc);
+                const capitalGain = grossValueOfSale - costBasisOfSoldShares;
                 if (capitalGain > 0) {
-                    taxOnGain = capitalGain * assetTaxRate; 
+                    taxOnGain = capitalGain * assetTaxRate;
                     netCashGenerated = grossValueOfSale - taxOnGain;
                 }
             }
-            // FINE BLOCCO INCRIMINATO
-            
             cashPool += netCashGenerated;
             const assetInMainList = assetsToProcess.find(ap => ap.name === asset.name);
             if(assetInMainList){
                 assetInMainList.adjustment = unitsToSell;
                 assetInMainList.adjustmentValueNum = -grossValueOfSale;
-                assetInMainList.taxAmountNum = taxOnGain; 
+                assetInMainList.taxAmountNum = taxOnGain;
             }
         }
     });
 
-
-    // 3. Esegui gli acquisti utilizzando l'algoritmo ibrido
+    // 3. Esegui gli acquisti con logica prioritaria ("greedy")
     const underweightAssets = assetsToProcess
         .filter(a => a.difference > 0)
-        .sort((a,b) => b.difference - a.difference); // Ordina per 'difference' decrescente (più urgente prima)
+        .sort((a,b) => b.difference - a.difference); // Ordina per più sottopesato prima
 
-    const totalPurchaseNeed = underweightAssets.reduce((sum, a) => sum + a.difference, 0);
-    const cashToSpend = Math.min(cashPool, totalPurchaseNeed);
-    let cashSpentSoFar = 0;
+    let cashAvailable = cashPool;
+    for (const asset of underweightAssets) {
+        if (cashAvailable <= 0) break;
 
-    // 3a. Acquisto Proporzionale Iniziale
-    if (cashToSpend > 0 && totalPurchaseNeed > 0) {
-        underweightAssets.forEach(asset => {
-            const assetPrice = parseLocaleFloat(asset.currentPrice);
-            if (assetPrice <= 0) return;
+        const assetPrice = parseLocaleFloat(asset.currentPrice);
+        if (assetPrice <= 0) continue;
 
-            const cashForThisAsset = (asset.difference / totalPurchaseNeed) * cashToSpend;
-            const unitsToBuy = getUnitsCalculated(cashForThisAsset, assetPrice, asset.quantity);
-            
-            if (unitsToBuy > 0) {
-                const costOfPurchase = unitsToBuy * assetPrice;
-                const assetInMainList = assetsToProcess.find(ap => ap.name === asset.name);
-                if(assetInMainList){
-                    assetInMainList.adjustment += unitsToBuy; 
-                    assetInMainList.adjustmentValueNum += costOfPurchase;
-                }
-                cashSpentSoFar += costOfPurchase;
+        // Spendi il necessario per questo asset, senza superare la liquidità disponibile
+        const moneyNeeded = asset.difference;
+        const moneyToSpend = Math.min(cashAvailable, moneyNeeded);
+        const unitsToBuy = getUnitsCalculated(moneyToSpend, assetPrice, asset.quantity);
+
+        if (unitsToBuy > 0) {
+            const costOfPurchase = unitsToBuy * assetPrice;
+            const assetInMainList = assetsToProcess.find(ap => ap.name === asset.name);
+            if(assetInMainList){
+                assetInMainList.adjustment = unitsToBuy; // Sovrascrive (ma un asset non è sia venduto che comprato)
+                assetInMainList.adjustmentValueNum = costOfPurchase;
             }
-        });
-    }
-
-    // 3b. Ottimizzazione del Resto
-    let remainderPool = cashToSpend - cashSpentSoFar;
-    let purchasedInLoop = true;
-    
-    while (remainderPool > MIN_MEANINGFUL_REMAINDER && purchasedInLoop) {
-        purchasedInLoop = false;
-        // Ri-ordina: priorità a chi necessita di meno soldi per la prossima quota (prezzo più basso)
-        // o chi è più lontano dal target (se vogliamo essere più precisi sul rebalance)
-        // Un semplice sort per prezzo più basso per usare il resto è efficace:
-        underweightAssets.sort((a, b) => parseLocaleFloat(a.currentPrice) - parseLocaleFloat(b.currentPrice));
-        
-        for (const asset of underweightAssets) {
-            const assetPrice = parseLocaleFloat(asset.currentPrice);
-            if (assetPrice > 0 && remainderPool >= assetPrice) {
-                const assetInMainList = assetsToProcess.find(ap => ap.name === asset.name);
-                if(assetInMainList){
-                    assetInMainList.adjustment += 1;
-                    assetInMainList.adjustmentValueNum += assetPrice;
-                }
-                remainderPool -= assetPrice;
-                purchasedInLoop = true;
-                break; 
-            }
+            cashAvailable -= costOfPurchase;
         }
     }
 
-    // 4. Calcoli finali: aggiorna la newQuantity basata sull'adjustment finale
+    // 4. Calcoli finali
     assetsToProcess.forEach(asset => {
         asset.newQuantity = parseLocaleFloat(asset.quantity) + asset.adjustment;
     });
@@ -129,7 +89,7 @@ export const rebalancePortfolio = (allocations, initialTotalValue, assets, scale
         ...r,
         prezzoQuota: parseLocaleFloat(r.currentPrice).toFixed(2),
         adjustmentValue: r.adjustmentValueNum.toFixed(2),
-            taxAmount: r.taxAmountNum.toFixed(2), // <-- AGGIUNGI TASSE FORMATE
+        taxAmount: r.taxAmountNum.toFixed(2),
         newPercentage: (newPortfolioTotalValue > 0 ? ((r.newQuantity * parseLocaleFloat(r.currentPrice)) / newPortfolioTotalValue * 100) : 0).toFixed(2),
         adjustedTargetPercentage: r.finalAssetTargetPercentage.toFixed(2),
     }));
