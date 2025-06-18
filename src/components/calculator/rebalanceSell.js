@@ -24,7 +24,10 @@ export const rebalancePortfolio = (allocations, initialTotalValue, assets, scale
         const pmc = parseLocaleFloat(asset.pmc);
         if (assetPrice <= 0) return;
 
-        const unitsToSell = getUnitsCalculated(asset.difference, assetPrice, asset.quantity);
+        //const unitsToSell = getUnitsCalculated(asset.difference, assetPrice, asset.quantity);
+        let rawUnitsToSell = getUnitsCalculated(asset.difference, assetPrice, asset.quantity);
+        let unitsToSell = asset.isFractionable ? rawUnitsToSell : Math.floor(rawUnitsToSell);
+
         if (unitsToSell < 0) {
             const grossValueOfSale = Math.abs(unitsToSell * assetPrice);
             let netCashGenerated = grossValueOfSale;
@@ -63,7 +66,10 @@ export const rebalancePortfolio = (allocations, initialTotalValue, assets, scale
         // Spendi il necessario per questo asset, senza superare la liquidità disponibile
         const moneyNeeded = asset.difference;
         const moneyToSpend = Math.min(cashAvailable, moneyNeeded);
-        const unitsToBuy = getUnitsCalculated(moneyToSpend, assetPrice, asset.quantity);
+        //const unitsToBuy = getUnitsCalculated(moneyToSpend, assetPrice, asset.quantity);
+        let rawUnitsToBuy = getUnitsCalculated(moneyToSpend, assetPrice, asset.quantity);
+        let unitsToBuy = asset.isFractionable ? rawUnitsToBuy : Math.floor(rawUnitsToBuy);
+
 
         if (unitsToBuy > 0) {
             const costOfPurchase = unitsToBuy * assetPrice;

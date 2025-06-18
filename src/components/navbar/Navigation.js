@@ -32,7 +32,7 @@ const Navigation = () => {
     }
   };
   return ( 
-    <nav className="bg-white shadow-sm sticky w-full lg:fixed top-0 z-50 transition-transform duration-300 dark:bg-gray-800">
+    <nav className="bg-white shadow-sm w-full fixed top-0 z-50 transition-transform duration-300 dark:bg-gray-800">
       <div className="container w-full lg:max-w-screen-lg mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">

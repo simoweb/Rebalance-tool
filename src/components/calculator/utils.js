@@ -48,24 +48,17 @@ export const isQuantityInputFractional = (originalQuantityString) => {
  * @param {string | number} originalQuantityString - La quantità originale dell'asset per determinare la frazionalità.
  * @returns {number} Le unità calcolate, arrotondate o frazionarie.
  */
-export const getUnitsCalculated = (valueDifference, price, originalQuantityString) => {
+export const getUnitsCalculated = (valueDifference, price, isFractionable, isBuy = true) => {
     if (price <= 0) return 0;
 
-    const calculatedRawUnits = valueDifference / price;
-    const isFractional = isQuantityInputFractional(originalQuantityString);
+    const rawUnits = valueDifference / price;
 
-    if (isFractional) {
-        return calculatedRawUnits; // Per asset frazionabili, restituisci il valore esatto.
-    }
+    if (isFractionable) return rawUnits;
 
-    // Logica per quote intere
-    if (calculatedRawUnits > 0) {
-        // ACQUISTI: Sii prudente, arrotonda per difetto per non superare il budget.
-        return Math.floor(calculatedRawUnits);
+    if (rawUnits > 0) {
+        return isBuy ? Math.floor(rawUnits) : Math.round(rawUnits);
     } else {
-        // VENDITE: Sii pragmatico, arrotonda al più vicino per sbloccare la situazione.
-        // Math.round(-0.5) = -1, Math.round(-0.49) = 0.
-        return Math.round(calculatedRawUnits);
+        return isBuy ? Math.floor(rawUnits) : Math.round(rawUnits);
     }
 };
 

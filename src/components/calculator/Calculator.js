@@ -6,6 +6,7 @@ import { parseLocaleFloat, isQuantityInputFractional, calculateCurrentAllocation
 
 // Importa la funzione principale di ribilanciamento
 import { calculateRebalancing } from './rebalancingCalculator';
+import AssetInputs from '../form/assetInputs';
 
 
 const Calculator = () => {
@@ -29,9 +30,9 @@ const Calculator = () => {
     // quindi ha senso mantenerla qui.
     const isAssetComplete = useCallback((asset) => {
         return asset.name.trim() !== '' &&
-               String(asset.targetPercentage).trim() !== '' &&
-               String(asset.currentPrice).trim() !== '' &&
-               String(asset.quantity).trim() !== '';
+            String(asset.targetPercentage).trim() !== '' &&
+            String(asset.currentPrice).trim() !== '' &&
+            String(asset.quantity).trim() !== '';
     }, []); // Non ha dipendenze esterne mutabili
 
     // `getTotalPercentage` dipende dallo stato `assets` locale
@@ -190,7 +191,7 @@ const Calculator = () => {
 
     // --- Handlers per gli input (rimangono qui perché gestiscono lo stato) ---
     const addAsset = () => {
-        const newAssets = [...assets, { name: '', targetPercentage: '', currentPrice: '', quantity: '', pmc: '', taxRate: '', isFractionable:false  }];
+        const newAssets = [...assets, { name: '', targetPercentage: '', currentPrice: '', quantity: '', pmc: '', taxRate: '', isFractionable: false }];
         setAssets(newAssets);
     };
 
@@ -227,7 +228,7 @@ const Calculator = () => {
     };
 
     const clearForm = () => {
-        setAssets([{ name: '', targetPercentage: '', currentPrice: '', quantity: '', pmc: '', taxRate: '', isFractionable:false }]);
+        setAssets([{ name: '', targetPercentage: '', currentPrice: '', quantity: '', pmc: '', taxRate: '', isFractionable: false }]);
         setRebalanceMethod('sell');
         setAvailableCash('');
         setShowResults(false);
@@ -280,8 +281,8 @@ const Calculator = () => {
                             {/* Colonna sinistra - Form */}
                             <div className="lg:w-1/2 px-2 md:px-0">
                                 <div className="mb-6">
-                                    <div className="flex flex-col md:flex-row">
-                                        <label className="w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">
+                                    <div className="flex flex-col md:flex-row md:px-6">
+                                        <label className="w-full md:w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">
                                             Metodo
                                         </label>
                                         <select
@@ -298,7 +299,7 @@ const Calculator = () => {
 
                                 {(rebalanceMethod === 'add' || rebalanceMethod === 'add_and_rebalance') && (
                                     <div className="mb-6">
-                                        <div className="flex flex-col md:flex-row">
+                                        <div className="c">
                                             <label className="w-full md:w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">
                                                 Liquidità (€)
                                             </label>
@@ -329,53 +330,14 @@ const Calculator = () => {
                                                     </svg>
                                                 </button>
                                             )}
-                                            <div className="space-y-4">
-                                                {/* Input fields (Nome, Target, Prezzo, Quantità) come prima */}
-                                                <div className="flex flex-col md:flex-row">
-                                                    <label className="w-full md:w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">Nome</label>
-                                                    <input type="text" placeholder="es: VWCE" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-400 dark:border-transparent" value={asset.name} onChange={(e) => updateAsset(index, 'name', e.target.value)} />
-                                                </div>
-                                                <div className="flex flex-col md:flex-row">
-                                                    <label className="w-full md:w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">Target (%)</label>
-                                                    <input type="text" inputMode="decimal" placeholder="es: 60 o 60,5" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-400 dark:border-transparent" value={asset.targetPercentage} onChange={(e) => updateAsset(index, 'targetPercentage', e.target.value)} />
-                                                </div>
-                                                <div className="flex flex-col md:flex-row">
-                                                    <label className="w-full md:w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">Prezzo (€)</label>
-                                                    <input type="text" inputMode="decimal" placeholder="es: 100 o 100,25" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-400 dark:border-transparent" value={asset.currentPrice} onChange={(e) => updateAsset(index, 'currentPrice', e.target.value)} />
-                                                </div>
-                                                <div className="flex flex-col md:flex-row">
-                                                    <label className="w-full md:w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">Frazionabile</label>
-                                                    <div className=' w-full '>
-                                                    <input type="checkbox" className="shadow focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-400 dark:border-transparent" checked={asset.isFractionable} value={asset.isFractionable}  onChange={
-                                                        (e) => updateAsset(index, 'isFractionable', e.target.checked)
-                                                        } />
-                                                    </div>
-                                                </div>
-                                                
-                                                <div className="flex flex-col md:flex-row">
-                                                    <label className="w-full md:w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">PMC</label>
-                                                    <input type="text" inputMode="decimal" placeholder="es: 100 o 100,25" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-400 dark:border-transparent" value={asset.pmc} onChange={(e) => updateAsset(index, 'pmc', e.target.value)} />
-                                                </div>
-                                                <div className="flex flex-col md:flex-row">
-                                                    <label className="w-full md:w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">Quantità</label>
-                                                    <input type="text" inputMode="decimal" placeholder="es: 10 o 10,3" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-400 dark:border-transparent" value={asset.quantity} onChange={(e) => updateAsset(index, 'quantity', e.target.value)} />
-                                                </div>
-                                                <div className="flex flex-col md:flex-row">
-                                                    <label className="w-full md:w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">Tax rate</label>
-                                                    <input type="text" inputMode="decimal" placeholder="es: 26%, 12,5%" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-400 dark:border-transparent" value={asset.taxRate} onChange={(e) => updateAsset(index, 'taxRate', e.target.value)} />
-                                                </div>
-
-                                                {isAssetComplete(asset) && (
-                                                    <div className="mt-4 p-4 bg-white rounded-lg shadow-sm dark:bg-gray-700">
-                                                        <div className="flex justify-between items-center">
-                                                            <span className="text-base font-medium text-gray-500 dark:text-gray-400">Valore totale:</span>
-                                                            <span className="text-xl font-semibold text-gray-900 dark:text-gray-200">
-                                                                {calculateAssetValue(asset)?.toLocaleString('it-IT', { style: 'currency', currency: 'EUR' })}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
+                                            <AssetInputs
+                                                key={index}
+                                                asset={asset}
+                                                index={index}
+                                                isAssetComplete={isAssetComplete}
+                                                updateAsset={updateAsset}
+                                                calculateAssetValue={calculateAssetValue}
+                                            />
                                         </div>
                                     ))}
                                 </div>
@@ -449,12 +411,12 @@ const Calculator = () => {
                                                     <div className="mb-8 space-y-3">
                                                         <h3 className="text-lg font-medium text-gray-900 dark:text-gray-200 mb-4">Riepilogo Operazioni</h3>
                                                         {calculationResults.results.map((result, index) => (
-                                                          
+
                                                             <div key={index} className="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm dark:bg-gray-700">
                                                                 <div className="flex items-center space-x-3">
                                                                     <div className={`w-2 h-8 rounded-full ${result.adjustment > 0 ? 'bg-green-500' : result.adjustment < 0 ? 'bg-red-500' : 'bg-gray-300'}`}></div>
                                                                     <div>
-                                                                      
+
                                                                         <p className="font-medium text-gray-900 dark:text-gray-100">{result.name}</p>
                                                                         <p className="text-sm text-gray-500 dark:text-gray-400">{parseLocaleFloat(result.currentPercentage).toFixed(2)}% → {parseLocaleFloat(result.newPercentage).toFixed(2)}%</p>
                                                                         <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -462,31 +424,31 @@ const Calculator = () => {
                                                                             {' → '}
                                                                             {(result.newQuantity * parseLocaleFloat(result.currentPrice)).toLocaleString('it-IT', { style: 'currency', currency: 'EUR' })}
                                                                         </p>
-                                                                       
-                                                                        {/* Nuova Quantità e Valore */}
-                                                                        <p className="text-sm text-gray-500 dark:text-gray-400">        
-                                                                                      Prezzo unità: {parseFloat(result.prezzoQuota).toLocaleString('it-IT', { style: 'currency', currency: 'EUR' })}
-                                                                          </p>
 
-                                                                       
+                                                                        {/* Nuova Quantità e Valore */}
+                                                                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                                                                            Prezzo unità: {parseFloat(result.prezzoQuota).toLocaleString('it-IT', { style: 'currency', currency: 'EUR' })}
+                                                                        </p>
+
+
                                                                     </div>
                                                                 </div>
                                                                 <div className="text-right">
-                                                                  <p className={`font-medium ${result.adjustment > 0 ? 'text-green-600 dark:text-green-400' : result.adjustment < 0 ? 'text-red-600 dark:text-red-400' : 'text-gray-600 dark:text-gray-300'}`}>
-                                                                      {result.adjustment > 0 ? '+' : ''}{result.adjustment.toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 8 })} unità
-                                                                  </p>
-                                                                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                                                                      {parseLocaleFloat(result.adjustmentValue).toLocaleString('it-IT', { style: 'currency', currency: 'EUR' })}
-                                                                  </p>
-                                                                  {/* ---- MOSTRA TASSE QUI ---- */}
-                                                                  {result.adjustment < 0 && parseFloat(result.taxAmount) > 0 && (
-                                                                      <p className="text-xs text-red-500 dark:text-red-400">
-                                                                          Tasse: {parseFloat(result.taxAmount).toLocaleString('it-IT', { style: 'currency', currency: 'EUR' })}
-                                                                      </p>
-                                                                  )}
-                                                                  {/* ---- FINE SEZIONE TASSE ---- */}
-                                                              </div>
-                                                               
+                                                                    <p className={`font-medium ${result.adjustment > 0 ? 'text-green-600 dark:text-green-400' : result.adjustment < 0 ? 'text-red-600 dark:text-red-400' : 'text-gray-600 dark:text-gray-300'}`}>
+                                                                        {result.adjustment > 0 ? '+' : ''}{result.adjustment.toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 8 })} unità
+                                                                    </p>
+                                                                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                                                                        {parseLocaleFloat(result.adjustmentValue).toLocaleString('it-IT', { style: 'currency', currency: 'EUR' })}
+                                                                    </p>
+                                                                    {/* ---- MOSTRA TASSE QUI ---- */}
+                                                                    {result.adjustment < 0 && parseFloat(result.taxAmount) > 0 && (
+                                                                        <p className="text-xs text-red-500 dark:text-red-400">
+                                                                            Tasse: {parseFloat(result.taxAmount).toLocaleString('it-IT', { style: 'currency', currency: 'EUR' })}
+                                                                        </p>
+                                                                    )}
+                                                                    {/* ---- FINE SEZIONE TASSE ---- */}
+                                                                </div>
+
                                                             </div>))}
                                                     </div>
                                                     {/* Qui passiamo la calculateCurrentAllocation importata al PortfolioCharts */}
@@ -506,19 +468,19 @@ const Calculator = () => {
                                                                 <div><p className="text-xs md:text-sm text-gray-500 dark:text-gray-400">Aggiustamento</p><p className={`text-sm md:text-base font-medium ${result.adjustment >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>{result.adjustment.toLocaleString('it-IT')} unità <span className={`text-xs md:text-sm ml-1`}>({result.adjustment >= 0 ? '+' : ''}{parseLocaleFloat(result.adjustmentValue).toLocaleString('it-IT', { style: 'currency', currency: 'EUR' })})</span></p></div>
                                                                 <div><p className="text-xs md:text-sm text-gray-500 dark:text-gray-400">Nuova quantità</p><div className="flex justify-between items-center"><p className="text-sm md:text-base font-medium text-gray-800 dark:text-gray-200">{result.newQuantity.toLocaleString('it-IT')} unità</p><p className="text-xs md:text-sm text-gray-600 dark:text-gray-400">{(result.newQuantity * parseLocaleFloat(result.currentPrice)).toLocaleString('it-IT', { style: 'currency', currency: 'EUR' })}</p></div></div>
                                                             </div>
-                                                             <div>
-                                                            
-                                                        </div>
-                                                        
-                                                        {/* ---- MOSTRA TASSE QUI ---- */}
-                                                        {result.adjustment < 0 && parseFloat(result.taxAmount) > 0 && (
                                                             <div>
-                                                                <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400">Tasse Pagate</p>
-                                                                <p className="text-sm md:text-base font-medium text-red-600 dark:text-red-400">
-                                                                    {parseFloat(result.taxAmount).toLocaleString('it-IT', { style: 'currency', currency: 'EUR' })}
-                                                                </p>
+
                                                             </div>
-                                                        )}
+
+                                                            {/* ---- MOSTRA TASSE QUI ---- */}
+                                                            {result.adjustment < 0 && parseFloat(result.taxAmount) > 0 && (
+                                                                <div>
+                                                                    <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400">Tasse Pagate</p>
+                                                                    <p className="text-sm md:text-base font-medium text-red-600 dark:text-red-400">
+                                                                        {parseFloat(result.taxAmount).toLocaleString('it-IT', { style: 'currency', currency: 'EUR' })}
+                                                                    </p>
+                                                                </div>
+                                                            )}
                                                         </div>))}
                                                 </div>)}
                                             <div className="mt-8 flex flex-col sm:flex-row gap-4 px-6">
@@ -551,67 +513,74 @@ const Calculator = () => {
                                                     "Completa tutti i campi degli asset. Assicurati che la somma delle percentuali target sia 100% e, se necessario, inserisci la liquidità."
                                                 }</p>
                                             </div>
+                                            {isCurrentDataComplete() ? "" : (
+                                                assets.length > 0 && assets.some(a => String(a.targetPercentage).trim() !== '') && Math.abs(getTotalPercentage() - 100) >= 0.01 &&
+
+                                                <div className="relative mt-4">
+                                                    <button onClick={() => setShowClearConfirm(true)} className="flex-1 flex items-center justify-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"><svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>Pulisci Form</button>
+                                                </div>
+                                            )
+                                            }
 
                                             {isCurrentDataComplete() ? "" : (assets.length > 0 && assets.some(a => String(a.targetPercentage).trim() !== '') && Math.abs(getTotalPercentage() - 100) >= 0.01) ?
                                                 "" :
                                                 <div className='items-center justify-center'>
                                                     <h5 className='text-lg mt-5'>Carica esempi</h5>
-                                                   <div className='items-center justify-center'>
-    <button
-        onClick={() => {
-            window.location.href = `?method=sell&asset0_name=SWDA&asset0_target=25&asset0_price=100%2C05&asset0_quantity=58&asset0_pmc=85&asset0_taxRate=26&asset1_name=PJS1&asset1_target=25&asset1_price=98%2C18&asset1_quantity=63&asset1_pmc=95&asset1_taxRate=12%2C5&asset2_name=XG7S&asset2_target=25&asset2_price=220%2C52&asset2_quantity=28&asset2_pmc=210&asset2_taxRate=12%2C5&asset3_name=PHAU&asset3_target=25&asset3_price=275%2C17&asset3_quantity=26&asset3_pmc=240&asset3_taxRate=26#calcolatore`;
-        }}
-        className="mx-2 px-3 py-2 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-lg text-sm hover:from-green-600 hover:to-green-800 transition-colors mt-5"
-    >
-        Permanent Portfolio
-    </button>
+                                                    <div className='items-center justify-center'>
+                                                        <button
+                                                            onClick={() => {
+                                                                window.location.href = `?method=sell&asset0_name=PHAU&asset0_target=25&asset0_price=275%2C17&asset0_quantity=26&asset0_pmc=240&asset0_taxRate=26&asset1_name=PJS1&asset1_target=25&asset1_price=98%2C18&asset1_quantity=63&asset1_pmc=95&asset1_taxRate=12%2C5&asset2_name=SWDA&asset2_target=25&asset2_price=100%2C05&asset2_quantity=58&asset2_pmc=85&asset2_taxRate=26&asset3_name=XG7S&asset3_target=25&asset3_price=220%2C52&asset3_quantity=28&asset3_pmc=210&asset3_taxRate=12%2C5#calcolatore`;
+                                                            }}
+                                                            className="mx-2 px-3 py-2 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-lg text-sm hover:from-green-600 hover:to-green-800 transition-colors mt-5"
+                                                        >
+                                                            Permanent Portfolio
+                                                        </button>
 
-    <button
-        onClick={() => {
-            window.location.href = `?method=sell&asset0_name=SWDA&asset0_target=20&asset0_price=100,00&asset0_quantity=10&asset0_pmc=85&asset0_taxRate=26&asset1_name=IUSN&asset1_target=20&asset1_price=90,00&asset1_quantity=12&asset1_pmc=80&asset1_taxRate=26&asset2_name=EUNA&asset2_target=20&asset2_price=100,00&asset2_quantity=9&asset2_pmc=95&asset2_taxRate=26&asset3_name=IBGL&asset3_target=20&asset3_price=120,00&asset3_quantity=8&asset3_pmc=130&asset3_taxRate=12,5&asset4_name=PHAU&asset4_target=20&asset4_price=270,00&asset4_quantity=4&asset4_pmc=240&asset4_taxRate=26#calcolatore`;
-        }}
-        className="mx-2 px-3 py-2 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white rounded-lg text-sm hover:from-yellow-500 hover:to-yellow-700 transition-colors mt-5"
-    >
-        Golden Butterfly
-    </button>
+                                                        <button
+                                                            onClick={() => {
+                                                                window.location.href = `?method=sell&asset0_name=SWDA&asset0_target=20&asset0_price=100,00&asset0_quantity=10&asset0_pmc=85&asset0_taxRate=26&asset1_name=IUSN&asset1_target=20&asset1_price=90,00&asset1_quantity=12&asset1_pmc=80&asset1_taxRate=26&asset2_name=PHAU&asset2_target=20&asset2_price=270,00&asset2_quantity=4&asset2_pmc=240&asset2_taxRate=26&asset3_name=IBGL&asset3_target=20&asset3_price=120,00&asset3_quantity=8&asset3_pmc=130&asset3_taxRate=12,5&asset4_name=EUNA&asset4_target=20&asset4_price=100,00&asset4_quantity=9&asset4_pmc=95&asset4_taxRate=26#calcolatore`;
+                                                            }}
+                                                            className="mx-2 px-3 py-2 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white rounded-lg text-sm hover:from-yellow-500 hover:to-yellow-700 transition-colors mt-5"
+                                                        >
+                                                            Golden Butterfly
+                                                        </button>
 
-    <button
-        onClick={() => {
-            window.location.href = `?method=sell&asset0_name=SWDA&asset0_target=30&asset0_price=100,00&asset0_quantity=12&asset0_pmc=85&asset0_taxRate=26&asset1_name=EUNA&asset1_target=15&asset1_price=100,00&asset1_quantity=6&asset1_pmc=90&asset1_taxRate=26&asset2_name=IBGL&asset2_target=40&asset2_price=120,00&asset2_quantity=10&asset2_pmc=130&asset2_taxRate=12,5&asset3_name=PHAU&asset3_target=7.5&asset3_price=270,00&asset3_quantity=2&asset3_pmc=240&asset3_taxRate=26&asset4_name=CRUD&asset4_target=7.5&asset4_price=25,00&asset4_quantity=8&asset4_pmc=30&asset4_taxRate=26#calcolatore`;
-        }}
-        className="mx-2 px-3 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg text-sm hover:from-blue-600 hover:to-blue-800 transition-colors mt-5"
-    >
-        All Weather Portfolio
-    </button>
+                                                        <button
+                                                            onClick={() => {
+                                                                window.location.href = `?method=sell&asset0_name=SWDA&asset0_target=30&asset0_price=100,00&asset0_quantity=12&asset0_pmc=85&asset0_taxRate=26&asset1_name=IBGL&asset1_target=40&asset1_price=120,00&asset1_quantity=10&asset1_pmc=130&asset1_taxRate=12,5&asset2_name=EUNA&asset2_target=15&asset2_price=100,00&asset2_quantity=6&asset2_pmc=90&asset2_taxRate=26&asset3_name=PHAU&asset3_target=7.5&asset3_price=270,00&asset3_quantity=2&asset3_pmc=240&asset3_taxRate=26&asset4_name=CRUD&asset4_target=7.5&asset4_price=25,00&asset4_quantity=8&asset4_pmc=30&asset4_taxRate=26#calcolatore`;
+                                                            }}
+                                                            className="mx-2 px-3 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg text-sm hover:from-blue-600 hover:to-blue-800 transition-colors mt-5"
+                                                        >
+                                                            All Weather Portfolio
+                                                        </button>
 
-    <button
-        onClick={() => {
-            window.location.href = `?method=sell&asset0_name=SWDA&asset0_target=60&asset0_price=100,00&asset0_quantity=15&asset0_pmc=85&asset0_taxRate=26&asset1_name=AGGH&asset1_target=40&asset1_price=85,00&asset1_quantity=10&asset1_pmc=90&asset1_taxRate=12,5#calcolatore`;
-        }}
-        className="mx-2 px-3 py-2 bg-gradient-to-r from-gray-500 to-gray-700 text-white rounded-lg text-sm hover:from-gray-600 hover:to-gray-800 transition-colors mt-5"
-    >
-        Portafoglio 60/40
-    </button>
+                                                        <button
+                                                            onClick={() => {
+                                                                window.location.href = `?method=sell&asset0_name=SWDA&asset0_target=60&asset0_price=100,00&asset0_quantity=15&asset0_pmc=85&asset0_taxRate=26&asset1_name=AGGH&asset1_target=40&asset1_price=85,00&asset1_quantity=10&asset1_pmc=90&asset1_taxRate=12,5#calcolatore`;
+                                                            }}
+                                                            className="mx-2 px-3 py-2 bg-gradient-to-r from-gray-500 to-gray-700 text-white rounded-lg text-sm hover:from-gray-600 hover:to-gray-800 transition-colors mt-5"
+                                                        >
+                                                            Portafoglio 60/40
+                                                        </button>
 
-    <button
-        onClick={() => {
-            window.location.href = `?method=sell&asset0_name=SWDA&asset0_target=50&asset0_price=100,00&asset0_quantity=10&asset0_pmc=85&asset0_taxRate=26&asset1_name=BTC&asset1_target=25&asset1_price=35000,00&asset1_quantity=0,05&asset1_pmc=25000&asset1_taxRate=26&asset2_name=ETH&asset2_target=25&asset2_price=1900,00&asset2_quantity=0,7&asset2_pmc=2200&asset2_taxRate=26#calcolatore`;
-        }}
-        className="mx-2 px-3 py-2 bg-gradient-to-r from-pink-500 to-purple-700 text-white rounded-lg text-sm hover:from-pink-600 hover:to-purple-800 transition-colors mt-5"
-    >
-        Crypto + Azioni (50/50)
-    </button>
+                                                        <button
+                                                            onClick={() => {
+                                                                window.location.href = `?method=sell&asset0_name=SWDA&asset0_target=50&asset0_price=100,00&asset0_quantity=10&asset0_pmc=85&asset0_taxRate=26&asset1_name=BTC&asset1_target=25&asset1_price=35000,00&asset1_quantity=0,05&asset1_pmc=25000&asset1_taxRate=26&asset2_name=ETH&asset2_target=25&asset2_price=1900,00&asset2_quantity=0,7&asset2_pmc=2200&asset2_taxRate=26#calcolatore`;
+                                                            }}
+                                                            className="mx-2 px-3 py-2 bg-gradient-to-r from-pink-500 to-purple-700 text-white rounded-lg text-sm hover:from-pink-600 hover:to-purple-800 transition-colors mt-5"
+                                                        >
+                                                            Crypto + Azioni (50/50)
+                                                        </button>
 
-    <button
-        onClick={() => {
-            window.location.href = `?method=sell&asset0_name=BTC&asset0_target=40&asset0_price=35000,00&asset0_quantity=0,06&asset0_pmc=25000&asset0_taxRate=26&asset1_name=ETH&asset1_target=30&asset1_price=1900,00&asset1_quantity=0,8&asset1_pmc=2200&asset1_taxRate=26&asset2_name=SOL&asset2_target=15&asset2_price=150,00&asset2_quantity=5&asset2_pmc=100&asset2_taxRate=26&asset3_name=USDC&asset3_target=15&asset3_price=1,00&asset3_quantity=100&asset3_pmc=1&asset3_taxRate=0#calcolatore`;
-        }}
-        className="mx-2 px-3 py-2 bg-gradient-to-r from-orange-500 to-yellow-500 text-white rounded-lg text-sm hover:from-orange-600 hover:to-yellow-600 transition-colors mt-5"
-    >
-        Crypto Diversificato
-    </button>
-</div>
-
+                                                        <button
+                                                            onClick={() => {
+                                                                window.location.href = `?method=sell&asset0_name=BTC&asset0_target=40&asset0_price=35000,00&asset0_quantity=0,06&asset0_pmc=25000&asset0_taxRate=26&asset1_name=ETH&asset1_target=30&asset1_price=1900,00&asset1_quantity=0,8&asset1_pmc=2200&asset1_taxRate=26&asset2_name=SOL&asset2_target=15&asset2_price=150,00&asset2_quantity=5&asset2_pmc=100&asset2_taxRate=26&asset3_name=USDC&asset3_target=15&asset3_price=1,00&asset3_quantity=100&asset3_pmc=1&asset3_taxRate=0#calcolatore`;
+                                                            }}
+                                                            className="mx-2 px-3 py-2 bg-gradient-to-r from-orange-500 to-yellow-500 text-white rounded-lg text-sm hover:from-orange-600 hover:to-yellow-600 transition-colors mt-5"
+                                                        >
+                                                            Crypto Diversificato
+                                                        </button>
+                                                    </div>
 
                                                 </div>
                                             }
