@@ -54,9 +54,19 @@ export const getUnitsCalculated = (valueDifference, price, originalQuantityStrin
     const calculatedRawUnits = valueDifference / price;
     const isFractional = isQuantityInputFractional(originalQuantityString);
 
-    // Se è frazionabile, restituisci il valore grezzo.
-    // Altrimenti, tronca i decimali per ottenere il numero massimo di quote intere acquistabili/vendibili.
-    return isFractional ? calculatedRawUnits : Math.trunc(calculatedRawUnits);
+    if (isFractional) {
+        return calculatedRawUnits; // Per asset frazionabili, restituisci il valore esatto.
+    }
+
+    // Logica per quote intere
+    if (calculatedRawUnits > 0) {
+        // ACQUISTI: Sii prudente, arrotonda per difetto per non superare il budget.
+        return Math.floor(calculatedRawUnits);
+    } else {
+        // VENDITE: Sii pragmatico, arrotonda al più vicino per sbloccare la situazione.
+        // Math.round(-0.5) = -1, Math.round(-0.49) = 0.
+        return Math.round(calculatedRawUnits);
+    }
 };
 
 

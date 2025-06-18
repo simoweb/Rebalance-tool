@@ -11,7 +11,7 @@ import { calculateRebalancing } from './rebalancingCalculator';
 const Calculator = () => {
     // --- State Hooks ---
     const [assets, setAssets] = useState([
-        { name: '', targetPercentage: '', currentPrice: '', quantity: '', pmc: '', taxRate: '' }
+        { name: '', targetPercentage: '', currentPrice: '', quantity: '', pmc: '', taxRate: '', isFractionable: false }
     ]);
     const [rebalanceMethod, setRebalanceMethod] = useState('sell'); // Default
     const [availableCash, setAvailableCash] = useState('');
@@ -84,6 +84,7 @@ const Calculator = () => {
                 params.set(`asset${index}_quantity`, asset.quantity);
                 params.set(`asset${index}_pmc`, asset.quantity);
                 params.set(`asset${index}_taxRate`, asset.taxRate);
+                params.set(`asset${index}_fractionable`, asset.isFractionable);
             }
         });
         window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
@@ -102,6 +103,7 @@ const Calculator = () => {
             const quantity = params.get(`asset${i}_quantity`);
             const pmc = params.get(`asset${i}_pmc`);
             const taxRate = params.get(`asset${i}_taxRate`);
+            const fractionable = params.get(`asset${i}_fractionable`);
             if (!name && !target && !price && !quantity) break;
             newAssets.push({
                 name: name || '',
@@ -109,7 +111,8 @@ const Calculator = () => {
                 currentPrice: price || '',
                 taxRate: taxRate || '',
                 pmc: pmc || '',
-                quantity: quantity || ''
+                quantity: quantity || '',
+                isFractionable: fractionable === 'true',
             });
             i++;
         }
@@ -187,12 +190,13 @@ const Calculator = () => {
 
     // --- Handlers per gli input (rimangono qui perché gestiscono lo stato) ---
     const addAsset = () => {
-        const newAssets = [...assets, { name: '', targetPercentage: '', currentPrice: '', quantity: '', pmc: '', taxRate: ''  }];
+        const newAssets = [...assets, { name: '', targetPercentage: '', currentPrice: '', quantity: '', pmc: '', taxRate: '', isFractionable:false  }];
         setAssets(newAssets);
     };
 
     const updateAsset = (index, field, value) => {
         const newAssets = assets.map((asset, i) => i === index ? { ...asset, [field]: value } : asset);
+        console.log(newAssets)
         setAssets(newAssets);
     };
 
@@ -223,7 +227,7 @@ const Calculator = () => {
     };
 
     const clearForm = () => {
-        setAssets([{ name: '', targetPercentage: '', currentPrice: '', quantity: '', pmc: '', taxRate: '' }]);
+        setAssets([{ name: '', targetPercentage: '', currentPrice: '', quantity: '', pmc: '', taxRate: '', isFractionable:false }]);
         setRebalanceMethod('sell');
         setAvailableCash('');
         setShowResults(false);
@@ -249,6 +253,7 @@ const Calculator = () => {
                     params.set(`asset${index}_quantity`, asset.quantity);
                     params.set(`asset${index}_pmc`, asset.pmc);
                     params.set(`asset${index}_taxRate`, asset.taxRate);
+                    params.set(`asset${index}_fractionable`, asset.isFractionable);
                 }
             });
 
@@ -338,6 +343,15 @@ const Calculator = () => {
                                                     <label className="w-full md:w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">Prezzo (€)</label>
                                                     <input type="text" inputMode="decimal" placeholder="es: 100 o 100,25" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-400 dark:border-transparent" value={asset.currentPrice} onChange={(e) => updateAsset(index, 'currentPrice', e.target.value)} />
                                                 </div>
+                                                <div className="flex flex-col md:flex-row">
+                                                    <label className="w-full md:w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">Frazionabile</label>
+                                                    <div className=' w-full '>
+                                                    <input type="checkbox" className="shadow focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-400 dark:border-transparent" checked={asset.isFractionable} value={asset.isFractionable}  onChange={
+                                                        (e) => updateAsset(index, 'isFractionable', e.target.checked)
+                                                        } />
+                                                    </div>
+                                                </div>
+                                                
                                                 <div className="flex flex-col md:flex-row">
                                                     <label className="w-full md:w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">PMC</label>
                                                     <input type="text" inputMode="decimal" placeholder="es: 100 o 100,25" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-400 dark:border-transparent" value={asset.pmc} onChange={(e) => updateAsset(index, 'pmc', e.target.value)} />
