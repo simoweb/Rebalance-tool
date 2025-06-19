@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 function AssetInputs({ asset, index, isAssetComplete, updateAsset, calculateAssetValue }) {
+    const [taxCalculate, settaxCalculate] = useState(false);
     return (
         <div className="space-y-4">
             <div className="flex flex-col md:flex-row">
@@ -46,16 +47,17 @@ function AssetInputs({ asset, index, isAssetComplete, updateAsset, calculateAsse
                 </div>
             </div>
             <div className="flex flex-col md:flex-row">
-                <label className="w-full md:w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">PMC</label>
-                <input
-                  type="text"
-                  inputMode="decimal"
-                  placeholder="es: 100 o 100,25"
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-400 dark:border-transparent"
-                  value={asset.pmc}
-                  onChange={(e) => updateAsset(index, 'pmc', e.target.value)}
-                />
+                <label className="w-full md:w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">Calcolo imposte</label>
+                <div className="w-full">
+                    <input
+                      type="checkbox"
+                      className="shadow focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-400 dark:border-transparent"
+                      checked={asset.taxCalculate}
+                      onChange={(e) => updateAsset(index, 'taxCalculate', e.target.checked)}
+                    />
+                </div>
             </div>
+            
             <div className="flex flex-col md:flex-row">
                 <label className="w-full md:w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">Quantità</label>
                 <input
@@ -65,6 +67,17 @@ function AssetInputs({ asset, index, isAssetComplete, updateAsset, calculateAsse
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-400 dark:border-transparent"
                   value={asset.quantity}
                   onChange={(e) => updateAsset(index, 'quantity', e.target.value)}
+                />
+            </div>
+            <div className="flex flex-col md:flex-row">
+                <label className="w-full md:w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">PMC</label>
+                <input
+                  type="text"
+                  inputMode="decimal"
+                  placeholder="es: 100 o 100,25"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-400 dark:border-transparent"
+                  value={asset.pmc}
+                  onChange={(e) => updateAsset(index, 'pmc', e.target.value)}
                 />
             </div>
             <div className="flex flex-col md:flex-row">

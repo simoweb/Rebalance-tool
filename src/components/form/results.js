@@ -1,7 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { parseLocaleFloat,calculateCurrentAllocation } from '../calculator/utils'
 import PortfolioCharts from '../PortfolioCharts';
-function Results({assets, showResults,calculationResults,isCurrentDataComplete,rebalanceMethod}) {
+function Results({
+    assets, 
+    showResults,
+    calculationResults,
+    isCurrentDataComplete,
+    rebalanceMethod,
+    availableCash,
+    getTotalPercentage,
+    setShowClearConfirm
+}
+) {
     const [showCopyTooltip, setShowCopyTooltip] = useState(false);
     const [activeTab, setActiveTab] = useState('grafici');
     const copyLink = async () => {
@@ -21,6 +31,7 @@ function Results({assets, showResults,calculationResults,isCurrentDataComplete,r
                     params.set(`asset${index}_pmc`, asset.pmc);
                     params.set(`asset${index}_taxRate`, asset.taxRate);
                     params.set(`asset${index}_fractionable`, asset.isFractionable);
+                    params.set(`asset${index}_taxCalculate`, asset.taxCalculate);
                 }
             });
 

@@ -13,7 +13,7 @@ import Results from '../form/results';
 const Calculator = () => {
     // --- State Hooks ---
     const [assets, setAssets] = useState([
-        { name: '', targetPercentage: '', currentPrice: '', quantity: '', pmc: '', taxRate: '', isFractionable: false }
+        { name: '', targetPercentage: '', currentPrice: '', quantity: '', pmc: '', taxRate: '', isFractionable: false, taxCalculate: false,  }
     ]);
     const [rebalanceMethod, setRebalanceMethod] = useState('sell'); // Default
     const [availableCash, setAvailableCash] = useState('');
@@ -86,6 +86,7 @@ const Calculator = () => {
                 params.set(`asset${index}_quantity`, asset.quantity);
                 params.set(`asset${index}_pmc`, asset.quantity);
                 params.set(`asset${index}_taxRate`, asset.taxRate);
+                params.set(`asset${index}_taxCalculate`, asset.taxCalculate);
                 params.set(`asset${index}_fractionable`, asset.isFractionable);
             }
         });
@@ -105,6 +106,7 @@ const Calculator = () => {
             const quantity = params.get(`asset${i}_quantity`);
             const pmc = params.get(`asset${i}_pmc`);
             const taxRate = params.get(`asset${i}_taxRate`);
+            const taxCalculate = params.get(`asset${i}_taxCalculate`);
             const fractionable = params.get(`asset${i}_fractionable`);
             if (!name && !target && !price && !quantity) break;
             newAssets.push({
@@ -114,6 +116,7 @@ const Calculator = () => {
                 taxRate: taxRate || '',
                 pmc: pmc || '',
                 quantity: quantity || '',
+                taxCalculate: taxCalculate === 'true',
                 isFractionable: fractionable === 'true',
             });
             i++;
@@ -192,7 +195,7 @@ const Calculator = () => {
 
     // --- Handlers per gli input (rimangono qui perché gestiscono lo stato) ---
     const addAsset = () => {
-        const newAssets = [...assets, { name: '', targetPercentage: '', currentPrice: '', quantity: '', pmc: '', taxRate: '', isFractionable: false }];
+        const newAssets = [...assets, { name: '', targetPercentage: '', currentPrice: '', quantity: '', pmc: '', taxRate: '', isFractionable: false, taxCalculate:false }];
         setAssets(newAssets);
     };
 
@@ -229,7 +232,7 @@ const Calculator = () => {
     };
 
     const clearForm = () => {
-        setAssets([{ name: '', targetPercentage: '', currentPrice: '', quantity: '', pmc: '', taxRate: '', isFractionable: false }]);
+        setAssets([{ name: '', targetPercentage: '', currentPrice: '', quantity: '', pmc: '', taxRate: '', isFractionable: false, taxCalculate:false }]);
         setRebalanceMethod('sell');
         setAvailableCash('');
         setShowResults(false);
@@ -348,6 +351,9 @@ const Calculator = () => {
                             calculationResults={calculationResults} 
                             isCurrentDataComplete={isCurrentDataComplete} 
                             rebalanceMethod={rebalanceMethod}
+                            availableCash={availableCash}
+                            getTotalPercentage={getTotalPercentage}
+                            setShowClearConfirm={setShowClearConfirm}
                             />
                             
                         </div>
