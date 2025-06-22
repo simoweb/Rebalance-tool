@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { App, Nav } from './App'; // Assicurati che App.js esporti sia App che Nav
+
 import './index.css';
 
 // Ottieni i riferimenti ai tuoi contenitori HTML

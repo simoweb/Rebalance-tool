@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Analytics } from "@vercel/analytics/react";
 import Hero from './components/Hero';
 import FAQ from './components/FAQ';
 import IconsDetail from './components/IconsDetail';
@@ -9,10 +8,12 @@ import Footer from './components/Footer';
 import Calculator from './components/calculator/Calculator';
 import Navigation from './components/navbar/Navigation';
 import Disclaimer from './components/Disclaimer';
+import { Analytics } from '@vercel/analytics/react';
 
 const Nav = () => {
   return (
   <>
+  <Analytics />
     {/* Menu di navigazione */}
     <Navigation />
   </>
