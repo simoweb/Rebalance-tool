@@ -1,7 +1,7 @@
 // rebalancePortfolio.js (Versione Finale con Logica Prioritaria Semplificata)
 import { parseLocaleFloat, getUnitsCalculated } from './utils';
 
-const DEFAULT_TAX_RATE = 0.26; 
+const DEFAULT_TAX_RATE = 0.26;
 
 export const rebalancePortfolio = (allocations, initialTotalValue, assets, scaleFactor) => {
     // 1. Calcola il piano di ribilanciamento ideale
@@ -10,7 +10,7 @@ export const rebalancePortfolio = (allocations, initialTotalValue, assets, scale
         const targetValue = initialTotalValue * (finalAssetTargetPercentage / 100);
         const difference = targetValue - asset.currentValue;
         return {
-            ...asset, difference, finalAssetTargetPercentage, 
+            ...asset, difference, finalAssetTargetPercentage,
             adjustment: 0, adjustmentValueNum: 0, taxAmountNum: 0,
             newQuantity: parseLocaleFloat(asset.quantity),
         };
@@ -22,28 +22,34 @@ export const rebalancePortfolio = (allocations, initialTotalValue, assets, scale
     overweightAssets.forEach(asset => {
         const assetPrice = parseLocaleFloat(asset.currentPrice);
         const pmc = parseLocaleFloat(asset.pmc);
+        const taxCalculate = asset.taxCalculate === true;
         if (assetPrice <= 0) return;
 
-        //const unitsToSell = getUnitsCalculated(asset.difference, assetPrice, asset.quantity);
-        let rawUnitsToSell = getUnitsCalculated(asset.difference, assetPrice, asset.quantity);
-        let unitsToSell = asset.isFractionable ? rawUnitsToSell : Math.floor(rawUnitsToSell);
+        // Frazionabile o no
+        const rawUnitsToSell = getUnitsCalculated(asset.difference, assetPrice, asset.quantity);
+        const unitsToSell = asset.isFractionable ? rawUnitsToSell : Math.floor(rawUnitsToSell);
 
         if (unitsToSell < 0) {
             const grossValueOfSale = Math.abs(unitsToSell * assetPrice);
-            let netCashGenerated = grossValueOfSale;
             let taxOnGain = 0;
-            if (pmc > 0) {
-                const assetTaxRate = asset.taxRate ? parseLocaleFloat(asset.taxRate) / 100 : DEFAULT_TAX_RATE;
+            let netCashGenerated = grossValueOfSale;
+
+            if (pmc > 0 && taxCalculate) {
+                const assetTaxRate = asset.taxRate
+                    ? parseLocaleFloat(asset.taxRate) / 100
+                    : DEFAULT_TAX_RATE;
                 const costBasisOfSoldShares = Math.abs(unitsToSell * pmc);
                 const capitalGain = grossValueOfSale - costBasisOfSoldShares;
                 if (capitalGain > 0) {
                     taxOnGain = capitalGain * assetTaxRate;
-                    netCashGenerated = grossValueOfSale - taxOnGain;
+                    netCashGenerated -= taxOnGain;
                 }
             }
+
             cashPool += netCashGenerated;
+
             const assetInMainList = assetsToProcess.find(ap => ap.name === asset.name);
-            if(assetInMainList){
+            if (assetInMainList) {
                 assetInMainList.adjustment = unitsToSell;
                 assetInMainList.adjustmentValueNum = -grossValueOfSale;
                 assetInMainList.taxAmountNum = taxOnGain;
@@ -51,10 +57,11 @@ export const rebalancePortfolio = (allocations, initialTotalValue, assets, scale
         }
     });
 
+
     // 3. Esegui gli acquisti con logica prioritaria ("greedy")
     const underweightAssets = assetsToProcess
         .filter(a => a.difference > 0)
-        .sort((a,b) => b.difference - a.difference); // Ordina per più sottopesato prima
+        .sort((a, b) => b.difference - a.difference); // Ordina per più sottopesato prima
 
     let cashAvailable = cashPool;
     for (const asset of underweightAssets) {
@@ -74,7 +81,7 @@ export const rebalancePortfolio = (allocations, initialTotalValue, assets, scale
         if (unitsToBuy > 0) {
             const costOfPurchase = unitsToBuy * assetPrice;
             const assetInMainList = assetsToProcess.find(ap => ap.name === asset.name);
-            if(assetInMainList){
+            if (assetInMainList) {
                 assetInMainList.adjustment = unitsToBuy; // Sovrascrive (ma un asset non è sia venduto che comprato)
                 assetInMainList.adjustmentValueNum = costOfPurchase;
             }
@@ -89,7 +96,7 @@ export const rebalancePortfolio = (allocations, initialTotalValue, assets, scale
 
     const totalCashUsedOnPurchases = assetsToProcess.filter(r => r.adjustment > 0).reduce((sum, r) => sum + r.adjustmentValueNum, 0);
     const excessCashVal = Math.max(0, cashPool - totalCashUsedOnPurchases);
-    
+
     const newPortfolioTotalValue = assetsToProcess.reduce((sum, r) => sum + (r.newQuantity * parseLocaleFloat(r.currentPrice)), 0);
     const finalResults = assetsToProcess.map(r => ({
         ...r,
