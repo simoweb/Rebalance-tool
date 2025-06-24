@@ -7,10 +7,13 @@
 
 @layer components {
     .label-form {
-        @apply w-full md:w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400;
+        @apply w-full md:w-full text-sm font-medium text-gray-700 dark:text-gray-400 mb-1;
+    }
+    .label-form-check {
+        @apply text-sm font-medium text-gray-700 dark:text-gray-400;
     }
     .input-form {
-        @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none dark:bg-gray-700 dark:text-gray-400 dark:border-transparent;
+        @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none dark:bg-gray-700 dark:text-gray-400 dark:border-transparent mb-2;
     }
     .check-form {
         @apply  shadow focus:outline-none dark:bg-gray-700 dark:text-gray-400 dark:border-transparent;

@@ -260,8 +260,8 @@ const Calculator = () => {
                             {/* Colonna sinistra - Form */}
                             <div className="lg:w-1/2 px-2 md:px-0">
                                 <div className="mb-6">
-                                    <div className="flex flex-col md:flex-row md:px-6">
-                                        <label className="w-full md:w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">
+                                    <div className="flex flex-col">
+                                        <label className="label-form">
                                             Metodo
                                         </label>
                                         <select
@@ -279,14 +279,14 @@ const Calculator = () => {
                                 {(rebalanceMethod === 'add' || rebalanceMethod === 'add_and_rebalance') && (
                                     <div className="mb-6">
                                         <div className="c">
-                                            <label className="w-full md:w-1/3 text-sm md:text-base font-medium text-gray-700 dark:text-gray-400">
+                                            <label className="label-form">
                                                 Liquidità (€)
                                             </label>
                                             <input
                                                 type="text"
                                                 inputMode="decimal"
                                                 placeholder="es: 1000 o 1000,50"
-                                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-400 dark:border-transparent"
+                                                className="input-form"
                                                 value={availableCash}
                                                 onChange={handleCashChange}
                                             />
