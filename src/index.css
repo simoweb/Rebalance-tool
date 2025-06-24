@@ -15,6 +15,9 @@
     .input-form {
         @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none dark:bg-gray-700 dark:text-gray-400 dark:border-transparent mb-2;
     }
+    .select-form {
+        @apply shadow appearance-none w-full bg-white border border-gray-200 text-gray-700 hover:border-gray-400 px-4 py-2 pr-8 rounded leading-tight dark:bg-gray-700 dark:text-gray-400 dark:border-transparent;
+    }
     .check-form {
         @apply  shadow focus:outline-none dark:bg-gray-700 dark:text-gray-400 dark:border-transparent;
     }
