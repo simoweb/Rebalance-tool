@@ -3,8 +3,6 @@
 @tailwind utilities; 
 @custom-variant dark (&:where(.dark, .dark *));
 
-
-
 @layer components {
     .label-form {
         @apply w-full md:w-full text-sm font-medium text-gray-700 dark:text-gray-400 mb-1;
