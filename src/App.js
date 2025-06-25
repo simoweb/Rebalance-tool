@@ -1,10 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Hero from './components/Hero';
-import FAQ from './components/FAQ';
-import IconsDetail from './components/IconsDetail';
-import WhyDetail from './components/WhyDetail';
-import WhenDetail from './components/WhenDetail';
-import Footer from './components/Footer';
 import Calculator from './components/calculator/Calculator';
 import Navigation from './components/navbar/Navigation';
 import Disclaimer from './components/Disclaimer';
