@@ -40,7 +40,7 @@ module.exports = {
       template: './src/index.html',
       filename: 'index.html',
       inject: 'body',
-      favicon: './public-assets/favicon.svg',
+      favicon: './public/favicon.svg',
        minify: isProduction && {
         collapseWhitespace: true,
         removeComments: true,
@@ -50,12 +50,20 @@ module.exports = {
         useShortDoctype: true,
       }
     }),
-    // Copia il file index-en.html nella cartella public
+    // Copia i file statici nella cartella public
     new CopyWebpackPlugin({
       patterns: [
         {
           from: './public/index-en.html',
           to: path.resolve(__dirname, 'public', 'index-en.html')
+        },
+        {
+          from: './public/sitemap.xml',
+          to: path.resolve(__dirname, 'public', 'sitemap.xml')
+        },
+        {
+          from: './public/robots.txt',
+          to: path.resolve(__dirname, 'public', 'robots.txt')
         }
       ]
     }),
