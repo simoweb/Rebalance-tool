@@ -1,9 +1,14 @@
 import React, { useState,useEffect } from 'react';
 import Link from './Link';
+import LanguageSelector from '../LanguageSelector';
+import { useLanguage } from '../../context/LanguageContext';
+import { useTranslations } from '../../translations';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false)
+  const [darkMode, setDarkMode] = useState(false);
+  const { language } = useLanguage();
+  const { t } = useTranslations(language);
 
   useEffect(() => {
     if (darkMode) {
@@ -12,6 +17,7 @@ const Navigation = () => {
       document.documentElement.classList.remove('dark')
     }
   }, [darkMode])
+
   const handleScroll = (e) => {
     e.preventDefault();
     const href = e.currentTarget.getAttribute('href');
@@ -31,14 +37,15 @@ const Navigation = () => {
       setIsMenuOpen(false);
     }
   };
+
   return ( 
     <nav className="bg-white shadow-sm w-full fixed top-0 z-50 transition-transform duration-300 dark:bg-gray-800">
       <div className="container w-full lg:max-w-screen-lg mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <span className="text-base md:text-xl font-bold tracking-widest">
-              <span className="text-indigo-600">Rebalance</span>
-              <span className="text-teal-500">Tool</span>
+              <span className="text-indigo-600">{t('navigation.brand.rebalance')}</span>
+              <span className="text-teal-500">{t('navigation.brand.tool')}</span>
             </span>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                  strokeWidth="1.5" stroke="currentColor"
@@ -50,10 +57,11 @@ const Navigation = () => {
 
           {/* Menu Desktop */}
           <div className="hidden lg:flex space-x-8 items-center">
-            <Link handleScroll={handleScroll} anchor="#perche">Perché Ribilanciare</Link>
-            <Link handleScroll={handleScroll} anchor="#quando"> Quando Ribilanciare</Link>
-            <Link handleScroll={handleScroll} anchor="#faq"> FAQ</Link>
-            <Link handleScroll={handleScroll} anchor="#calcolatore" isButton="true"> Calcolatore</Link>
+            <Link handleScroll={handleScroll} anchor="#perche">{t('navigation.menu.whyRebalance')}</Link>
+            <Link handleScroll={handleScroll} anchor="#quando">{t('navigation.menu.whenRebalance')}</Link>
+            <Link handleScroll={handleScroll} anchor="#faq">{t('navigation.menu.faq')}</Link>
+            <Link handleScroll={handleScroll} anchor="#calcolatore" isButton="true">{t('navigation.menu.calculator')}</Link>
+            <LanguageSelector />
           </div>
           {/* Hamburger Menu Button */}
           <button 
@@ -98,7 +106,7 @@ const Navigation = () => {
 
         {/* Mobile Menu */}
         <div className={`lg:hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-full opacity-100' : 'max-h-0 opacity-0'} overflow-hidden`}>
-        <div className="px-4 py-1 mb-2">
+        <div className="px-4 py-1 mb-2 flex justify-between items-center">
           <button className="" onClick={() => setDarkMode(prev => !prev)}>
               {darkMode ? 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6 dark:stroke-indigo-600">
@@ -110,12 +118,13 @@ const Navigation = () => {
                 </svg>
               }
           </button>
+          <LanguageSelector />
         </div>
         <div className="py-2 space-y-1 pb-4">
-          <Link handleScroll={handleScroll} anchor="#perche">Perché Ribilanciare</Link>
-            <Link handleScroll={handleScroll} anchor="#quando" addClass="block"> Quando Ribilanciare</Link>
-            <Link handleScroll={handleScroll} anchor="#calcolatore" addClass="block"> Calcolatore</Link>
-            <Link handleScroll={handleScroll} anchor="#faq" addClass="block"> FAQ</Link>
+          <Link handleScroll={handleScroll} anchor="#perche">{t('navigation.menu.whyRebalance')}</Link>
+            <Link handleScroll={handleScroll} anchor="#quando" addClass="block">{t('navigation.menu.whenRebalance')}</Link>
+            <Link handleScroll={handleScroll} anchor="#calcolatore" addClass="block">{t('navigation.menu.calculator')}</Link>
+            <Link handleScroll={handleScroll} anchor="#faq" addClass="block">{t('navigation.menu.faq')}</Link>
           
           </div>
         </div>

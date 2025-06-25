@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useLanguage } from '../context/LanguageContext';
+import { useTranslations } from '../translations';
 
 const Disclaimer = () => {
    const [showDisclaimer, setShowDisclaimer] = useState(true);
+   const { language } = useLanguage();
+   const { t } = useTranslations(language);
+   
    // Controlla se il disclaimer è stato chiuso in precedenza
   useEffect(() => {
     const disclaimerClosed = localStorage.getItem('disclaimerClosed');
@@ -33,7 +38,7 @@ const Disclaimer = () => {
               </span>
               <p className="ml-3 font-medium text-yellow-900">
                 <span className="inline">
-                  Questo strumento è fornito a solo scopo informativo. Si consiglia di verificare sempre i risultati e consultare un professionista prima di prendere decisioni di investimento.
+                  {t('disclaimer.message')}
                 </span>
               </p>
             </div>
@@ -43,7 +48,7 @@ const Disclaimer = () => {
                 onClick={closeDisclaimer}
                 className="-mr-1 flex p-2 rounded-md hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-yellow-600"
               >
-                <span className="sr-only">Chiudi</span>
+                <span className="sr-only">{t('disclaimer.close')}</span>
                 <svg className="h-6 w-6 text-yellow-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>

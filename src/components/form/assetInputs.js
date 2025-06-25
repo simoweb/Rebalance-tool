@@ -1,26 +1,32 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useLanguage } from '../../context/LanguageContext';
+import { useTranslations } from '../../translations';
+
 function AssetInputs({ asset, index, isAssetComplete, updateAsset, calculateAssetValue }) {
     const [taxCalculate, settaxCalculate] = useState(false);
     const [farzionable, setFarzionable] = useState(false);
+    const { language } = useLanguage();
+    const { t } = useTranslations(language);
+    
     return (
         <div className="space-y-3">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col">
-                    <label className="label-form">Nome</label>
+                    <label className="label-form">{t('calculator.form.assetInputs.name')}</label>
                     <input
                         type="text"
-                        placeholder="es: VWCE"
+                        placeholder={t('calculator.form.assetInputs.namePlaceholder')}
                         className="input-form"
                         value={asset.name}
                         onChange={(e) => updateAsset(index, 'name', e.target.value)}
                     />
                 </div>
                 <div className="flex flex-col">
-                    <label className="label-form">Target (%)</label>
+                    <label className="label-form">{t('calculator.form.assetInputs.targetPercentage')}</label>
                     <input
                         type="text"
                         inputMode="decimal"
-                        placeholder="es: 60 o 60,5"
+                        placeholder={t('calculator.form.assetInputs.targetPercentagePlaceholder')}
                         className="input-form"
                         value={asset.targetPercentage}
                         onChange={(e) => updateAsset(index, 'targetPercentage', e.target.value)}
@@ -30,22 +36,22 @@ function AssetInputs({ asset, index, isAssetComplete, updateAsset, calculateAsse
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col">
-                    <label className="label-form">Prezzo (€)</label>
+                    <label className="label-form">{t('calculator.form.assetInputs.price')}</label>
                     <input
                         type="text"
                         inputMode="decimal"
-                        placeholder="es: 100 o 100,25"
+                        placeholder={t('calculator.form.assetInputs.pricePlaceholder')}
                         className="input-form"
                         value={asset.currentPrice}
                         onChange={(e) => updateAsset(index, 'currentPrice', e.target.value)}
                     />
                 </div>
                 <div className="flex flex-col">
-                    <label className="label-form">Quantità</label>
+                    <label className="label-form">{t('calculator.form.assetInputs.quantity')}</label>
                     <input
                         type="text"
                         inputMode="decimal"
-                        placeholder="es: 10 o 10,3"
+                        placeholder={t('calculator.form.assetInputs.quantityPlaceholder')}
                         className="input-form"
                         value={asset.quantity}
                         onChange={(e) => updateAsset(index, 'quantity', e.target.value)}
@@ -54,7 +60,7 @@ function AssetInputs({ asset, index, isAssetComplete, updateAsset, calculateAsse
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col">
-                    <label className="label-form-check mb-1">Frazionabile</label>
+                    <label className="label-form-check mb-1">{t('calculator.form.assetInputs.fractionable')}</label>
                     <label className="relative inline-flex items-center cursor-pointer ml-2">
                         <input
                             type="checkbox"
@@ -68,7 +74,7 @@ function AssetInputs({ asset, index, isAssetComplete, updateAsset, calculateAsse
                 </div>
 
                 <div className="flex flex-col">
-                    <label className="label-form-check mb-1">Calcolo imposte</label>
+                    <label className="label-form-check mb-1">{t('calculator.form.assetInputs.taxCalculation')}</label>
                     <label className="relative inline-flex items-center cursor-pointer ml-2">
                         <input
                             type="checkbox"
@@ -88,22 +94,22 @@ function AssetInputs({ asset, index, isAssetComplete, updateAsset, calculateAsse
             {asset.taxCalculate && (
                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex flex-col">
-                        <label className="label-form">PMC</label>
+                        <label className="label-form">{t('calculator.form.assetInputs.pmc')}</label>
                         <input
                             type="text"
                             inputMode="decimal"
-                            placeholder="es: 100 o 100,25"
+                            placeholder={t('calculator.form.assetInputs.pmcPlaceholder')}
                             className="input-form"
                             value={asset.pmc}
                             onChange={(e) => updateAsset(index, 'pmc', e.target.value)}
                         />
                     </div>
                     <div className="flex flex-col">
-                        <label className="label-form">Tax rate</label>
+                        <label className="label-form">{t('calculator.form.assetInputs.taxRate')}</label>
                         <input
                             type="text"
                             inputMode="decimal"
-                            placeholder="es: 26%, 12,5%"
+                            placeholder={t('calculator.form.assetInputs.taxRatePlaceholder')}
                             className="input-form"
                             value={asset.taxRate}
                             onChange={(e) => updateAsset(index, 'taxRate', e.target.value)}
@@ -114,9 +120,9 @@ function AssetInputs({ asset, index, isAssetComplete, updateAsset, calculateAsse
             {isAssetComplete(asset) && (
                 <div className="mt-4 p-4 bg-white rounded-lg shadow-sm dark:bg-gray-700">
                     <div className="flex justify-between items-center">
-                        <span className="text-base font-medium text-gray-500 dark:text-gray-400">Valore totale:</span>
+                        <span className="text-base font-medium text-gray-500 dark:text-gray-400">{t('calculator.form.assetInputs.totalValue')}</span>
                         <span className="text-xl font-semibold text-gray-900 dark:text-gray-200">
-                            {calculateAssetValue(asset)?.toLocaleString('it-IT', { style: 'currency', currency: 'EUR' })}
+                            {calculateAssetValue(asset)?.toLocaleString(language === 'it' ? 'it-IT' : 'en-US', { style: 'currency', currency: 'EUR' })}
                         </span>
                     </div>
                 </div>

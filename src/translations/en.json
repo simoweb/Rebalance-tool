@@ -1,0 +1,137 @@
+{
+  "meta": {
+    "title": "Rebalance Tool | Calculate how to rebalance your portfolio",
+    "description": "Easily calculate how to rebalance your investments and keep your asset allocation strategy aligned with your goals"
+  },
+  "navigation": {
+    "brand": {
+      "rebalance": "Rebalance",
+      "tool": "Tool"
+    },
+    "menu": {
+      "whyRebalance": "Why Rebalance",
+      "whenRebalance": "When to Rebalance",
+      "faq": "FAQ",
+      "calculator": "Calculator"
+    }
+  },
+  "hero": {
+    "title": "Optimize Your Portfolio",
+    "subtitle": "in Few Clicks",
+    "description": "Easily calculate how to rebalance your investments and keep your asset allocation strategy always aligned with your goals",
+    "cta": "Start Now"
+  },
+  "features": {
+    "title": "Portfolio Rebalancing",
+    "subtitle": "Free tool for portfolio rebalancing. Easily calculate how to bring your assets back to the desired target percentages, either through selling excess assets or by adding new liquidity.",
+    "cards": {
+      "assetManagement": {
+        "title": "Asset Management",
+        "description": "Easily enter and manage your financial assets with name, quantity and current price."
+      },
+      "targetAllocation": {
+        "title": "Target Allocation",
+        "description": "Define target percentages for each asset in your ideal portfolio."
+      },
+      "automaticCalculation": {
+        "title": "Automatic Calculation",
+        "description": "Instantly get calculations to optimally rebalance your portfolio."
+      }
+    }
+  },
+  "whyRebalance": {
+    "title": "Why Rebalance Your Portfolio?",
+    "description1": "Periodic portfolio rebalancing is essential to maintain the desired risk level over time. When some assets perform better than others, their weight in the portfolio increases, altering the original allocation and potentially exposing you to greater or lesser risks than expected.",
+    "description2": "Rebalancing means selling assets that have exceeded the target and buying underweighted ones, automatically applying the \"buy low, sell high\" principle.",
+    "benefits": {
+      "riskControl": "Risk control",
+      "investmentDiscipline": "Investment discipline"
+    }
+  },
+  "calculator": {
+    "form": {
+      "title": "Calculate Rebalancing",
+      "assetInputs": {
+        "name": "Name",
+        "namePlaceholder": "e.g.: VWCE",
+        "targetPercentage": "Target (%)",
+        "targetPercentagePlaceholder": "e.g.: 60 or 60.5",
+        "price": "Price (€)",
+        "pricePlaceholder": "e.g.: 100 or 100.25",
+        "quantity": "Quantity",
+        "quantityPlaceholder": "e.g.: 10 or 10.3",
+        "fractionable": "Fractionable",
+        "taxCalculation": "Tax calculation",
+        "pmc": "PMC",
+        "pmcPlaceholder": "e.g.: 100 or 100.25",
+        "taxRate": "Tax rate",
+        "taxRatePlaceholder": "e.g.: 26%, 12.5%",
+        "totalValue": "Total value:"
+      },
+      "methodSelection": {
+        "title": "Rebalancing Method",
+        "sell": "Sell and Rebalance",
+        "add": "Add Liquidity",
+        "addAndRebalance": "Add and Rebalance"
+      },
+      "cashInput": {
+        "label": "Available Cash (€)",
+        "placeholder": "e.g.: 1000 or 1000.50"
+      },
+      "buttons": {
+        "addAsset": "Add Asset",
+        "calculate": "Calculate",
+        "clearForm": "Clear Form",
+        "removeAsset": "Remove"
+      },
+      "validation": {
+        "completeAllFields": "Complete all asset fields. Make sure the sum of target percentages is 100% and, if necessary, enter the cash.",
+        "totalMustBe100": "The sum of target percentages must be 100%.",
+        "clickCalculate": "Click 'Calculate' to see the results.",
+        "totalPercentages": "Total target percentages"
+      },
+      "clearConfirm": {
+        "title": "Confirm form clearing",
+        "message": "Are you sure you want to delete all entered data? This action cannot be undone.",
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      }
+    },
+    "results": {
+      "title": "Rebalancing Results",
+      "shareLink": "Share Link",
+      "linkCopied": "Link copied!",
+      "excessCash": {
+        "sellPositive": "Net liquidity generated:",
+        "sellNegative": "Net value invested:",
+        "addPositive": "Unused liquidity:",
+        "addNegative": "Liquidity deficit (beyond that provided):"
+      },
+      "tabs": {
+        "charts": "Charts",
+        "table": "Table"
+      },
+      "summary": {
+        "title": "Operations Summary",
+        "currentToNew": "→",
+        "pricePerUnit": "Price per unit:",
+        "units": "units",
+        "taxes": "Taxes:"
+      },
+      "table": {
+        "targetAllocation": "Target allocation",
+        "currentQuantity": "Current quantity",
+        "adjustment": "Adjustment",
+        "newQuantity": "New quantity",
+        "taxesPaid": "Taxes Paid"
+      }
+    }
+  },
+  "disclaimer": {
+    "message": "This tool is provided for informational purposes only. It is recommended to always verify the results and consult a professional before making investment decisions.",
+    "close": "Close"
+  },
+  "footer": {
+    "copyright": "© 2024 Rebalance Tool. All rights reserved."
+  }
+} 

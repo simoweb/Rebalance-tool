@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { App, Nav } from './App'; // Assicurati che App.js esporti sia App che Nav
+import { LanguageProvider } from './context/LanguageContext';
 
 import './index.css';
 
@@ -12,6 +13,15 @@ const navContainer = document.getElementById('nav-container');
 const appRoot = createRoot(appContainer);
 const navRoot = createRoot(navContainer);
 
-// Renderizza i tuoi componenti nelle rispettive root
-appRoot.render(<App />);
-navRoot.render(<Nav />);
+// Renderizza i tuoi componenti nelle rispettive root, entrambi avvolti dal LanguageProvider
+appRoot.render(
+  <LanguageProvider>
+    <App />
+  </LanguageProvider>
+);
+
+navRoot.render(
+  <LanguageProvider>
+    <Nav />
+  </LanguageProvider>
+);

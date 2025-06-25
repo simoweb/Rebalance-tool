@@ -1,0 +1,137 @@
+{
+  "meta": {
+    "title": "Rebalance Tool | Calcola come ribilanciare il tuo portafolio",
+    "description": "Calcola facilmente come ribilanciare i tuoi investimenti e mantieni la tua strategia di asset allocation"
+  },
+  "navigation": {
+    "brand": {
+      "rebalance": "Rebalance",
+      "tool": "Tool"
+    },
+    "menu": {
+      "whyRebalance": "Perché Ribilanciare",
+      "whenRebalance": "Quando Ribilanciare",
+      "faq": "FAQ",
+      "calculator": "Calcolatore"
+    }
+  },
+  "hero": {
+    "title": "Ottimizza il Tuo Portafoglio",
+    "subtitle": "in Pochi Click",
+    "description": "Calcola facilmente come ribilanciare i tuoi investimenti e mantieni la tua strategia di asset allocation sempre allineata agli obiettivi",
+    "cta": "Inizia Ora"
+  },
+  "features": {
+    "title": "Ribilanciamento Portafoglio",
+    "subtitle": "Strumento gratuito per il ribilanciamento del portafoglio di investimenti. Calcola facilmente come riportare i tuoi asset alle percentuali target desiderate, sia attraverso la vendita degli asset in eccesso che tramite l'aggiunta di nuova liquidità.",
+    "cards": {
+      "assetManagement": {
+        "title": "Gestione Asset",
+        "description": "Inserisci e gestisci facilmente i tuoi asset finanziari con nome, quantità e prezzo corrente."
+      },
+      "targetAllocation": {
+        "title": "Allocazione Target",
+        "description": "Definisci le percentuali target per ogni asset nel tuo portafoglio ideale."
+      },
+      "automaticCalculation": {
+        "title": "Calcolo Automatico",
+        "description": "Ottieni istantaneamente i calcoli per ribilanciare il tuo portafoglio in modo ottimale."
+      }
+    }
+  },
+  "whyRebalance": {
+    "title": "Perché Ribilanciare il Portafoglio?",
+    "description1": "Il ribilanciamento periodico del portafoglio è fondamentale per mantenere il livello di rischio desiderato nel tempo. Quando alcuni asset performano meglio di altri, il loro peso nel portafoglio aumenta, alterando l'allocazione originale e potenzialmente esponendoti a rischi maggiori o minori di quelli previsti.",
+    "description2": "Ribilanciare significa vendere gli asset che hanno superato il target e comprare quelli sottopesati, applicando in automatico il principio \"compra basso, vendi alto\".",
+    "benefits": {
+      "riskControl": "Controllo del rischio",
+      "investmentDiscipline": "Disciplina negli investimenti"
+    }
+  },
+  "calculator": {
+    "form": {
+      "title": "Calcola il Ribilanciamento",
+      "assetInputs": {
+        "name": "Nome",
+        "namePlaceholder": "es: VWCE",
+        "targetPercentage": "Target (%)",
+        "targetPercentagePlaceholder": "es: 60 o 60,5",
+        "price": "Prezzo (€)",
+        "pricePlaceholder": "es: 100 o 100,25",
+        "quantity": "Quantità",
+        "quantityPlaceholder": "es: 10 o 10,3",
+        "fractionable": "Frazionabile",
+        "taxCalculation": "Calcolo imposte",
+        "pmc": "PMC",
+        "pmcPlaceholder": "es: 100 o 100,25",
+        "taxRate": "Tax rate",
+        "taxRatePlaceholder": "es: 26%, 12,5%",
+        "totalValue": "Valore totale:"
+      },
+      "methodSelection": {
+        "title": "Metodo di Ribilanciamento",
+        "sell": "Vendi e Ribilancia",
+        "add": "Aggiungi Liquidità",
+        "addAndRebalance": "Aggiungi e Ribilancia"
+      },
+      "cashInput": {
+        "label": "Liquidità Disponibile (€)",
+        "placeholder": "es: 1000 o 1000,50"
+      },
+      "buttons": {
+        "addAsset": "Aggiungi Asset",
+        "calculate": "Calcola",
+        "clearForm": "Pulisci Form",
+        "removeAsset": "Rimuovi"
+      },
+      "validation": {
+        "completeAllFields": "Completa tutti i campi degli asset. Assicurati che la somma delle percentuali target sia 100% e, se necessario, inserisci la liquidità.",
+        "totalMustBe100": "La somma delle percentuali target deve essere 100%.",
+        "clickCalculate": "Clicca 'Calcola' per vedere i risultati.",
+        "totalPercentages": "Totale percentuali target"
+      },
+      "clearConfirm": {
+        "title": "Conferma pulizia form",
+        "message": "Sei sicuro di voler cancellare tutti i dati inseriti? Questa azione non può essere annullata.",
+        "cancel": "Annulla",
+        "confirm": "Conferma"
+      }
+    },
+    "results": {
+      "title": "Risultati del Ribilanciamento",
+      "shareLink": "Condividi Link",
+      "linkCopied": "Link copiato!",
+      "excessCash": {
+        "sellPositive": "Liquidità netta generata:",
+        "sellNegative": "Valore netto investito:",
+        "addPositive": "Liquidità non utilizzata:",
+        "addNegative": "Deficit di liquidità (oltre quella fornita):"
+      },
+      "tabs": {
+        "charts": "Grafici",
+        "table": "Tabella"
+      },
+      "summary": {
+        "title": "Riepilogo Operazioni",
+        "currentToNew": "→",
+        "pricePerUnit": "Prezzo unità:",
+        "units": "unità",
+        "taxes": "Tasse:"
+      },
+      "table": {
+        "targetAllocation": "Allocazione target",
+        "currentQuantity": "Quantità attuale",
+        "adjustment": "Aggiustamento",
+        "newQuantity": "Nuova quantità",
+        "taxesPaid": "Tasse Pagate"
+      }
+    }
+  },
+  "disclaimer": {
+    "message": "Questo strumento è fornito a solo scopo informativo. Si consiglia di verificare sempre i risultati e consultare un professionista prima di prendere decisioni di investimento.",
+    "close": "Chiudi"
+  },
+  "footer": {
+    "copyright": "© 2024 Rebalance Tool. Tutti i diritti riservati."
+  }
+} 

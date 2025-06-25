@@ -9,6 +9,9 @@ import { calculateRebalancing } from './rebalancingCalculator';
 import AssetInputs from '../form/assetInputs';
 import Results from '../form/results';
 
+// Importa gli hook per le traduzioni
+import { useLanguage } from '../../context/LanguageContext';
+import { useTranslations } from '../../translations';
 
 const Calculator = () => {
     // --- State Hooks ---
@@ -24,6 +27,9 @@ const Calculator = () => {
     const [scrollForm, setScrollForm] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false); // Aggiunto per coerenza con useEffect
     
+    // Hook per le traduzioni
+    const { language } = useLanguage();
+    const { t } = useTranslations(language);
 
     // --- Funzioni di Utilità (rimangono qui solo quelle specifiche per il componente UI) ---
 
@@ -254,7 +260,7 @@ const Calculator = () => {
         <div>
             <section id="calcolatore" className="bg-gradient-to-r from-indigo-500 via-indigo-400 to-teal-400 transform transition-all duration-500 py-20 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
                 <div className="container mx-auto px-4 mb-8">
-                    <h2 className="text-3xl font-bold text-center mb-12 text-white mt-4">Calcola il Ribilanciamento</h2>
+                    <h2 className="text-3xl font-bold text-center mb-12 text-white mt-4">{t('calculator.form.title')}</h2>
                     <div className="bg-white/95 backdrop-blur-sm shadow-lg rounded-3xl px-3 pt-5 pb-5 md:p-8 dark:bg-gray-800/50">
                         <div className="flex flex-col lg:flex-row gap-8">
                             {/* Colonna sinistra - Form */}
@@ -262,16 +268,16 @@ const Calculator = () => {
                                 <div className="mb-6">
                                     <div className="flex flex-col">
                                         <label className="label-form">
-                                            Metodo
+                                            {t('calculator.form.methodSelection.title')}
                                         </label>
                                         <select
                                             className="select-form"
                                             value={rebalanceMethod}
                                             onChange={handleMethodChange}
                                         >
-                                            <option value="sell">Ribilancia</option>
-                                            <option value="add_and_rebalance">Aggiungi liquidità e ribilancia</option>
-                                            <option value="add">Aggiungi liquidità</option>
+                                            <option value="sell">{t('calculator.form.methodSelection.sell')}</option>
+                                            <option value="add_and_rebalance">{t('calculator.form.methodSelection.addAndRebalance')}</option>
+                                            <option value="add">{t('calculator.form.methodSelection.add')}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -280,12 +286,12 @@ const Calculator = () => {
                                     <div className="mb-6">
                                         <div className="c">
                                             <label className="label-form">
-                                                Liquidità (€)
+                                                {t('calculator.form.cashInput.label')}
                                             </label>
                                             <input
                                                 type="text"
                                                 inputMode="decimal"
-                                                placeholder="es: 1000 o 1000,50"
+                                                placeholder={t('calculator.form.cashInput.placeholder')}
                                                 className="input-form"
                                                 value={availableCash}
                                                 onChange={handleCashChange}
@@ -302,7 +308,7 @@ const Calculator = () => {
                                                     type="button"
                                                     onClick={() => removeAsset(index)}
                                                     className="absolute -left-4 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-white hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-full shadow-md border border-gray-200 hover:border-red-200 transition-all duration-200 group"
-                                                    title="Rimuovi asset"
+                                                    title={t('calculator.form.buttons.removeAsset')}
                                                 >
                                                     <svg className="w-5 h-5 transform group-hover:rotate-90 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -323,21 +329,21 @@ const Calculator = () => {
 
                                 <div className="space-y-6 mt-8">
                                     <div className="flex flex-col md:flex-row gap-4">
-                                        <button onClick={addAsset} className="w-full md:flex-1 bg-gray-600 text-white py-3 px-6 text-lg rounded-lg hover:bg-gray-700 transition-colors">Aggiungi Asset</button>
+                                        <button onClick={addAsset} className="w-full md:flex-1 bg-gray-600 text-white py-3 px-6 text-lg rounded-lg hover:bg-gray-700 transition-colors">{t('calculator.form.buttons.addAsset')}</button>
                                         <button
                                             onClick={handleCalculate}
                                             disabled={!isCurrentDataComplete()}
                                             className={`w-full md:flex-1 py-3 px-6 text-lg rounded-lg transition-colors ${isCurrentDataComplete() ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
-                                        >Calcola</button>
+                                        >{t('calculator.form.buttons.calculate')}</button>
                                     </div>
                                     {/* Alert somma percentuali */}
                                     {assets.some(asset => String(asset.targetPercentage).trim() !== '') && (
                                         <div className={`p-4 rounded-lg ${Math.abs(getTotalPercentage() - 100) < 0.01 ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-red-50 text-red-800 border border-red-200'}`}>
                                             <div className="flex justify-between items-center">
-                                                <span>Totale percentuali target:</span>
+                                                <span>{t('calculator.form.validation.totalPercentages')}:</span>
                                                 <span className="font-semibold">{getTotalPercentage().toFixed(2)}%</span>
                                             </div>
-                                            {Math.abs(getTotalPercentage() - 100) >= 0.01 && (<p className="text-sm mt-2">La somma delle percentuali target deve essere 100%.</p>)}
+                                            {Math.abs(getTotalPercentage() - 100) >= 0.01 && (<p className="text-sm mt-2">{t('calculator.form.validation.totalMustBe100')}</p>)}
                                         </div>
                                     )}
                                 </div>
@@ -360,7 +366,18 @@ const Calculator = () => {
                     </div>
                 </div>
             </section>
-            {showClearConfirm && (<div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"><div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-sm mx-auto relative animate-fade-in shadow-2xl"><h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Conferma pulizia form</h3><p className="text-gray-600 dark:text-gray-300 mb-6">Sei sicuro di voler cancellare tutti i dati inseriti? Questa azione non può essere annullata.</p><div className="flex justify-end gap-4"><button onClick={() => setShowClearConfirm(false)} className="px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 rounded-md transition-colors">Annulla</button><button onClick={clearForm} className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">Conferma</button></div></div></div>)}
+            {showClearConfirm && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-sm mx-auto relative animate-fade-in shadow-2xl">
+                        <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{t('calculator.form.clearConfirm.title')}</h3>
+                        <p className="text-gray-600 dark:text-gray-300 mb-6">{t('calculator.form.clearConfirm.message')}</p>
+                        <div className="flex justify-end gap-4">
+                            <button onClick={() => setShowClearConfirm(false)} className="px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 rounded-md transition-colors">{t('calculator.form.clearConfirm.cancel')}</button>
+                            <button onClick={clearForm} className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">{t('calculator.form.clearConfirm.confirm')}</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
