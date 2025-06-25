@@ -7,6 +7,10 @@
     {
       "source": "/en/(.*)",
       "destination": "/index-en.html"
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/sitemap.xml"
     }
   ],
   "headers": [
