@@ -14,12 +14,32 @@ export const useLanguage = () => {
   return context;
 };
 
+// Funzione per rilevare la lingua dall'URL
+const detectLanguageFromURL = () => {
+  const pathname = window.location.pathname;
+  if (pathname.startsWith('/en')) {
+    return 'en';
+  }
+  return 'it';
+};
+
 export const LanguageProvider = ({ children }) => {
   const [language, setLanguage] = useState('it');
 
   useEffect(() => {
+    // Prima rileva la lingua dall'URL
+    const urlLanguage = detectLanguageFromURL();
+    
+    // Se l'URL indica una lingua diversa da quella salvata, usa quella dell'URL
     const savedLang = getSavedLanguage();
-    setLanguage(savedLang);
+    const finalLanguage = urlLanguage !== savedLang ? urlLanguage : savedLang;
+    
+    setLanguage(finalLanguage);
+    
+    // Salva la lingua rilevata
+    if (finalLanguage !== savedLang) {
+      saveLanguage(finalLanguage);
+    }
 
     // Ascolta i cambiamenti di lingua da altre istanze
     const handleLanguageChange = (event) => {

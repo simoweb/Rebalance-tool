@@ -7,8 +7,24 @@ const LanguageSelector = () => {
   const { language, changeLanguage } = useLanguage();
 
   const handleLanguageChange = (langCode) => {
+    // Salva la lingua nel localStorage
     changeLanguage(langCode);
     setIsOpen(false);
+    
+    // Naviga alla pagina corrispondente
+    const currentPath = window.location.pathname;
+    const currentSearch = window.location.search;
+    const currentHash = window.location.hash;
+    
+    if (langCode === 'en') {
+      // Se stiamo passando all'inglese, vai a /en
+      const newUrl = `/en${currentSearch}${currentHash}`;
+      window.location.href = newUrl;
+    } else {
+      // Se stiamo passando all'italiano, vai alla root
+      const newUrl = `/${currentSearch}${currentHash}`;
+      window.location.href = newUrl;
+    }
   };
 
   const currentLang = languages[language];
@@ -20,7 +36,7 @@ const LanguageSelector = () => {
         className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-lg transition-colors"
       >
         <span className="text-lg">{currentLang.flag}</span>
-        <span className="hidden sm:inline">{currentLang.name}</span>
+       {/*  <span className="hidden sm:inline">{currentLang.name}</span> */}
         <svg
           className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
