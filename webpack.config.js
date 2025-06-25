@@ -67,14 +67,11 @@ module.exports = {
     },
     hot: true,
     open: true,
-    // Configurazione per gestire il routing delle lingue
+    // Configurazione semplice per il routing
     historyApiFallback: {
+      index: '/index.html',
       rewrites: [
-        // Reindirizza /en a index-en.html
-        { from: /^\/en$/, to: '/index-en.html' },
-        { from: /^\/en\//, to: '/index-en.html' },
-        // Tutti gli altri percorsi vanno a index.html
-        { from: /./, to: '/index.html' }
+        { from: /^\/en/, to: '/index-en.html' }
       ]
     }
   },
