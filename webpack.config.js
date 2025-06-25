@@ -55,7 +55,7 @@ module.exports = {
       patterns: [
         {
           from: './public/index-en.html',
-          to: 'index-en.html'
+          to: path.resolve(__dirname, 'public', 'index-en.html')
         }
       ]
     }),

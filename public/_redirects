@@ -1,9 +1,0 @@
-# Language redirects - preserve query parameters and hash
-/en /index-en.html 200
-/en/ /index-en.html 200
-
-# Default redirect to Italian version - preserve query parameters and hash
-/ /index.html 200
-
-# Handle all other routes - preserve query parameters and hash
-/* /index.html 200 

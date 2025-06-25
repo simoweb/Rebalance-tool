@@ -1,0 +1,36 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "public"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/en",
+      "dest": "/index-en.html"
+    },
+    {
+      "src": "/en/(.*)",
+      "dest": "/index-en.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/en",
+      "destination": "/index-en.html"
+    },
+    {
+      "source": "/en/:path*",
+      "destination": "/index-en.html"
+    }
+  ]
+} 

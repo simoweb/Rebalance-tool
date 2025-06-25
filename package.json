@@ -6,6 +6,7 @@
   "scripts": {
     "start": "webpack serve --mode development",
     "build": "NODE_ENV=production webpack --mode production",
+    "vercel-build": "npm run build",
     "generate-favicon": "node scripts/generate-favicon.js",
     "test-server": "node test-server.js",
     "debug-server": "node debug-routing.js"
