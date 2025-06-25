@@ -68,7 +68,7 @@ module.exports = {
         {
           from: './public/sitemap.xsl',
           to: path.resolve(__dirname, 'public', 'sitemap.xsl')
-        } 
+        }
       ]
     }),
     ...(isProduction ? [new MiniCssExtractPlugin({ filename: 'styles.css' })] : [])
