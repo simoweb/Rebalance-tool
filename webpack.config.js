@@ -64,6 +64,10 @@ module.exports = {
         {
           from: './public/robots.txt',
           to: path.resolve(__dirname, 'public', 'robots.txt')
+        },
+        {
+          from: './public/sitemap.xsl',
+          to: path.resolve(__dirname, 'public', 'sitemap.xsl')
         }
       ]
     }),
