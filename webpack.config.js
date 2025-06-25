@@ -50,24 +50,12 @@ module.exports = {
         useShortDoctype: true,
       }
     }),
-    // Copia i file statici nella cartella public
+    // Copia il file index-en.html nella cartella public
     new CopyWebpackPlugin({
       patterns: [
         {
           from: './public/index-en.html',
           to: path.resolve(__dirname, 'public', 'index-en.html')
-        },
-        {
-          from: './public/sitemap.xml',
-          to: path.resolve(__dirname, 'public', 'sitemap.xml')
-        },
-        {
-          from: './public/robots.txt',
-          to: path.resolve(__dirname, 'public', 'robots.txt')
-        },
-        {
-          from: './public/sitemap.xsl',
-          to: path.resolve(__dirname, 'public', 'sitemap.xsl')
         }
       ]
     }),
