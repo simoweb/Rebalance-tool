@@ -90,6 +90,10 @@
         "clickCalculate": "Clicca 'Calcola' per vedere i risultati.",
         "totalPercentages": "Totale percentuali target"
       },
+      "demo": {
+        "demoTitle": "Carica esempi",
+        "demoDesc": "Carica alcuni esempi di test"
+      },
       "clearConfirm": {
         "title": "Conferma pulizia form",
         "message": "Sei sicuro di voler cancellare tutti i dati inseriti? Questa azione non può essere annullata.",

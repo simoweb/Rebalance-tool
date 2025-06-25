@@ -211,7 +211,8 @@ function Results({
                         {isCurrentDataComplete() ? "" : (assets.length > 0 && assets.some(a => String(a.targetPercentage).trim() !== '') && Math.abs(getTotalPercentage() - 100) >= 0.01) ?
                             "" :
                             <div className='items-center justify-center'>
-                                <h5 className='text-lg mt-5'>Carica esempi</h5>
+                                <h5 className='text-lg mt-6'> {t('calculator.form.demo.demoTitle')}</h5>
+                                <p className="text-gray-500 dark:text-gray-400 text-sm">{t('calculator.form.demo.demoDesc')}</p>
                                 <div className='items-center justify-center'>
                                     <button
                                         onClick={() => {

@@ -90,6 +90,10 @@
         "clickCalculate": "Click 'Calculate' to see the results.",
         "totalPercentages": "Total target percentages"
       },
+      "demo": {
+        "demoTitle": "Upload examples",
+        "demoDesc": "Upload some test examples"
+      },
       "clearConfirm": {
         "title": "Confirm form clearing",
         "message": "Are you sure you want to delete all entered data? This action cannot be undone.",
