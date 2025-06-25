@@ -49,7 +49,7 @@ export const rebalanceAdd = (allocations, initialTotalValue, availableCash, asse
         const moneyToSpendOnThisAsset = Math.min(cashRemaining, moneyNeededForThisAsset);
 
         // Calcola quante unità puoi comprare con i soldi disponibili per questo asset
-        const unitsToBuy = getUnitsCalculated(moneyToSpendOnThisAsset, assetCurrentPrice, asset.quantity);
+        const unitsToBuy = getUnitsCalculated(moneyToSpendOnThisAsset, assetCurrentPrice, asset.isFractionable, true);
 
         if (unitsToBuy > 0) {
             const costOfPurchase = unitsToBuy * assetCurrentPrice;

@@ -25,9 +25,8 @@ export const rebalancePortfolio = (allocations, initialTotalValue, assets, scale
         const taxCalculate = asset.taxCalculate === true;
         if (assetPrice <= 0) return;
 
-        // Frazionabile o no
-        const rawUnitsToSell = getUnitsCalculated(asset.difference, assetPrice, asset.quantity);
-        const unitsToSell = asset.isFractionable ? rawUnitsToSell : Math.floor(rawUnitsToSell);
+        // Usa getUnitsCalculated che gestisce correttamente la frazionalità
+        const unitsToSell = getUnitsCalculated(asset.difference, assetPrice, asset.isFractionable, false);
 
         if (unitsToSell < 0) {
             const grossValueOfSale = Math.abs(unitsToSell * assetPrice);
@@ -73,10 +72,8 @@ export const rebalancePortfolio = (allocations, initialTotalValue, assets, scale
         // Spendi il necessario per questo asset, senza superare la liquidità disponibile
         const moneyNeeded = asset.difference;
         const moneyToSpend = Math.min(cashAvailable, moneyNeeded);
-        //const unitsToBuy = getUnitsCalculated(moneyToSpend, assetPrice, asset.quantity);
-        let rawUnitsToBuy = getUnitsCalculated(moneyToSpend, assetPrice, asset.quantity);
-        let unitsToBuy = asset.isFractionable ? rawUnitsToBuy : Math.floor(rawUnitsToBuy);
-
+        // Usa getUnitsCalculated che gestisce correttamente la frazionalità
+        const unitsToBuy = getUnitsCalculated(moneyToSpend, assetPrice, asset.isFractionable, true);
 
         if (unitsToBuy > 0) {
             const costOfPurchase = unitsToBuy * assetPrice;

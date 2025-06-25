@@ -44,8 +44,7 @@ export const rebalanceAddAndRebalance = (allocations, initialTotalValue, availab
 
             const maxCashFromThisAssetGross = -asset.difference;
             const cashToAttemptToGenerateGross = Math.min(maxCashFromThisAssetGross, salesRequired - cashGeneratedFromSalesNet);
-            let rawUnitsToSell = getUnitsCalculated(-cashToAttemptToGenerateGross, assetPrice, asset.quantity);
-            let unitsToSell = asset.isFractionable ? rawUnitsToSell : Math.floor(rawUnitsToSell);
+            const unitsToSell = getUnitsCalculated(-cashToAttemptToGenerateGross, assetPrice, asset.isFractionable, false);
 
             const taxCalculate = asset.taxCalculate;
             if (unitsToSell < 0) {
@@ -84,8 +83,7 @@ export const rebalanceAddAndRebalance = (allocations, initialTotalValue, availab
 
         const moneyNeeded = asset.difference;
         const moneyToSpend = Math.min(cashAvailable, moneyNeeded);
-        let rawUnitsToBuy = getUnitsCalculated(moneyToSpend, assetPrice, asset.quantity);
-        let unitsToBuy = asset.isFractionable ? rawUnitsToBuy : Math.floor(rawUnitsToBuy);
+        const unitsToBuy = getUnitsCalculated(moneyToSpend, assetPrice, asset.isFractionable, true);
 
         if (unitsToBuy > 0) {
             const costOfPurchase = unitsToBuy * assetPrice;

@@ -45,7 +45,8 @@ export const isQuantityInputFractional = (originalQuantityString) => {
  * Helper per calcolare le unità da aggiustare, gestendo arrotondamenti per quantità intere.
  * @param {number} valueDifference - La differenza di valore (targetValue - currentValue).
  * @param {number} price - Il prezzo corrente dell'asset.
- * @param {string | number} originalQuantityString - La quantità originale dell'asset per determinare la frazionalità.
+ * @param {boolean} isFractionable - Se l'asset permette quantità frazionarie.
+ * @param {boolean} isBuy - Se è un acquisto (true) o vendita (false).
  * @returns {number} Le unità calcolate, arrotondate o frazionarie.
  */
 export const getUnitsCalculated = (valueDifference, price, isFractionable, isBuy = true) => {
