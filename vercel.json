@@ -15,7 +15,7 @@
   ],
   "headers": [
     {
-      "source": "*.xsl",
+       "source": "/(.*)\\.xsl",
       "headers": [
         {
           "key": "Content-Type",
